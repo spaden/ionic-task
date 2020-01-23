@@ -1,0 +1,63 @@
+<ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>EquipMax</ion-title>
+
+            </ion-toolbar>
+        </ion-header>
+        <br>
+
+        <ion-content>
+            <ion-list>
+                <ion-item>
+                    <ion-avatar>
+                        <img src="https://content.fortune.com/wp-content/uploads/2017/02/506802698.jpg?resize=750,500">
+                    </ion-avatar>
+                </ion-item>
+                <ion-item>
+
+                    <ion-item-group>
+                        <ion-menu-toggle auto-hide="false">
+                            <ion-item [routerDirection]="'root'" [routerLink]="['/list']" submenu-item>Edit Profile</ion-item>
+                            <ion-item submenu-item>Settings</ion-item>
+                            <ion-item submenu-item>
+                                Switch Role
+                            </ion-item>
+                            <ion-item submenu-item>Logout</ion-item>
+                        </ion-menu-toggle>
+
+                    </ion-item-group>
+                </ion-item>
+
+            </ion-list>
+
+            <ion-list>
+                <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+                    <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
+                        <ion-icon slot="start" [name]="p.icon"></ion-icon>
+                        <ion-label>
+                            {{p.title}}
+                        </ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
+            </ion-list>
+            <ion-list>
+                <ion-item>
+                    Asset Management
+                </ion-item>
+                <ion-item>
+
+                    <ion-item-group>
+                        <ion-menu-toggle auto-hide="false">
+                            <ion-item submenu-item>Add Asset</ion-item>
+                            <ion-item submenu-item>Relocate Asset</ion-item>
+                            <ion-item submenu-item>Remove Asset</ion-item>
+                        </ion-menu-toggle>
+                    </ion-item-group>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-split-pane>
