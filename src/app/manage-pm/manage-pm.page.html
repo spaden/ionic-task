@@ -1,0 +1,225 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Manage PM</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none" (click)="showCompletedOnly()">
+          <ion-icon name="square" class="completed_icon_color" color="blue"></ion-icon>
+          <ion-label>&nbsp;Completed</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item lines="none" (click)="showEditableOnly()">
+          <ion-icon name="square" class="editable_icon_color" color="violet"></ion-icon>
+          <ion-label>&nbsp;Editable</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item lines="none" (click)="showNotCompletedOnly()">
+          <ion-icon name="square" class="not_completed_icon_color" color="green"></ion-icon>
+          <ion-label>&nbsp;Not Completed</ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-item>
+  &nbsp;&nbsp;
+  <div class="card_layout">
+    <ion-card *ngIf="showCompleted">
+      <ion-card-header class="completed_color">
+        <div class="ion-text-center">
+          <ion-label color="white">PO Number</ion-label>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Extra Cost: 0</ion-col>
+            <ion-col class="ion-float-right">Comments: ok</ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Start</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>End</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Service</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>22/01/1944</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>23/09/2111</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>22/09/6788</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Status: done</ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Actions:&nbsp;
+              <ion-button class="completed_color"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+              <ion-button class="completed_color"><ion-icon name="send"></ion-icon></ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>&nbsp;
+    <ion-card *ngIf="showNotCompleted">
+      <ion-card-header class="not_completed_color">
+        <div class="ion-text-center">
+          <ion-label color="white">PO Number 2</ion-label>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Extra Cost: 0</ion-col>
+            <ion-col class="ion-float-right">Comments: ok</ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Start</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>End</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Service</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>22/01/1944</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>23/09/2111</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>22/09/6788</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Status: done</ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Actions:&nbsp;
+              <ion-button class="not_completed_color"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+              <ion-button class="not_completed_color"><ion-icon name="send"></ion-icon></ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>&nbsp;
+    <ion-card *ngIf="showEditable">
+      <ion-card-header class="editable_color">
+        <div class="ion-text-center">
+          <ion-label color="white">PO Number 3</ion-label>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Extra Cost: 0</ion-col>
+            <ion-col class="ion-float-right">Comments: ok</ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Start</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>End</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Service</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>22/01/1944</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>23/09/2111</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>22/09/6788</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Status: done</ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-float-left">Actions:&nbsp;
+              <ion-button class="editable_color"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+              <ion-button class="editable_color"><ion-icon name="send"></ion-icon></ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>&nbsp;
+  </div>
+</ion-content>

@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>View AMC</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item class="ion-margin-end">
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" (click)="showAMCOnly()">
+            <ion-icon name="square" class="amc_icon_color" color="blue"></ion-icon>
+            <ion-label>&nbsp;AMC</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col></ion-col>
+        <ion-col>
+          <ion-item lines="none" (click)="showWarrantyOnly()">
+            <ion-icon name="square" class="warranty_icon_color" color="violet"></ion-icon>
+            <ion-label>&nbsp;Warranty</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+  </ion-item>
+  &nbsp;&nbsp;
+  <div class="card_layout">
+    <ion-card *ngIf="showAMC">
+      <ion-card-header class="amc_color">
+        <div class="ion-text-center">
+          <ion-label color="white">PO Number</ion-label>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Start</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>End</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Cost</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>22/01/1944</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>23/09/2111</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Rs.234</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>&nbsp;
+    <ion-card *ngIf="showWarranty">
+      <ion-card-header class="warranty_color">
+        <div class="ion-text-center">
+          <ion-label color="white">PO Number 2</ion-label>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Start</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>End</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Cost</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>25/01/1944</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>23/07/2167</ion-label>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-label>Rs.098</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>&nbsp;
+  </div>
+</ion-content>

@@ -1,0 +1,34 @@
+ion-toolbar{
+  --background: #5680e9;
+}
+ion-title{
+  color: #ffffff;
+}
+.amc_icon_color{
+  --ion-color-base: #00B2FF;
+}
+.warranty_icon_color{
+  --ion-color-base: #6088FF;
+}
+.amc_color{
+  background: #00B2FF;
+}
+.warranty_color{
+  background: #6088FF;
+}
+.card_layout{
+  margin: 10px;
+  ion-card{
+    position: relative;
+    text-align: center;
+    box-shadow: 5px 5px 2px lightgrey;
+  }
+  ion-card-header{
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    ion-label{
+      --ion-color-base: #ffffff;
+    }
+  }
+}
