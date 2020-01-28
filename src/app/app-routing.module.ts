@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -18,6 +18,22 @@ const routes: Routes = [
   {
     path: 'scan',
     loadChildren: () => import('./scan/scan.module').then( m => m.ScanPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+  },
+  {
+    path: 'manage-pm',
+    loadChildren: () => import('./manage-pm/manage-pm.module').then(m => m.ManagePmPageModule)
+  },
+  {
+    path: 'asset-info',
+    loadChildren: () => import('./asset-info/asset-info.module').then(m => m.AssetInfoPageModule)
+  },
+  {
+    path: 'view-amc',
+    loadChildren: () => import('./view-amc/view-amc.module').then(m => m.ViewAmcPageModule)
   }
 ];
 

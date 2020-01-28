@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./asset-info.page.scss'],
 })
 export class AssetInfoPage implements OnInit {
-  qrData = 'hello123';
   constructor() { }
 
   ngOnInit() {

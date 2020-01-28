@@ -12,7 +12,7 @@ export class ScanPage implements OnInit {
   qrText: string;
 
  
-  constructor(public platform: Platform,public qrScanner: QRScanner) {
+  constructor(public platform: Platform, public qrScanner: QRScanner) {
     this.platform.backButton.subscribeWithPriority(0, () => {
       document.getElementsByTagName('body')[0].style.opacity = '1';
       this.scanSub.unsubscribe();

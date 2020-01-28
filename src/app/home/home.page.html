@@ -11,7 +11,7 @@
 
 <ion-content>
     <br>
-    <ion-virtual-scroll [items]="items">
+    <ion-virtual-scroll [items]="items" (click)="showAssetInfo()">
         <ion-item *virtualItem="let item">
             <div id="bx">
                 <ion-grid>
