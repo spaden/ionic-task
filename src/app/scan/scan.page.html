@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+    <div class="ion-padding">
+        <ion-button (click)="startScanning()" expand="full">qrscanner</ion-button>
+        <p *ngIf="qrText">QR Scan text: {{ qrText }}</p>
+    </div>
+
+</ion-content>
