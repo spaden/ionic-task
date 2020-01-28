@@ -51,7 +51,7 @@ export class HomePage {
   return src;
 }
  showAssetInfo() {
-   this.route.navigateByUrl('asset-info');
+   this.route.navigateByUrl('assets');
  }
 
 }

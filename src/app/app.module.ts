@@ -8,20 +8,21 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {MainComponent} from './main/main.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import {SuperTabsModule} from '@ionic-super-tabs/angular';
 
 @NgModule({
-  declarations: [AppComponent,MainComponent],
+  declarations: [AppComponent, MainComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    SuperTabsModule.forRoot()
   ],
   providers: [
     QRScanner,
     StatusBar,
     SplashScreen,
-    
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

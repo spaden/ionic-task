@@ -24,17 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
-    path: 'manage-pm',
-    loadChildren: () => import('./manage-pm/manage-pm.module').then(m => m.ManagePmPageModule)
-  },
-  {
-    path: 'asset-info',
-    loadChildren: () => import('./asset-info/asset-info.module').then(m => m.AssetInfoPageModule)
-  },
-  {
-    path: 'view-amc',
-    loadChildren: () => import('./view-amc/view-amc.module').then(m => m.ViewAmcPageModule)
+    path: 'assets',
+    loadChildren: () => import('./assets/assets.module').then( m => m.AssetsPageModule)
   }
+
 ];
 
 @NgModule({
