@@ -6,8 +6,10 @@
   background-size: cover;
 }
 .list{
-  margin-top: 220px;
+  margin-top: 230px;
   margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 ion-item{
   margin: 10px;
@@ -22,7 +24,7 @@ ion-label{
 }
 ion-button{
   --background : #5680e9;
-  --background-hover: rgb(55, 102, 133);
+  --background-hover: #8860d0;
   --border-radius: 5px;
   margin-top: -8px;
   margin-left: 10px;
