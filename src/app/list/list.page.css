@@ -1,58 +1,14 @@
-ul,
-#myUL {
-    list-style-type: none;
+#cd {
+    padding: 10px;
 }
 
-
-/* Remove margins and padding from the parent ul */
-
-#myUL {
-    margin: 0;
-    padding: 0;
+#bx {
+    width: 100%;
+    margin-bottom: 10px;
+    box-shadow: 2px -2px 10px #888888;
 }
 
-.lt {
-    background-color: burlywood;
-    width: auto;
-}
-
-
-/* Style the caret/arrow */
-
-.caret {
-    cursor: pointer;
-    user-select: none;
-    background-color: rgb(176, 185, 153);
-    /* Prevent text selection */
-}
-
-
-/* Create the caret/arrow with a unicode, and style it */
-
-.caret::before {
-    content: "\25B6";
-    color: black;
-}
-
-
-/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
-
-.caret-down::before {
-    transform: rotate(90deg);
-}
-
-
-/* Hide the nested list */
-
-.nested {
-    margin-left: 10px;
+#srchId {
+    border-radius: 5px;
     display: none;
-}
-
-
-/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
-
-.active {
-    background-color: brown;
-    display: inline;
 }
