@@ -9,6 +9,7 @@ import {PmModalPage} from '../pm-modal/pm-modal.page';
 })
 export class ManagePmPage implements OnInit {
 
+  public filter: string;
   showCompleted = true;
   showNotCompleted = true;
   allData = [{

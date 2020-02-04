@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-amc.page.scss'],
 })
 export class ViewAmcPage implements OnInit {
-
+  public filter: string;
   showAMC = true;
   showWarranty = true;
   allData = [{

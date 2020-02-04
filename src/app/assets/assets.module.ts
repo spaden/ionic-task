@@ -11,7 +11,6 @@ import {SuperTabsModule} from '@ionic-super-tabs/angular';
 import {ViewAmcPageModule} from '../view-amc/view-amc.module';
 import {ManagePmPageModule} from '../manage-pm/manage-pm.module';
 import {AssetInfoPageModule} from '../asset-info/asset-info.module';
-import {TooltipModule} from "ng2-tooltip-directive";
 
 @NgModule({
     imports: [
@@ -22,8 +21,7 @@ import {TooltipModule} from "ng2-tooltip-directive";
         SuperTabsModule,
         ViewAmcPageModule,
         ManagePmPageModule,
-        AssetInfoPageModule,
-        TooltipModule
+        AssetInfoPageModule
     ],
   declarations: [AssetsPage]
 })

@@ -6,15 +6,13 @@ import { IonicModule } from '@ionic/angular';
 
 import { ManagePmPage } from './manage-pm.page';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
-import {TooltipModule} from "ng2-tooltip-directive";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        Ng2SearchPipeModule,
-        TooltipModule
+        Ng2SearchPipeModule
     ],
   declarations: [ManagePmPage],
   entryComponents: [ManagePmPage]
