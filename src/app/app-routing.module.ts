@@ -26,7 +26,11 @@ const routes: Routes = [
   {
     path: 'assets',
     loadChildren: () => import('./assets/assets.module').then( m => m.AssetsPageModule)
+  },  {
+    path: 'pm-modal',
+    loadChildren: () => import('./pm-modal/pm-modal.module').then( m => m.PmModalPageModule)
   }
+
 
 ];
 

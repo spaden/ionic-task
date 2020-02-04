@@ -1,4 +1,7 @@
 <ion-content>
+  <div class="col-sm-5" style="padding-top: 20px;padding-bottom: 20px;">
+    <ion-searchbar class="form-control" type="text" placeholder="Search........." [(ngModel)]="filter"></ion-searchbar>
+  </div>
   <ion-item>
       <ion-row>
         <ion-col>
@@ -18,95 +21,99 @@
   </ion-item>
   &nbsp;&nbsp;
   <div class="card_layout">
-    <ion-card *ngIf="showAMC">
-      <ion-card-header class="amc_color">
-        <div class="ion-text-center">
-          <ion-label color="white">PO Number</ion-label>
-        </div>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>Start</ion-label>
-              </div>
-            </ion-col>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>End</ion-label>
-              </div>
-            </ion-col>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>Cost</ion-label>
-              </div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>22/01/1944</ion-label>
-              </div>
-            </ion-col>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>23/09/2111</ion-label>
-              </div>
-            </ion-col>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>Rs.234</ion-label>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>&nbsp;
-    <ion-card *ngIf="showWarranty">
-      <ion-card-header class="warranty_color">
-        <div class="ion-text-center">
-          <ion-label color="white">PO Number 2</ion-label>
-        </div>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>Start</ion-label>
-              </div>
-            </ion-col>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>End</ion-label>
-              </div>
-            </ion-col>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>Cost</ion-label>
-              </div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>25/01/1944</ion-label>
-              </div>
-            </ion-col>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>23/07/2167</ion-label>
-              </div>
-            </ion-col>
-            <ion-col>
-              <div class="ion-text-center">
-                <ion-label>Rs.098</ion-label>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>&nbsp;
+    <div *ngIf="showAMC">
+      <ion-card *ngFor="let rec of allAmc | filter: filter">
+        <ion-card-header class="amc_color">
+          <div class="ion-text-center">
+            <ion-label color="white">{{rec.Po_no}}</ion-label>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>Start</ion-label>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>End</ion-label>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>Cost</ion-label>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>{{rec.Start}}</ion-label>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>{{rec.End}}</ion-label>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>{{rec.Cost}}</ion-label>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>&nbsp;
+    <div *ngIf="showWarranty">
+      <ion-card *ngFor="let rec of allWarranty | filter: filter">
+        <ion-card-header class="warranty_color">
+          <div class="ion-text-center">
+            <ion-label color="white">{{rec.Po_no}}</ion-label>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>Start</ion-label>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>End</ion-label>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>Cost</ion-label>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>{{rec.Start}}</ion-label>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>{{rec.End}}</ion-label>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="ion-text-center">
+                  <ion-label>{{rec.Cost}}</ion-label>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>&nbsp;
+    </div>
   </div>
 </ion-content>

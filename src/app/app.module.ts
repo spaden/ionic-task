@@ -9,6 +9,9 @@ import {MainComponent} from './main/main.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {SuperTabsModule} from '@ionic-super-tabs/angular';
+import {PmModalPageModule} from './pm-modal/pm-modal.module';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {TooltipModule} from 'ng2-tooltip-directive';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -17,7 +20,10 @@ import {SuperTabsModule} from '@ionic-super-tabs/angular';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    SuperTabsModule.forRoot()
+    SuperTabsModule.forRoot(),
+    PmModalPageModule,
+    Ng2SearchPipeModule,
+    TooltipModule
   ],
   providers: [
     QRScanner,
