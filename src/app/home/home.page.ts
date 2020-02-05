@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import { AlertController } from '@ionic/angular';  
 import * as CanvasJS from '../../aditional_assets/canvasjs.min';
 import { Chart } from 'chart.js';
+import { IonRouterOutlet, Platform } from '@ionic/angular';
 
 
 @Component({
@@ -13,10 +14,21 @@ import { Chart } from 'chart.js';
 
 export class HomePage  implements OnInit  {
   lineChart: any;
- 
+  @ViewChild(IonRouterOutlet, {static:false}) routerOutlet: IonRouterOutlet;
   
-  constructor(private route: Router,public alertCtrl: AlertController) {
-    
+  constructor(private router: Router,public alertCtrl: AlertController,private platform: Platform) {
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      if (this.routerOutlet && this.routerOutlet.canGoBack()) {
+        this.routerOutlet.pop();
+      } else if (this.router.url === '/home') {
+        
+        if(window.confirm("Do you want to exit app")){
+          navigator['app'].exitApp();
+        }
+       
+        
+      } 
+    });
   }
   
   ngOnInit() {
