@@ -19,12 +19,15 @@
 
                     <ion-item-group>
                         <ion-menu-toggle auto-hide="false">
-                            <ion-item submenu-item>Edit Profile</ion-item>
-                            <ion-item submenu-item>Settings</ion-item>
+                            <ion-item submenu-item>Elon Musk</ion-item>
                             <ion-item submenu-item>
-                                Switch Role
+                                Los Angeles/ SpaceX
+                                <button (click)="showAlert()">></button>
                             </ion-item>
-                            <ion-item submenu-item>Logout</ion-item>
+                            <ion-item submenu-item>
+                                Switch Role <button (click)="swithRole()"> >> </button>
+                            </ion-item>
+
                         </ion-menu-toggle>
 
                     </ion-item-group>
@@ -44,27 +47,11 @@
             </ion-list>
             <ion-list>
                 <ion-item>
-                    Asset Management
-                </ion-item>
-                <ion-item>
-
-                    <ion-item-group>
-                        <ion-menu-toggle auto-hide="false">
-                            <ion-item submenu-item>Add Asset</ion-item>
-                            <ion-item submenu-item>Relocate Asset</ion-item>
-                            <ion-item submenu-item>Remove Asset</ion-item>
-                            <ion-item submenu-item [routerDirection]="'root'" [routerLink]="['/scan']">QR Scanner</ion-item>
-                        </ion-menu-toggle>
-                    </ion-item-group>
+                    Log out <button (click)="logOut()"> -> </button>
                 </ion-item>
 
             </ion-list>
-            <ion-list>
-                <ion-menu-toggle auto-hide="false">
-                    <ion-item [routerDirection]="'root'" [routerLink]="['/list']">Heirarchy</ion-item>
-                </ion-menu-toggle>
 
-            </ion-list>
         </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

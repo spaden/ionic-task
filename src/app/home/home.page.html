@@ -3,33 +3,42 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-
-
-        <ion-searchbar animated></ion-searchbar>
+        <b>DashBoard</b>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <br>
-    <ion-virtual-scroll [items]="items" (click)="showAssetInfo()">
-        <ion-item *virtualItem="let item">
-            <div id="bx">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col size="12">
-                            Item id: <b>{{item.imgHeight}}</b>
-                        </ion-col>
-                    </ion-row>
-                    <ion-row>
-                        <ion-col size="12">
-                            <p>Item name: {{item.name}}</p>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <b>Warranty</b>
+                <br>
+                <div style="height: 300px">
+                        <canvas id="warPie"></canvas>
+                </div>
+                
+            </ion-col>
+        </ion-row>
+        <hr>
+        <ion-row>
+            <ion-col>
+                <b>AMC</b>
+                <br>
+                <div style="height: 300px">
+                     <canvas id="amcPie"></canvas>
+                </div>
+            </ion-col>
+        </ion-row>
+        <hr>
+        <ion-row>
+            <ion-col>
+                <b>No AMC</b>
+                <br>
+                <div style="height: 300px">
+                     <canvas id="noAmcPie"></canvas>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
-                            <p>Item info : {{item.name}}</p>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </div>
-            <hr>
-        </ion-item>
-    </ion-virtual-scroll>
 </ion-content>
