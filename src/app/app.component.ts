@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import {NavController, Platform} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {timer} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +15,27 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private router: Router,
+    private nav: NavController
   ) {
     this.initializeApp();
   }
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
-      // timer(100).subscribe(() => this.splashScreen.hide());
+      setTimeout(() => {
+          this.splashScreen.hide();
+      }, 100);
+    });
+    this.platform.backButton.subscribe(async () => {
+        const app = 'app';
+        if (this.router.isActive('/login', true) && this.router.url === '/login') {
+            navigator[app].exitApp();
+        }
+        if (this.router.isActive('/assets', true) && this.router.url === '/assets') {
+            this.nav.pop();
+        }
     });
   }
 }

@@ -1,6 +1,6 @@
 <ion-content>
   <div class="col-sm-5" style="padding-top: 20px;padding-bottom: 20px;">
-    <ion-searchbar class="form-control" type="text" placeholder="Search........." [(ngModel)]="filter"></ion-searchbar>
+    <ion-searchbar type="text" placeholder="Search PO Number" [(ngModel)]="filter"></ion-searchbar>
   </div>
   <ion-item class="ion-no-margin">
     <ion-row>
@@ -144,7 +144,7 @@
           <ion-grid>
             <ion-row>
               <ion-col class="ion-float-left">Actions:
-                <ion-button class="not_completed_color"><ion-icon name="download"></ion-icon></ion-button>
+                <ion-button class="not_completed_color"><ion-icon name="arrow-round-up"></ion-icon></ion-button>
                 <ion-button class="not_completed_color"><ion-icon name="send"></ion-icon></ion-button>
                 <ion-button class="not_completed_color" (click)="presentModal(rec.Po_no)"><ion-icon name="create"></ion-icon></ion-button>
               </ion-col>

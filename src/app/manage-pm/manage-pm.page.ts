@@ -22,11 +22,11 @@ export class ManagePmPage implements OnInit {
     Status: 'done'
   },
     { Po_no: 'Ad21345',
-      Start: '26/01/1994',
-      End: '27/09/2111',
-      Service: '29/04/2312',
-      Comments: 'ok',
-      ExtraCost: '0',
+      Start: '',
+      End: '',
+      Service: '',
+      Comments: '',
+      ExtraCost: '',
       Status: 'not done'}];
   allComplete: any[];
   allNotComplete: any[];

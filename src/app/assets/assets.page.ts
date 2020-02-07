@@ -15,5 +15,4 @@ export class AssetsPage implements OnInit {
   constructor() { }
   ngOnInit() {
   }
-
 }
