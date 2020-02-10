@@ -11,28 +11,20 @@
         <ion-content>
             <ion-list>
                 <ion-item>
-                    <ion-avatar>
-                        <img src="https://content.fortune.com/wp-content/uploads/2017/02/506802698.jpg?resize=750,500">
-                    </ion-avatar>
+                        <div class="profile">
+                                <img class="profile-picture" src="https://si.wsj.net/public/resources/images/BN-SS512_2YjoP_OR_20170330060433.jpg?width=620&height=415" />
+                                <h3>Elon Musk</h3>
+                                <div class="location">
+                                        Los Angeles/ SpaceX
+                                        <button (click)="showAlert()">></button>
+                                </div>
+                                
+                                <div class="role">
+                                        Switch Role <button (click)="swithRole()"> >> </button>
+                                </div>
+                        </div>
                 </ion-item>
-                <ion-item>
-
-                    <ion-item-group>
-                        <ion-menu-toggle auto-hide="false">
-                            <ion-item submenu-item>Elon Musk</ion-item>
-                            <ion-item submenu-item>
-                                Los Angeles/ SpaceX
-                                <button (click)="showAlert()">></button>
-                            </ion-item>
-                            <ion-item submenu-item>
-                                Switch Role <button (click)="swithRole()"> >> </button>
-                            </ion-item>
-                           
-                        </ion-menu-toggle>
-
-                    </ion-item-group>
-                </ion-item>
-
+                
             </ion-list>
 
             <ion-list>

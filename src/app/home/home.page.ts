@@ -25,28 +25,28 @@ export class HomePage  implements OnInit  {
   
   ngAfterViewInit(){
     this.warPie()
-    this.amcPie()
-    this.noAmcPie()
+    //this.amcPie()
+    //this.noAmcPie()
   }
 
   public warPie() {
-    this.lineChart = new Chart(document.getElementById("warPie"), {
+    this.lineChart = new Chart(document.getElementById("chartContainer"), {
       type: 'pie',
       data : {
         datasets: [{
-            data: [10, 20, 30],
+            data: [25,40,35],
             backgroundColor: [
-              "#F15656",
-              "#A84D39",
-              "#C77308",
+              "#FF6384",
+              "#63FF84",
+              "#84FF63"
           ]
         }],
     
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
-            'Red',
-            'Yellow',
-            'Blue'
+            'Warranty',
+            'AMC',
+            'NO AMC/ No Warranty'
         ]
     },
     options: {
@@ -64,11 +64,13 @@ export class HomePage  implements OnInit  {
   }
 
   public amcPie() {
-    this.lineChart = new Chart(document.getElementById("amcPie"), {
+    document.getElementById("chartName").innerHTML = "AMC"
+
+    this.lineChart = new Chart(document.getElementById("chartContainer"), {
       type: 'pie',
       data : {
         datasets: [{
-            data: [10, 20, 30],
+            data: [40, 20, 40],
             backgroundColor: [
               "#FF6384",
               "#63FF84",
@@ -98,7 +100,9 @@ export class HomePage  implements OnInit  {
   }
 
   public noAmcPie() {
-    this.lineChart = new Chart(document.getElementById("noAmcPie"), {
+    document.getElementById("chartName").innerHTML = "No AMC"
+
+    this.lineChart = new Chart(document.getElementById("chartContainer"), {
       type: 'pie',
       data : {
         datasets: [{

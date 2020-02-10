@@ -1,0 +1,31 @@
+
+
+.profile {
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 0;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    padding-top: 5px;
+    height: 290px;
+}
+
+.profile .name {
+    color: #FFFFFF;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.profile-picture {
+    width: 50%;
+    height: 50%;
+    border-radius: 40%;
+}
+
+.role {
+    margin-top: 5%;
+}

@@ -9,36 +9,36 @@
 
 <ion-content>
     <ion-grid>
+            <ion-row>
+                       <ion-col size="3">
+                           <button class="btn btn-link">Total Assets</button>
+                       </ion-col>       
+                
+                       <ion-col size="3">
+                            <button  class="btn btn-link" (click)="warPie()">AMC Due / No Due</button>
+                            
+                        </ion-col>
+                        <ion-col size="3">
+                            <button class="btn btn-link" (click)="amcPie()">Pm Pending / Pm Complete</button>
+                        </ion-col>
+                        <ion-col size="3">
+                                <button  class="btn btn-link" (click)="noAmcPie()">Asset Breakdown / Asset Working</button>
+                        </ion-col>
+            </ion-row>
+            
+        
         <ion-row>
             <ion-col>
-                <b>Warranty</b>
+                <b id="chartName">Total Assets</b>
                 <br>
                 <div style="height: 300px">
-                        <canvas id="warPie"></canvas>
+                        <canvas id="chartContainer"></canvas>
                 </div>
                 
             </ion-col>
         </ion-row>
         <hr>
-        <ion-row>
-            <ion-col>
-                <b>AMC</b>
-                <br>
-                <div style="height: 300px">
-                     <canvas id="amcPie"></canvas>
-                </div>
-            </ion-col>
-        </ion-row>
-        <hr>
-        <ion-row>
-            <ion-col>
-                <b>No AMC</b>
-                <br>
-                <div style="height: 300px">
-                     <canvas id="noAmcPie"></canvas>
-                </div>
-            </ion-col>
-        </ion-row>
+        
     </ion-grid>
 
 </ion-content>
