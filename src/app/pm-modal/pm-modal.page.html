@@ -1,0 +1,33 @@
+<ion-content class="pm-background">
+  <div class="list">
+    <ion-list class="ion-padding">
+      <ion-item>
+        <ion-input placeholder="PO Number" [(ngModel)]="PoNo" value="{{PoNo}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Start Date" [(ngModel)]="Start" value="{{Start}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="End Date" [(ngModel)]="End" value="{{End}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Service Date" [(ngModel)]="Service" value="{{Service}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Extra Cost" [(ngModel)]="ExtraCost" value="{{ExtraCost}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Comments" [(ngModel)]="Comments" value="{{Comments}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Status" [(ngModel)]="Status" value="{{Status}}"></ion-input>
+      </ion-item>
+    </ion-list>&nbsp;
+    <div class="ion-text-center">
+      <ion-button (click)="submit()">Submit</ion-button>
+    </div>&nbsp;
+    <div class="ion-text-center">
+      <ion-button (click)="dismiss()">Exit</ion-button>
+    </div>
+  </div>
+</ion-content>

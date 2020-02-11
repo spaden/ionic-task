@@ -5,7 +5,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end" class="ion-margin">
-      <ion-icon name="search" size="10px"></ion-icon>
+      <ion-icon name="qr-scanner"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -13,10 +13,10 @@
 <super-tabs>
   <super-tabs-toolbar slot="top" class="super-tab-color" color="blue">
     <super-tab-button>
-      <ion-label>Amc</ion-label>
+      <ion-label>Asset</ion-label>
     </super-tab-button>
     <super-tab-button>
-      <ion-label>Asset</ion-label>
+      <ion-label>Amc/Warranty</ion-label>
     </super-tab-button>
     <super-tab-button>
       <ion-label>Pm</ion-label>
@@ -25,12 +25,12 @@
   <super-tabs-container>
     <super-tab>
       <ion-content>
-          <ion-nav [root]="viewAmc"></ion-nav>
+          <ion-nav [root]="assets"></ion-nav>
       </ion-content>
     </super-tab>
     <super-tab>
       <ion-content>
-        <ion-nav [root]="assets"></ion-nav>
+        <ion-nav [root]="viewAmc"></ion-nav>
       </ion-content>
     </super-tab>
     <super-tab>

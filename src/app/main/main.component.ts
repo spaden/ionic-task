@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController } from '@ionic/angular';  
+import { IonRouterOutlet, Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -7,6 +9,8 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
+  @ViewChild(IonRouterOutlet, {static:false}) routerOutlet: IonRouterOutlet;
+
   public appPages = [
     {
       title: 'Dashboard',
@@ -29,7 +33,7 @@ export class MainComponent implements OnInit {
       icon: 'list'
     }
   ];
-  constructor(public alertCtrl: AlertController) { }
+  constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform) {}
 
   ngOnInit() {}
 
@@ -80,5 +84,13 @@ export class MainComponent implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  logOut(){
+    
+    if(window.confirm("Do you want to exit app")){
+      navigator['app'].exitApp();
+    }
+   
   }
 }
