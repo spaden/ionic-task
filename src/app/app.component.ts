@@ -36,6 +36,9 @@ export class AppComponent {
         if (this.router.isActive('/assets', true) && this.router.url === '/assets') {
             this.nav.pop();
         }
+        if (this.router.isActive('/manage-po', true) && this.router.url === '/manage-po') {
+            this.nav.pop();
+        }
     });
   }
 }
