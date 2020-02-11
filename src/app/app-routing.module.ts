@@ -26,12 +26,12 @@ const routes: Routes = [
   {
     path: 'assets',
     loadChildren: () => import('./assets/assets.module').then( m => m.AssetsPageModule)
-  },
-  {
+  }
+  /*{
     path: 'amc-pm',
     loadChildren: () => import('./amc-pm/amc-pm.module').then( m => m.AmcPmPageModule)
-  }
-
+  }*/
+  
 
 ];
 

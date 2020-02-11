@@ -36,12 +36,13 @@ export class HomePage  implements OnInit  {
   } 
   
   ngAfterViewInit(){
-    this.warPie()
+    this.totAssetsPie()
     //this.amcPie()
     //this.noAmcPie()
   }
 
-  public warPie() {
+  public totAssetsPie() {
+    //document.getElementById("chartName").innerHTML = "Total Assets"
     this.lineChart = new Chart(document.getElementById("chartContainer"), {
       type: 'pie',
       data : {
@@ -76,15 +77,14 @@ export class HomePage  implements OnInit  {
   }
 
   public amcPie() {
-    document.getElementById("chartName").innerHTML = "AMC"
+    //document.getElementById("chartName").innerHTML = "AMC"
 
     this.lineChart = new Chart(document.getElementById("chartContainer"), {
       type: 'pie',
       data : {
         datasets: [{
-            data: [40, 20, 40],
+            data: [30, 70],
             backgroundColor: [
-              "#FF6384",
               "#63FF84",
               "#84FF63",
           ]
@@ -92,9 +92,8 @@ export class HomePage  implements OnInit  {
     
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
-            'Red',
-            'Yellow',
-            'Blue'
+            'AMC Due',
+            'NO Due'
         ]
     },
     options: {
@@ -111,26 +110,57 @@ export class HomePage  implements OnInit  {
   });
   }
 
-  public noAmcPie() {
-    document.getElementById("chartName").innerHTML = "No AMC"
+  public pmPie() {
+    //document.getElementById("chartName").innerHTML = "No AMC"
 
     this.lineChart = new Chart(document.getElementById("chartContainer"), {
       type: 'pie',
       data : {
         datasets: [{
-            data: [10, 20, 30],
+            data: [40, 60],
             backgroundColor: [
               "#FF6384",
-              "#63FF84",
-              "#84FF63",
+              "#63FF84"
           ]
         }],
     
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
-            'Red',
-            'Yellow',
-            'Blue'
+            'Pm Pending',
+            'Pm Complete'
+        ]
+    },
+    options: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          fontColor: "#000080",
+        }
+      },  
+      responsive: true,
+      maintainAspectRatio: false
+  }  
+  });
+  }
+  
+  public asbreakPie(){
+
+    this.lineChart = new Chart(document.getElementById("chartContainer"), {
+      type: 'pie',
+      data : {
+        datasets: [{
+            data: [70, 30],
+            backgroundColor: [
+              "#FF6384",
+              "#63FF84"
+          ]
+        }],
+    
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Asset Breakdown',
+            'Asset Complete'
         ]
     },
     options: {
@@ -147,8 +177,19 @@ export class HomePage  implements OnInit  {
   });
   }
 
-
-
+  public onChange(value){
+    console.log(value.detail.value)
+    var query = value.detail.value
+    if(query == "TOT"){
+      this.totAssetsPie()
+    }else if(query == "AMCNON"){
+      this.amcPie()
+    }else if(query == "PMPC"){
+      this.pmPie()
+    }else if(query == "ASSTBR"){
+      this.asbreakPie()
+    }
+  } 
 
 
 

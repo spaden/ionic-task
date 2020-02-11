@@ -10,27 +10,21 @@
 <ion-content>
     <ion-grid>
             <ion-row>
-                       <ion-col size="3">
-                           <button class="btn btn-link">Total Assets</button>
-                       </ion-col>       
-                
-                       <ion-col size="3">
-                            <button  class="btn btn-link" (click)="warPie()">AMC Due / No Due</button>
-                            
-                        </ion-col>
-                        <ion-col size="3">
-                            <button class="btn btn-link" (click)="amcPie()">Pm Pending / Pm Complete</button>
-                        </ion-col>
-                        <ion-col size="3">
-                                <button  class="btn btn-link" (click)="noAmcPie()">Asset Breakdown / Asset Working</button>
-                        </ion-col>
+                       <ion-col>
+                        <ion-label><h1>Visualize</h1></ion-label>
+                        <br>
+                        <ion-select (ionChange)="onChange($event)">
+                          <ion-select-option value="TOT" selected>Total Assets</ion-select-option>
+                          <ion-select-option value="AMCNON" >AMC Due/ No Due</ion-select-option>
+                          <ion-select-option value="PMPC">PM Pending / PM Complete</ion-select-option>
+                          <ion-select-option value="ASSTBR">Asset Breakdown / Asset Working</ion-select-option>
+                        </ion-select>
+                       </ion-col>
             </ion-row>
             
         
         <ion-row>
             <ion-col>
-                <b id="chartName">Total Assets</b>
-                <br>
                 <div style="height: 300px">
                         <canvas id="chartContainer"></canvas>
                 </div>
