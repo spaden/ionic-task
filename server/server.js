@@ -3,34 +3,51 @@ var config = require('./config'),
     bodyParser = require('body-parser'),
     app = express(),
     apiRouter = express.Router();
+    http = require('http');
+    cors = require('cors');
 const path = require('path');
 /*Manage size limits for POST/PUT requests*/
-app.use(bodyParser.json({limit: '10mb'}));
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 /*Manage CORS Access for ALL requests/reponses*/
-app.use(function(req, res, next)
-{
+app.use(function(req, res, next) {
     /* Allow access from any requesting client */
     res.setHeader('Access-Control-Allow-Origin', '*');
     /* Allow access for any of the following Http request types */
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
     /* Set the Http request header */
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'origin,X-Requested-With,content-type,accept,x-xsrf-token');
     next();
 });
 
 app.get('/', (req, res) => {
     try {
-        res.sendFile(path.resolve("../ionic-task/src/index.html"));
+        res.send('<h1>Server Running</h1>');
     }
     catch (err) {
         console.log("error for start file " + err);
         throw err;
     }
+    console.log("connected");
 
 });
-app.listen(config.port,function () {
-    console.log("started");
+
+app.post('/verifyLogin', (req, res) => {
+    try{
+        console.log(req.body);
+        if(req.body.userId === '1234' && req.body.password === '1234'){
+            res.send('true');
+        }else{
+            res.send('false');
+        }
+    }catch (e) {
+        console.log(e);
+    }
 });
+
+app.listen(config.port,function(){
+    console.log("server running @ "+config.port);
+})
 
 

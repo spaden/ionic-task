@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {SuperTabsModule} from '@ionic-super-tabs/angular';
 import {PmModalPageModule} from './pm-modal/pm-modal.module';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -21,7 +22,8 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
     AppRoutingModule,
     SuperTabsModule.forRoot(),
     PmModalPageModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    HttpClientModule
   ],
   providers: [
     QRScanner,
