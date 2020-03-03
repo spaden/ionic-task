@@ -1,24 +1,25 @@
 #cd {
-  padding: 10px;
+    padding: 10px;
 }
 
 #hd {
-  background-color: rgb(157, 157, 230);
-  opacity: 0.8;
-  border-radius: 5px;
+    background-color: rgb(157, 157, 230);
+    opacity: 0.8;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 #bx {
-  width: 100%;
-  margin-bottom: 15px;
-  box-shadow: 3px 3px 23px -4px rgba(0, 0, 0, 0.79);
-  border-style: solid;
-  border-color: rgb(162, 162, 221);
-  border-width: thin;
-  border-radius: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 3px 3px 23px -4px rgba(0, 0, 0, 0.79);
+    border-style: solid;
+    border-color: rgb(162, 162, 221);
+    border-width: thin;
+    border-radius: 5px;
 }
 
 #srchId {
-  border-radius: 5px;
-  display: none;
+    border-radius: 5px;
+    display: none;
 }
