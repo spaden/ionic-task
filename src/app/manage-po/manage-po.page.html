@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Assets</ion-title>
+    <ion-title>AMC/PM</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -13,9 +13,6 @@
 <super-tabs>
   <super-tabs-toolbar slot="top" class="super-tab-color" color="blue">
     <super-tab-button>
-      <ion-label>Asset</ion-label>
-    </super-tab-button>
-    <super-tab-button>
       <ion-label>Amc/Warranty</ion-label>
     </super-tab-button>
     <super-tab-button>
@@ -23,11 +20,6 @@
     </super-tab-button>
   </super-tabs-toolbar>
   <super-tabs-container>
-    <super-tab>
-      <ion-content>
-          <ion-nav [root]="assets"></ion-nav>
-      </ion-content>
-    </super-tab>
     <super-tab>
       <ion-content>
         <ion-nav [root]="viewAmc"></ion-nav>

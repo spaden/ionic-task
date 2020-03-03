@@ -26,13 +26,15 @@ const routes: Routes = [
   {
     path: 'assets',
     loadChildren: () => import('./assets/assets.module').then( m => m.AssetsPageModule)
+  },
+  {
+    path: 'manage-po',
+    loadChildren: () => import('./manage-po/manage-po.module').then( m => m.ManagePoPageModule)
+  },
+  {
+    path: 'list-po',
+    loadChildren: () => import('./list-po/list-po.module').then(m => m.ListPoPageModule)
   }
-  /*{
-    path: 'amc-pm',
-    loadChildren: () => import('./amc-pm/amc-pm.module').then( m => m.AmcPmPageModule)
-  }*/
-  
-
 ];
 
 @NgModule({

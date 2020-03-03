@@ -23,13 +23,8 @@ export class MainComponent implements OnInit {
       icon: 'list'
     },
     {
-      title: 'AMC',
-      url: '/list',
-      icon: 'list'
-    },
-    {
-      title: 'PMC',
-      url: '/list',
+      title: 'PO Management',
+      url: '/list-po',
       icon: 'list'
     }
   ];
