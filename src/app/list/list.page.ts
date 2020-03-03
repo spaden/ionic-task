@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -17,7 +18,15 @@ export class ListPage implements OnInit {
   
   ]
  
-  constructor(private route: Router) {
+  constructor(private route: Router,private rt: ActivatedRoute) {
+    this.rt.params.subscribe(params => {
+      console.log(params['q']) 
+      if (params['q']=="y"){
+        document.getElementById("srchId").style.display="block"
+        document.getElementById("srchId").focus()
+      }
+    });
+
     for (let i = 0; i < 1000; i++) {
       this.items.push({
         name: i + ' - ' + this.images[this.rotateImg],
@@ -48,12 +57,17 @@ export class ListPage implements OnInit {
     else if (this.clicked ==2){
       document.getElementById("srchId").style.display="none"
       var srchVal = (<HTMLInputElement>document.getElementById("srchId")).value
-      this.items = this.items.filter(function(e){
-        if(e.imgHeight == srchVal){
-          //console.log("found")
-          return true
-        }
-      })
+      
+      if(srchVal !== ""){
+        this.items = this.items.filter(function(e){
+          if(e.imgHeight == srchVal){
+            //console.log("found")
+            return true
+          }
+        })
+      }
+       
+      
  
       console.log(this.items)
       

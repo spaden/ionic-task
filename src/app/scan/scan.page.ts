@@ -13,14 +13,22 @@ export class ScanPage implements OnInit {
 
  
   constructor(public platform: Platform, public qrScanner: QRScanner) {
+  
+     
     this.platform.backButton.subscribeWithPriority(0, () => {
       document.getElementsByTagName('body')[0].style.opacity = '1';
       this.scanSub.unsubscribe();
     });
    }
+  
 
-  ngOnInit() {
+ 
     
+  ngOnInit() {
+    var btn = document.getElementById("qrScn");
+    //console.log("NgOnINit")
+    console.log(btn.id)
+    btn.click()
   }
   
   startScanning() {

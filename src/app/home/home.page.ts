@@ -191,7 +191,14 @@ export class HomePage  implements OnInit  {
     }
   } 
 
+  
+  srchBtn(){
+    this.router.navigate(['/list', 'y']);
+  }
 
+  qrBtn(){
+    this.router.navigateByUrl('scan');
+   }
 
   
 
