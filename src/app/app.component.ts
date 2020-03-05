@@ -29,9 +29,8 @@ export class AppComponent {
       }, 100);
     });
     this.platform.backButton.subscribe(async () => {
-        const app = 'app';
         if (this.router.isActive('/login', true) && this.router.url === '/login') {
-            navigator[app].exitApp();
+            navigator['app'].exitApp();
         }
         if (this.router.isActive('/assets', true) && this.router.url === '/assets') {
             this.nav.pop();
@@ -42,3 +41,4 @@ export class AppComponent {
     });
   }
 }
+
