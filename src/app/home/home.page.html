@@ -1,38 +1,52 @@
 <ion-header>
     <ion-toolbar>
+        <ion-title>Dashboard</ion-title>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <b>DashBoard</b>
+
+        <ion-buttons slot="end">
+            <button class="btn btn-primary" (click)="srchBtn()"> 
+                <ion-icon name="search"></ion-icon>
+            </button>
+            <span id="wdt"></span>
+            <button id="bt" class="btn btn-primary" (click)="qrBtn()">
+                <ion-icon ios="ios-qr-scanner" md="md-qr-scanner"></ion-icon> 
+            </button>
+
+        </ion-buttons>
+
+
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-grid>
-            <ion-row>
-                       <ion-col>
-                        <ion-label><h1>Visualize</h1></ion-label>
-                        <br>
-                        <ion-select (ionChange)="onChange($event)">
-                          <ion-select-option value="TOT" selected>Total Assets</ion-select-option>
-                          <ion-select-option value="AMCNON" >AMC Due/ No Due</ion-select-option>
-                          <ion-select-option value="PMPC">PM Pending / PM Complete</ion-select-option>
-                          <ion-select-option value="ASSTBR">Asset Breakdown / Asset Working</ion-select-option>
-                        </ion-select>
-                       </ion-col>
-            </ion-row>
-            
-        
+        <ion-row>
+            <ion-col>
+                <br>
+                <ion-select (ionChange)="onChange($event)">
+                    <ion-select-option value="TOT" selected>
+                        <h3>Total Assets</h3>
+                    </ion-select-option>
+                    <ion-select-option value="AMCNON">AMC Due/ No Due</ion-select-option>
+                    <ion-select-option value="PMPC">PM Pending / PM Complete</ion-select-option>
+                    <ion-select-option value="ASSTBR">Asset Breakdown / Asset Working</ion-select-option>
+                </ion-select>
+            </ion-col>
+        </ion-row>
+
+
         <ion-row>
             <ion-col>
                 <div style="height: 300px">
-                        <canvas id="chartContainer"></canvas>
+                    <canvas id="chartContainer"></canvas>
                 </div>
-                
+
             </ion-col>
         </ion-row>
         <hr>
-        
+
     </ion-grid>
 
 </ion-content>

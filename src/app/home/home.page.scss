@@ -1,2 +1,19 @@
+ion-toolbar {
+    --background: #5680e9;
+}
 
+ion-title,
+ion-label,
+ion-buttons {
+    color: #ffffff;
+    text-align: center;
+}
 
+#wdt {
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+#bt {
+    margin-right: 4%;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Platform } from '@ionic/angular';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-scan',
@@ -12,15 +13,25 @@ export class ScanPage implements OnInit {
   qrText: string;
 
  
-  constructor(public platform: Platform, public qrScanner: QRScanner) {
+  constructor(public platform: Platform, public qrScanner: QRScanner,private route: Router) {
+  
+     
     this.platform.backButton.subscribeWithPriority(0, () => {
       document.getElementsByTagName('body')[0].style.opacity = '1';
       this.scanSub.unsubscribe();
     });
-   }
 
-  ngOnInit() {
+   }
+  
+
+ 
     
+  ngOnInit() {
+    //var btn = document.getElementById("qrScn");
+    //btn.style.display= "none"
+    //console.log("NgOnINit")
+    //console.log(btn.id)
+    this.startScanning()
   }
   
   startScanning() {
@@ -38,6 +49,7 @@ export class ScanPage implements OnInit {
               this.scanSub.unsubscribe();
 
               this.qrText = textFound;
+              this.route.navigateByUrl('assets');
             }, (err) => {
               alert(JSON.stringify(err));
             });
