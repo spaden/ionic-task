@@ -1,9 +1,12 @@
 .login-background{
-  --background: url("../../assets/login.png") no-repeat cover fixed center;
+  --background: url("../../assets/login.png") 0 0/100% 100% no-repeat;
   background: url("../../assets/login.png") no-repeat fixed center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
+}
+ion-header{
+  display: none;
 }
 .list{
   margin-top: 230px;

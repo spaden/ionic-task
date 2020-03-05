@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AlertController, IonRouterOutlet, Platform} from '@ionic/angular';
 
 @Component({
   selector: 'app-list-po',
@@ -19,8 +20,20 @@ export class ListPoPage implements OnInit {
     'bandit',
 
   ]
+    @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
+    constructor(private router: Router, private rt: ActivatedRoute, public alertCtrl: AlertController, private platform: Platform) {
+        this.platform.backButton.subscribeWithPriority(0, () => {
+            if (this.routerOutlet && this.routerOutlet.canGoBack()) {
+                this.routerOutlet.pop();
+            } else if (this.router.url === '/list-po') {
 
-    constructor(private route: Router,private rt: ActivatedRoute) {
+                if (window.confirm('Do you want to exit app')) {
+                    navigator['app'].exitApp();
+                }
+
+
+            }
+        });
         this.rt.params.subscribe(params => {
             // console.log(params['q'])
             if (params['q']=="y"){
@@ -33,10 +46,10 @@ export class ListPoPage implements OnInit {
             this.items.push({
                 name: i + ' - ' + this.images[this.rotateImg],
                 imgHeight: Math.floor(Math.random() * 50 + 150),
-            })
+            });
         }
         this.orginal = this.items;
-        //console.log(this.items);
+        // console.log(this.items);
     }
 
   ngOnInit() {
@@ -44,32 +57,32 @@ export class ListPoPage implements OnInit {
   }
 
   showPOInfo() {
-    this.route.navigateByUrl('manage-po');
+    this.router.navigateByUrl('manage-po');
   }
 
 
 
     srchBtn(){
-        this.items = this.orginal
-        //console.log(this.clicked)
-        if(this.clicked == 1){
+        this.items = this.orginal;
+        // console.log(this.clicked)
+        if (this.clicked === 1) {
             this.clicked = 2
-            document.getElementById("srchId").style.display="block"
+            document.getElementById("srchId").style.display="block";
             this.showTitle = false;
         }
-        else if (this.clicked ==2){
-            document.getElementById("srchId").style.display="none"
+        else if (this.clicked === 2){
+            document.getElementById("srchId").style.display="none";
             this.showTitle = true;
-            //this.showSearchbar = false;
-            var srchVal = (<HTMLInputElement>document.getElementById("srchId")).value
+            // this.showSearchbar = false;
+            let srchVal = (<HTMLInputElement>document.getElementById("srchId")).value;
 
-            if(srchVal !== ""){
+            if (srchVal !== '') {
                 this.items = this.items.filter(function(e){
-                    if(e.imgHeight == srchVal){
-                        //console.log("found")
-                        return true
+                    if (e.imgHeight === srchVal) {
+                        // console.log("found")
+                        return true;
                     }
-                })
+                });
             }
 
 
@@ -84,8 +97,8 @@ export class ListPoPage implements OnInit {
 
 
 
-  qrBtn(){
-    this.route.navigateByUrl('scan');
+  qrBtn() {
+    this.router.navigateByUrl('scan');
   }
 
 }
