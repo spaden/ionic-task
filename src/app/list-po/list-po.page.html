@@ -1,39 +1,18 @@
 <ion-header>
   <ion-toolbar>
+    <ion-title *ngIf="showTitle">PO Management</ion-title>
+
+      <input type="text" id="srchId" class="form-control" placeholder="PO Number">
+
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-
-    <div>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="8">
-            <input type="text" id="srchId" class="form-control" placeholder="Item id">
-          </ion-col>
-          <ion-col size="2">
-            <div>
-              <button class="btn btn-primary" (click)="srchBtn()">
-                <ion-icon name="search"></ion-icon>
-
-              </button>
-
-            </div>
-
-          </ion-col>
-          <ion-col size="2">
-            <div>
-              <button class="btn btn-primary" (click)="qrBtn()">
-                <ion-icon ios="ios-qr-scanner" md="md-qr-scanner"></ion-icon>
-
-              </button>
-
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-
-    </div>
+    <ion-buttons slot="end" (click)="srchBtn()">
+      <ion-icon name="search"></ion-icon>&nbsp;&nbsp;
+    </ion-buttons>
+    <ion-buttons slot="end" (click)="qrBtn()">
+      <ion-icon name="qr-scanner"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
