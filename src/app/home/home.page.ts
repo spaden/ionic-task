@@ -13,6 +13,7 @@ import { IonRouterOutlet, Platform } from '@ionic/angular';
 })
 
 export class HomePage  implements OnInit  {
+  clicked = 1
   lineChart: any;
   @ViewChild(IonRouterOutlet, {static:false}) routerOutlet: IonRouterOutlet;
   
@@ -193,7 +194,34 @@ export class HomePage  implements OnInit  {
 
   
   srchBtn(){
-    this.router.navigate(['/list', 'y']);
+
+    console.log("Clicked")
+    
+    if(this.clicked == 1){
+      this.clicked = 2
+      document.getElementById("srchId").style.display="block"
+      document.getElementById("title").style.display= "none"
+    }
+    else if (this.clicked ==2){
+      document.getElementById("srchId").style.display="none"
+      document.getElementById("title").style.display= "block"
+      var srchVal = (<HTMLInputElement>document.getElementById("srchId")).value
+      
+        if(srchVal !== ""){
+            console.log(srchVal)
+            this.router.navigate(['/list',srchVal])  
+        }
+        this.clicked = 1
+        document.getElementById("srchId").value = ""
+    }
+       
+      
+ 
+      
+     
+
+
+    //this.router.navigate(['/list', 'y']);
   }
 
   qrBtn(){

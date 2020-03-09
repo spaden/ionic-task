@@ -12,7 +12,7 @@ import {SuperTabsModule} from '@ionic-super-tabs/angular';
 import {PmModalPageModule} from './pm-modal/pm-modal.module';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {HttpClientModule} from '@angular/common/http';
-
+import {DataItemsService} from './additional_services/list_service/data-items.service'
 @NgModule({
   declarations: [AppComponent, MainComponent],
   entryComponents: [],
@@ -29,7 +29,8 @@ import {HttpClientModule} from '@angular/common/http';
     QRScanner,
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    DataItemsService
   ],
   bootstrap: [AppComponent]
 })

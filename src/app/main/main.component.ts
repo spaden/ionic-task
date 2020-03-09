@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController } from '@ionic/angular';  
 import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import {DataItemsService} from '../additional_services/list_service/data-items.service'
 
 @Component({
   selector: 'app-main',
@@ -28,9 +29,17 @@ export class MainComponent implements OnInit {
       icon: 'list'
     }
   ];
-  constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform) {}
+  constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, private listService: DataItemsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.listService.download()
+    this.listService.view_result()
+  }
+  
+
+  ionViewDidEnter(){
+   
+  }
 
   async showAlert() {  
     const alert = await this.alertCtrl.create({  
