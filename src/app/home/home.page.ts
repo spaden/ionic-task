@@ -212,7 +212,7 @@ export class HomePage  implements OnInit  {
             this.router.navigate(['/list',srchVal])  
         }
         this.clicked = 1
-        document.getElementById("srchId").value = ""
+        //document.getElementById("srchId").value = ""
     }
        
       

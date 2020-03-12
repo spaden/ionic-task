@@ -9,7 +9,6 @@ import {AlertController, IonRouterOutlet, Platform} from '@ionic/angular';
 })
 export class ListPoPage implements OnInit {
 
-  showSearchbar = false;
   showTitle = true;
   items: any[] = [];
   orginal: any[] = [];
@@ -36,9 +35,14 @@ export class ListPoPage implements OnInit {
         });
         this.rt.params.subscribe(params => {
             // console.log(params['q'])
-            if (params['q']=="y"){
-                document.getElementById("srchId").style.display="block";
-                document.getElementById("srchId").focus();
+            if (params['q'] !="n"){
+                this.items = this.items.filter(function(e){
+                    if(e.imgHeight == params['q']){
+                        //console.log("found")
+                        return true
+                    }
+                })
+                this.items = this.orginal
             }
         });
 
@@ -63,34 +67,40 @@ export class ListPoPage implements OnInit {
 
 
     srchBtn(){
-        this.items = this.orginal;
-        // console.log(this.clicked)
-        if (this.clicked === 1) {
+        this.items = this.orginal
+        //console.log(this.clicked)
+        if(this.clicked == 1){
             this.clicked = 2
-            document.getElementById("srchId").style.display="block";
+            document.getElementById("srchId").style.display="block"
             this.showTitle = false;
         }
-        else if (this.clicked === 2){
-            document.getElementById("srchId").style.display="none";
+        else if (this.clicked ==2){
+            document.getElementById("srchId").style.display= "none"
             this.showTitle = true;
-            // this.showSearchbar = false;
-            let srchVal = (<HTMLInputElement>document.getElementById("srchId")).value;
+            var srchVal = (<HTMLInputElement>document.getElementById("srchId")).value
 
-            if (srchVal !== '') {
+            if(srchVal !== ""){
                 this.items = this.items.filter(function(e){
-                    if (e.imgHeight === srchVal) {
-                        // console.log("found")
-                        return true;
+                    if(e.name == srchVal){
+                        //console.log("found")
+                        return true
                     }
-                });
+                })
+
+                if(this.items.length == 0){
+                    alert("No Assets found")
+                    this.items = this.orginal
+                }
+
+
             }
 
 
 
-            // console.log(this.items)
-            this.clicked = 1;
-        }
+            console.log(this.items)
 
+            this.clicked = 1
+        }
 
     }
 
