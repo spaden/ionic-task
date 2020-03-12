@@ -216,6 +216,7 @@ export class HomePage  implements OnInit  {
 =======
 >>>>>>> 299c05af2251ac7f896a6282476ef0e69b4335cf
         document.getElementById("srchId").innerHTML = ""
+
     }
        
       
