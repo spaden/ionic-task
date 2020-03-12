@@ -21,8 +21,8 @@ export class ListPage implements OnInit {
   ]
  
   constructor(private route: Router,private rt: ActivatedRoute, private list: DataItemsService) {
-    // this.items = this.list.items
-    // this.orginal = this.list.items
+     this.items = this.list.items
+     this.orginal = this.list.items
 
     this.rt.params.subscribe(params => {
       console.log(params['q']) 
@@ -43,7 +43,7 @@ export class ListPage implements OnInit {
       }
     });
 
-    for (let i = 0; i < 1000; i++) {
+    /*for (let i = 0; i < 1000; i++) {
       this.items.push({
         name: i + ' - ' + this.images[this.rotateImg],
         imgHeight: Math.floor(Math.random() * 50 + 150),
@@ -53,7 +53,7 @@ export class ListPage implements OnInit {
     //console.log("Service")
     //this.list.view_result()
     //console.log(this.items);
-    
+    */
   }
 
   ngOnInit() {
