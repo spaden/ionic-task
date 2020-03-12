@@ -31,16 +31,24 @@ export class ScanPage implements OnInit {
     //btn.style.display= "none"
     //console.log("NgOnINit")
     //console.log(btn.id)
+  
     this.startScanning()
   }
   
+  
+
   startScanning() {
     // Optionally request the permission early
+
+
+
+
+    ((<any>window).document.querySelector('ion-app') as HTMLElement).classList.add('cameraView');
     this.qrScanner.prepare().
       then((status: QRScannerStatus) => {
         if (status.authorized) {
           this.qrScanner.show();
-          this.scanSub = document.getElementsByTagName('body')[0].style.opacity = '0';
+          this.scanSub = document.getElementsByTagName('body')[0].style.opacity = '0.3';
           debugger
           this.scanSub = this.qrScanner.scan()
             .subscribe((textFound: string) => {
@@ -61,5 +69,10 @@ export class ScanPage implements OnInit {
       })
       .catch((e: any) => console.log('Error is', e));
   }
-  
+
+
+  ionViewWillLeave() {
+    this.qrScanner.hide()
+    this.qrScanner.destroy()
+  }
 }
