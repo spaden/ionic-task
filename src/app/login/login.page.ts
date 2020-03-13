@@ -1,10 +1,12 @@
-import {Component, OnInit, Input, ViewChild, ViewChildren, AfterViewInit, ElementRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController, Platform, ToastController} from '@ionic/angular';
 import {HomePage} from '../home/home.page';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {LoginClass} from './login-class';
-import {LoginServiceService} from './login-service.service';
+
+import {LoginServiceService} from '../services/login_service/login-service.service';
+import {LoginClass} from '../classes/login_class/login-class';
+
 
 @Component({
   selector: 'app-login',

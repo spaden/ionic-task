@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {LoginClass} from './login-class';
+import {LoginClass} from '../../classes/login_class/login-class';
 import {catchError} from 'rxjs/operators';
 
 @Injectable({

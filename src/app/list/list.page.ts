@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import {DataItemsService} from '../additional_services/list_service/data-items.service'
+import {DataItemsService} from '../services/list_service/data-items.service';
 
 @Component({
   selector: 'app-list',

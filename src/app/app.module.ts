@@ -12,7 +12,7 @@ import {SuperTabsModule} from '@ionic-super-tabs/angular';
 import {PmModalPageModule} from './pm-modal/pm-modal.module';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {HttpClientModule} from '@angular/common/http';
-import {DataItemsService} from './additional_services/list_service/data-items.service'
+import {DataItemsService} from './services/list_service/data-items.service'
 import {DatePicker} from '@ionic-native/date-picker/ngx';
 @NgModule({
   declarations: [AppComponent, MainComponent],
