@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {DataItemsService} from '../additional_services/list_service/data-items.service'
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-main',
@@ -29,7 +30,7 @@ export class MainComponent implements OnInit {
       icon: 'list'
     }
   ];
-  constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, private listService: DataItemsService) {}
+  constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, private listService: DataItemsService,public menuCtrl: MenuController) {}
 
   ngOnInit() {
     this.listService.download()
@@ -91,9 +92,11 @@ export class MainComponent implements OnInit {
   }
 
   logOut(){
-    
+    this.menuCtrl.close();
+
     if(window.confirm("Do you want to exit app")){
-      navigator['app'].exitApp();
+      this.router.navigateByUrl('');
+
     }
    
   }

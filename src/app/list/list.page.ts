@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import {DataItemsService} from '../additional_services/list_service/data-items.service'
+import { Platform } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-list',
@@ -20,9 +22,17 @@ export class ListPage implements OnInit {
   
   ]
  
-  constructor(private route: Router,private rt: ActivatedRoute, private list: DataItemsService) {
-     this.items = this.list.items
-     this.orginal = this.list.items
+  constructor(private route: Router,private rt: ActivatedRoute, private list: DataItemsService,public platform: Platform) {
+    
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      this.route.navigateByUrl('home');
+ 
+    });
+
+
+
+    this.items = this.list.items
+    this.orginal = this.list.items
 
     this.rt.params.subscribe(params => {
       console.log(params['q']) 
