@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {NavController, ToastController} from '@ionic/angular';
+import {Component, OnInit, Input, ViewChild, ViewChildren, AfterViewInit, ElementRef} from '@angular/core';
+import {NavController, Platform, ToastController} from '@ionic/angular';
 import {HomePage} from '../home/home.page';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -19,7 +19,10 @@ export class LoginPage {
   superUserId: string;
   superUserPassword: string;
   // private user = new LoginClass();
-  constructor(public router: Router, public toastCtrl: ToastController, public loginService: LoginServiceService) {}
+  constructor(public platform: Platform ,
+              public router: Router,
+              public toastCtrl: ToastController,
+              public loginService: LoginServiceService) {}
   checkBoxClicked() {
     if (this.showSuper) {
       this.showSuper = false;

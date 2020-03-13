@@ -13,12 +13,13 @@ import {PmModalPageModule} from './pm-modal/pm-modal.module';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {HttpClientModule} from '@angular/common/http';
 import {DataItemsService} from './additional_services/list_service/data-items.service'
+import {DatePicker} from '@ionic-native/date-picker/ngx';
 @NgModule({
   declarations: [AppComponent, MainComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({scrollPadding: false, scrollAssist: false}),
     AppRoutingModule,
     SuperTabsModule.forRoot(),
     PmModalPageModule,
@@ -30,7 +31,8 @@ import {DataItemsService} from './additional_services/list_service/data-items.se
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    DataItemsService
+    DataItemsService,
+      DatePicker
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,6 @@
 <ion-content class="login-background">
   <div class="list">
-    <ion-list>
+    <ion-list class="ion-padding">
       <ion-item>
         <ion-input placeholder="User Id" [(ngModel)]="userId"></ion-input>
       </ion-item>
@@ -11,7 +11,7 @@
         <ion-input placeholder="Super User Id" [(ngModel)]="superUserId"></ion-input>
       </ion-item>
       <ion-item *ngIf="showSuper">
-        <ion-input placeholder="Super User Password" [(ngModel)]="superUserPassword"></ion-input>
+        <ion-input id="super" placeholder="Super User Password" [(ngModel)]="superUserPassword"></ion-input>
       </ion-item>
       <ion-item lines="none" style="margin-left: 30px;">
       <ion-checkbox (click)="checkBoxClicked()">

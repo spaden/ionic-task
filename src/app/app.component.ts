@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {timer} from 'rxjs';
 import {Router} from '@angular/router';
+import {Keyboard} from "@ionic-native/keyboard";
 
 
 
@@ -19,8 +20,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
-    private nav: NavController,
-
+    private nav: NavController
   ) {
     this.initializeApp();
   }
@@ -30,6 +30,9 @@ export class AppComponent {
       setTimeout(() => {
           this.splashScreen.hide();
       }, 100);
+    });
+    window.addEventListener('keyboardDidShow', () => {
+        document.activeElement.scrollIntoView(true);
     });
     this.platform.backButton.subscribe(async () => {
         if (this.router.isActive('/login', true) && this.router.url === '/login') {

@@ -5,13 +5,13 @@
         <ion-input placeholder="PO Number" [(ngModel)]="PoNo" value="{{PoNo}}"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="Start Date" [(ngModel)]="Start" value="{{Start}}"></ion-input>
+        <ion-input placeholder="Start Date" [(ngModel)]="Start" value="{{Start}}" (click)="calendar('start')"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="End Date" [(ngModel)]="End" value="{{End}}"></ion-input>
+        <ion-input placeholder="End Date" [(ngModel)]="End" value="{{End}}" (click)="calendar('end')"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="Service Date" [(ngModel)]="Service" value="{{Service}}"></ion-input>
+        <ion-input placeholder="Service Date" [(ngModel)]="Service" value="{{Service}}" (click)="calendar('service')"></ion-input>
       </ion-item>
       <ion-item>
         <ion-input placeholder="Extra Cost" [(ngModel)]="ExtraCost" value="{{ExtraCost}}"></ion-input>

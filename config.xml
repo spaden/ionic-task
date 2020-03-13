@@ -11,6 +11,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="fullscreen" value="false" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
@@ -20,6 +21,7 @@
     <preference name="SplashScreenDelay" value="10000" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashScreenSpinnerColor" value="#5680e9" />
+    <preference name="KeyboardResizeMode" value="ionic" />
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
