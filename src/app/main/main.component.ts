@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController } from '@ionic/angular';  
+import { AlertController } from '@ionic/angular';
 import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import {DataItemsService} from '../additional_services/list_service/data-items.service'
+import {DataItemsService} from '../services/list_service/data-items.service'
 import { MenuController } from '@ionic/angular';
 
 @Component({
