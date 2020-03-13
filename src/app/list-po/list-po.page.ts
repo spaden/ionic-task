@@ -20,7 +20,9 @@ export class ListPoPage implements OnInit {
 
   ]
     @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
-    constructor(private router: Router, private rt: ActivatedRoute, public alertCtrl: AlertController, private platform: Platform) {
+    constructor(private router: Router,
+                private rt: ActivatedRoute,
+                private platform: Platform) {
         this.platform.backButton.subscribeWithPriority(0, () => {
             if (this.routerOutlet && this.routerOutlet.canGoBack()) {
                 this.routerOutlet.pop();

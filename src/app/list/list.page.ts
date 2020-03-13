@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import {DataItemsService} from '../services/list_service/data-items.service'
-import { Platform } from '@ionic/angular';
+import {IonRouterOutlet, Platform} from '@ionic/angular';
 
 
 @Component({
@@ -21,18 +21,29 @@ export class ListPage implements OnInit {
     'bandit',
   
   ]
- 
-  constructor(private route: Router,private rt: ActivatedRoute, private list: DataItemsService,public platform: Platform) {
-    
+  @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
+  constructor(private route: Router,
+              private rt: ActivatedRoute,
+              private list: DataItemsService,
+              public platform: Platform) {
     this.platform.backButton.subscribeWithPriority(0, () => {
-      this.route.navigateByUrl('home');
- 
+      if (this.routerOutlet && this.routerOutlet.canGoBack()) {
+        this.routerOutlet.pop();
+      } else if (this.route.url === '/list') {
+
+        if (window.confirm('Do you want to exit app')) {
+          navigator['app'].exitApp();
+        }
+
+
+      }
+
     });
 
 
 
-    this.items = this.list.items
-    this.orginal = this.list.items
+    // this.items = this.list.items
+    // this.orginal = this.list.items
 
     this.rt.params.subscribe(params => {
       console.log(params['q']) 
@@ -42,18 +53,17 @@ export class ListPage implements OnInit {
             //console.log("found")
             return true
           }
+          /*if(this.items.length == 0){
+                    alert("No Assets found")
+                    this.items = this.orginal
+                }*/
         })
-
-        if(this.items.length == 0){
-          alert("No Assets found")
-          this.items = this.orginal
-
-        }
+        this.items = this.orginal;
 
       }
     });
 
-    /*for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 1000; i++) {
       this.items.push({
         name: i + ' - ' + this.images[this.rotateImg],
         imgHeight: Math.floor(Math.random() * 50 + 150),
@@ -63,7 +73,7 @@ export class ListPage implements OnInit {
     //console.log("Service")
     //this.list.view_result()
     //console.log(this.items);
-    */
+
   }
 
   ngOnInit() {
