@@ -17,8 +17,11 @@ export class ScanPage implements OnInit {
   
      
     this.platform.backButton.subscribeWithPriority(0, () => {
-      document.getElementsByTagName('body')[0].style.opacity = '1';
       this.scanSub.unsubscribe();
+      document.getElementsByTagName('body')[0].style.opacity = '1';
+
+      this.route.navigateByUrl('home');
+ 
     });
 
    }
@@ -43,7 +46,6 @@ export class ScanPage implements OnInit {
 
 
 
-    ((<any>window).document.querySelector('ion-app') as HTMLElement).classList.add('cameraView');
     this.qrScanner.prepare().
       then((status: QRScannerStatus) => {
         if (status.authorized) {
