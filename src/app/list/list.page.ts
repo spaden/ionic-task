@@ -35,16 +35,7 @@ export class ListPage implements OnInit {
     
     this.platform.backButton.subscribeWithPriority(0, () => {
       
-      if (this.routerOutlet && this.routerOutlet.canGoBack()) {
-        this.routerOutlet.pop();
-      } else {
-
-        if (window.confirm('Do you want to exit app')) {
-          navigator['app'].exitApp();
-        }
-
-
-      }
+      this.route.navigateByUrl('/home');
 
     });
 
@@ -146,6 +137,7 @@ export class ListPage implements OnInit {
   qrBtn(){
    this.route.navigateByUrl('scan');
   }
+
 
   
 }
