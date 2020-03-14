@@ -14,18 +14,25 @@ export class ListPage implements OnInit {
   items: any[] = []
   orginal: any[] =[]
   
-  rotateImg = 0
+  /*rotateImg = 0
   lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-  clicked=1
+  
   images = [
     'bandit',
   
-  ]
+  ]*/
+  clicked=1
+
+
   @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
   constructor(private route: Router,
               private rt: ActivatedRoute,
               private list: DataItemsService,
               public platform: Platform) {
+    
+    this.items = this.list.items
+    this.orginal = this.list.items
+    
     this.platform.backButton.subscribeWithPriority(0, () => {
       if (this.routerOutlet && this.routerOutlet.canGoBack()) {
         this.routerOutlet.pop();
@@ -41,10 +48,6 @@ export class ListPage implements OnInit {
     });
 
 
-
-    // this.items = this.list.items
-    // this.orginal = this.list.items
-
     this.rt.params.subscribe(params => {
       console.log(params['q']) 
       if (params['q'] !="n"){
@@ -53,23 +56,27 @@ export class ListPage implements OnInit {
             //console.log("found")
             return true
           }
-          /*if(this.items.length == 0){
-                    alert("No Assets found")
-                    this.items = this.orginal
-                }*/
+          
         })
-        this.items = this.orginal;
+        if(this.items.length == 0){
+          alert("No Assets found")
+              //this.items = this.orginal
+        }
+        //this.items = this.orginal;
 
       }
     });
 
-    for (let i = 0; i < 1000; i++) {
+    //Redundant code
+    /*for (let i = 0; i < 1000; i++) {
       this.items.push({
         name: i + ' - ' + this.images[this.rotateImg],
         imgHeight: Math.floor(Math.random() * 50 + 150),
       })
-    }
-    this.orginal = this.items;
+    }*/
+
+
+    
     //console.log("Service")
     //this.list.view_result()
     //console.log(this.items);

@@ -21,7 +21,7 @@ export class MainComponent implements OnInit {
     },
     {
       title: 'Asset Management',
-      url: '/list',
+      url: '/list/n',
       icon: 'list'
     },
     {
