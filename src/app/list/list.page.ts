@@ -34,9 +34,10 @@ export class ListPage implements OnInit {
     this.orginal = this.list.items
     
     this.platform.backButton.subscribeWithPriority(0, () => {
+      
       if (this.routerOutlet && this.routerOutlet.canGoBack()) {
         this.routerOutlet.pop();
-      } else if (this.route.url === '/list') {
+      } else {
 
         if (window.confirm('Do you want to exit app')) {
           navigator['app'].exitApp();
@@ -51,6 +52,10 @@ export class ListPage implements OnInit {
     this.rt.params.subscribe(params => {
       console.log(params['q']) 
       if (params['q'] !="n"){
+
+        (<HTMLInputElement>document.getElementById("srchId2")).value = params['q']
+
+        this.items = this.orginal
         this.items = this.items.filter(function(e){
           if(e.imgHeight == params['q']){
             //console.log("found")
@@ -62,7 +67,7 @@ export class ListPage implements OnInit {
           alert("No Assets found")
               //this.items = this.orginal
         }
-        //this.items = this.orginal;
+        //
 
       }
     });
@@ -95,16 +100,20 @@ export class ListPage implements OnInit {
  
   srchBtn(){
     this.items = this.orginal
-    //console.log(this.clicked)
+
+    console.log(this.clicked)
+    
     if(this.clicked == 1){
       this.clicked = 2
-      document.getElementById("srchId").style.display="block"
-      document.getElementById("title").style.display= "none"
+      document.getElementById("srchId2").style.display="block"
+      document.getElementById("title2").style.display= "none"
+      console.log("entered 1")
     }
     else if (this.clicked ==2){
-      document.getElementById("title").style.display= "block"
-      document.getElementById("srchId").style.display="none"
-      var srchVal = (<HTMLInputElement>document.getElementById("srchId")).value
+      console.log("entered 2")
+      document.getElementById("title2").style.display= "block"
+      document.getElementById("srchId2").style.display="none"
+      var srchVal = (<HTMLInputElement>document.getElementById("srchId2")).value
       
       if(srchVal !== ""){
         this.items = this.items.filter(function(e){
@@ -116,7 +125,7 @@ export class ListPage implements OnInit {
 
         if(this.items.length == 0){
           alert("No Assets found")
-          this.items = this.orginal
+          //this.items = this.orginal
         }
        
 
