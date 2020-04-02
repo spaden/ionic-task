@@ -10,7 +10,8 @@ import {DatePicker} from '@ionic-native/date-picker/ngx';
 export class PmModalPage implements OnInit {
   constructor(public viewCtrl: ModalController,
               private params: NavParams,
-              private datepicker: DatePicker) { }
+              private datepicker: DatePicker,
+              private toastCtrl: ToastController) { }
   PoNo = this.params.data[0].Po_no;
   Status = this.params.data[0].Status;
   Start = this.params.data[0].Start;
@@ -60,16 +61,27 @@ export class PmModalPage implements OnInit {
     console.log('cal2');
   }
   submit() {
-    const data = {
-      PoNo: this.PoNo,
-      Status: this.Status,
-      Start: this.Start,
-      End: this.End,
-      ExtraCost: this.ExtraCost,
-      Comments: this.Comments,
-      Service: this.Service
+    if ( !this.PoNo || !this.Start || !this.End ||
+        !this.Service || !this.ExtraCost || !this.Status ) {
+      this.displayToast('Fill all the details!');
+    } else {
+      const data = {
+        PoNo: this.PoNo,
+        Status: this.Status,
+        Start: this.Start,
+        End: this.End,
+        ExtraCost: this.ExtraCost,
+        Comments: this.Comments,
+        Service: this.Service
+      }
+      this.viewCtrl.dismiss(data);
     }
-    this.viewCtrl.dismiss(data);
+  }
+  async displayToast(mess: string) {
+    const toast = await this.toastCtrl.create({
+      message: mess,
+      duration: 2000});
+    toast.present();
   }
   dismiss() {
     this.viewCtrl.dismiss();

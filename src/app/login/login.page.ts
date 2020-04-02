@@ -15,10 +15,10 @@ import {LoginClass} from '../classes/login_class/login-class';
 })
 export class LoginPage {
 
-  userId: string;
+  userId: number;
   password: string;
   showSuper = false;
-  superUserId: string;
+  superUserId: number;
   superUserPassword: string;
   // private user = new LoginClass();
   constructor(public platform: Platform ,
@@ -29,15 +29,18 @@ export class LoginPage {
     if (this.showSuper) {
       this.showSuper = false;
     } else {
+      this.userId = null;
       this.showSuper = true;
     }
   }
   login() {
     if (!this.showSuper) {
-      if (this.userId === '1234' && this.password === '1234') {
+      if (!this.userId || !this.password) {
+          this.displayToast('Fill all the details!');
+      } else if (this.userId === 1234 && this.password === '1234') {
         this.router.navigateByUrl('home');
       } else {
-        this.displayToast();
+        this.displayToast('Details Not Matched! Try Again');
       }
       /*this.user.userId = this.userId;
       this.user.password = this.password;
@@ -50,16 +53,18 @@ export class LoginPage {
         }
       });*/
     } else {
-      if (this.userId === '345' && this.superUserId === '345' && this.superUserPassword === '345') {
-        this.router.navigateByUrl('../home/home.page');
-      } else {
-        this.displayToast();
-      }
+        if (!this.userId || !this.superUserId || !this.superUserPassword ) {
+            this.displayToast('Fill all the details!');
+        } else if (this.userId === 345 && this.superUserId === 345 && this.superUserPassword === '345') {
+            this.router.navigateByUrl('home');
+        } else {
+            this.displayToast('Details Not Matched! Try Again');
+        }
     }
   }
-  async displayToast() {
+  async displayToast(mess: string) {
     const toast = await this.toastCtrl.create({
-      message: 'Details Not Matched! Try Again',
+      message: mess,
       duration: 2000});
     toast.present();
   }

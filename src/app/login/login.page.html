@@ -2,16 +2,16 @@
   <div class="list">
     <ion-list class="ion-padding">
       <ion-item>
-        <ion-input placeholder="User Id" [(ngModel)]="userId"></ion-input>
+        <ion-input type="number" placeholder="User Id" [(ngModel)]="userId" required></ion-input>
       </ion-item>
       <ion-item *ngIf="!showSuper">
-        <ion-input placeholder="Password" type="password" [(ngModel)]="password"></ion-input>
+        <ion-input placeholder="Password" type="password" [(ngModel)]="password" required=""></ion-input>
       </ion-item>
       <ion-item *ngIf="showSuper">
-        <ion-input placeholder="Super User Id" [(ngModel)]="superUserId"></ion-input>
+        <ion-input type="number" placeholder="Super User Id" [(ngModel)]="superUserId" required></ion-input>
       </ion-item>
       <ion-item *ngIf="showSuper">
-        <ion-input id="super" placeholder="Super User Password" [(ngModel)]="superUserPassword"></ion-input>
+        <ion-input id="super" type="password" placeholder="Super User Password" [(ngModel)]="superUserPassword" required></ion-input>
       </ion-item>
       <ion-item lines="none" style="margin-left: 30px;">
       <ion-checkbox (click)="checkBoxClicked()">
