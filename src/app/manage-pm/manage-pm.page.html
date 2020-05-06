@@ -19,139 +19,147 @@
     </ion-row>
   </ion-item>
   &nbsp;&nbsp;
-  <div class="card_layout">
-    <div *ngIf="showCompleted">
-      <ion-card *ngFor="let rec of allComplete | filter:filter">
-        <ion-card-header class="completed_color">
-          <div class="ion-text-center">
-            <ion-label color="white">{{rec.Po_no}}</ion-label>
-          </div>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col class="ion-float-left">Extra Cost: {{rec.ExtraCost}}</ion-col>
-              <ion-col class="ion-float-right">Comments: {{rec.Comments}}</ion-col>
-            </ion-row>
-          </ion-grid>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>Start</ion-label>
+    <div class="card_layout">
+        <ion-list *ngFor="let rec of allData | filter:filter">
+            <ng-container *ngIf="rec.status=='done'; then completeBlock; else notCompleteBlock">
+            </ng-container>
+            <ng-template #completeBlock>
+                <div *ngIf="showCompleted">
+                    <ion-card>
+                        <ion-card-header class="completed_color">
+                            <div class="ion-text-center">
+                                <ion-label color="white">{{rec.poNo}}</ion-label>
+                            </div>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col class="ion-float-left">Extra Cost: {{rec.extraCost}}</ion-col>
+                                    <ion-col class="ion-float-right">Comments: {{rec.comments}}</ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>Start</ion-label>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>End</ion-label>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>Service</ion-label>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>{{rec.start}}</ion-label>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>{{rec.end}}</ion-label>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>{{rec.service}}</ion-label>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col class="ion-float-left">Status: {{rec.status}}</ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col class="ion-float-left">Actions:&nbsp;
+                                        <ion-button class="completed_color" tooltip="Download" placement="top" show-delay="50"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+                                        <ion-button class="completed_color" tooltip="Send" placement="top" show-delay="50"><ion-icon name="send"></ion-icon></ion-button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-card-content>
+                    </ion-card>
                 </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>End</ion-label>
+            </ng-template>
+            <ng-template #notCompleteBlock>
+                <div *ngIf="showNotCompleted">
+                    <ion-card>
+                        <ion-card-header class="not_completed_color">
+                            <div class="ion-text-center">
+                                <ion-label color="white">{{rec.poNo}}</ion-label>
+                            </div>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col class="ion-float-left">Extra Cost: {{rec.extraCost}}</ion-col>
+                                    <ion-col class="ion-float-right">Comments: {{rec.comments}}</ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>Start</ion-label>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>End</ion-label>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>Service</ion-label>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>{{rec.start}}</ion-label>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>{{rec.end}}</ion-label>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <div class="ion-text-center">
+                                            <ion-label>{{rec.service}}</ion-label>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col class="ion-float-left">Status: {{rec.status}}</ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col class="ion-float-left">Actions:
+                                        <ion-button class="not_completed_color" (click)="uploadFile()"><ion-icon name="arrow-round-up"></ion-icon></ion-button>
+                                        <ion-button class="not_completed_color"><ion-icon name="send"></ion-icon></ion-button>
+                                        <ion-button class="not_completed_color" (click)="presentModal(rec.poNo)"><ion-icon name="create"></ion-icon></ion-button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-card-content>
+                    </ion-card>
                 </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>Service</ion-label>
-                </div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.Start}}</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.End}}</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.Service}}</ion-label>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-          <ion-grid>
-            <ion-row>
-              <ion-col class="ion-float-left">Status: {{rec.Status}}</ion-col>
-            </ion-row>
-          </ion-grid>
-          <ion-grid>
-            <ion-row>
-              <ion-col class="ion-float-left">Actions:&nbsp;
-                <ion-button class="completed_color" tooltip="Download" placement="top" show-delay="50"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
-                <ion-button class="completed_color" tooltip="Send" placement="top" show-delay="50"><ion-icon name="send"></ion-icon></ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </div>&nbsp;
-    <div *ngIf="showNotCompleted">
-      <ion-card *ngFor="let rec of allNotComplete | filter: filter">
-        <ion-card-header class="not_completed_color">
-          <div class="ion-text-center">
-            <ion-label color="white">{{rec.Po_no}}</ion-label>
-          </div>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col class="ion-float-left">Extra Cost: {{rec.ExtraCost}}</ion-col>
-              <ion-col class="ion-float-right">Comments: {{rec.Comments}}</ion-col>
-            </ion-row>
-          </ion-grid>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>Start</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>End</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>Service</ion-label>
-                </div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.Start}}</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.End}}</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.Service}}</ion-label>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-          <ion-grid>
-            <ion-row>
-              <ion-col class="ion-float-left">Status: {{rec.Status}}</ion-col>
-            </ion-row>
-          </ion-grid>
-          <ion-grid>
-            <ion-row>
-              <ion-col class="ion-float-left">Actions:
-                <ion-button class="not_completed_color"><ion-icon name="arrow-round-up"></ion-icon></ion-button>
-                <ion-button class="not_completed_color"><ion-icon name="send"></ion-icon></ion-button>
-                <ion-button class="not_completed_color" (click)="presentModal(rec.Po_no)"><ion-icon name="create"></ion-icon></ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </div>&nbsp;&nbsp;
-  </div>
+            </ng-template>
+        </ion-list>&nbsp;&nbsp;
+    </div>
 </ion-content>

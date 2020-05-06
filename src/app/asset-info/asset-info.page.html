@@ -1,12 +1,13 @@
 <ion-content>
   <div class="card_layout">
     <h4 class="ion-margin">Mandatory Parameters</h4>
+    <ion-list *ngFor="let rec of data| async">
     <ion-card>
       <ion-card-content>
         <ion-grid>
           <ion-row>
             <ion-col>Asset ID</ion-col>
-            <ion-col>BMS/ODC1</ion-col>
+            <ion-col>{{rec.AssetId}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -16,7 +17,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>Asset Type</ion-col>
-            <ion-col>BMS System</ion-col>
+            <ion-col>{{rec.AssetType}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -25,8 +26,8 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col>Procurement (mm-dd-yyyy)</ion-col>
-            <ion-col>7/2/2004</ion-col>
+            <ion-col>Procurement(mm-dd-yyyy)</ion-col>
+            <ion-col>{{rec.Procurement}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -36,7 +37,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>Currency</ion-col>
-            <ion-col>INR</ion-col>
+            <ion-col>{{rec.Currency}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -46,7 +47,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>Depreciation(%)</ion-col>
-            <ion-col>20</ion-col>
+            <ion-col>{{rec.Depreciation}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -56,7 +57,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>Criticality</ion-col>
-            <ion-col>3(Moderate)</ion-col>
+            <ion-col>{{rec.Criticality}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -66,7 +67,10 @@
         <ion-grid>
           <ion-row>
             <ion-col>AMC/Warranty</ion-col>
-            <ion-col>AMC</ion-col>
+            <ion-col *ngIf="rec?.AmcOrWarranty==1; else elsePerfId">AMC</ion-col>
+            <ng-template #elsePerfId>
+              <ion-col>Warranty</ion-col>
+            </ng-template>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -76,7 +80,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>PO Number</ion-col>
-            <ion-col>DEFAULT_PO_NO_8</ion-col>
+            <ion-col>{{rec.PoNo}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -86,7 +90,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>Quantity</ion-col>
-            <ion-col>1</ion-col>
+            <ion-col>{{rec.Quantity}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -96,7 +100,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>Bulk Status</ion-col>
-            <ion-col>True</ion-col>
+            <ion-col>{{rec.Bulk}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -106,7 +110,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>Working Status</ion-col>
-            <ion-col>True</ion-col>
+            <ion-col>{{rec.Working}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -116,11 +120,12 @@
         <ion-grid>
           <ion-row>
             <ion-col>Cost</ion-col>
-            <ion-col>1223321</ion-col>
+            <ion-col>{{rec.Cost}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>&nbsp;
+    </ion-list>
     <!--ion-item>
       <ion-label>Asset ID: BMS/ODC1</ion-label>
     </ion-item>
@@ -158,66 +163,18 @@
       <ion-label>Cost: 8614372</ion-label>
     </ion-item-->&nbsp;
     <h4 class="ion-margin">Variable Parameters</h4>
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>Brand</ion-col>
-            <ion-col>null</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>&nbsp;
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>Capacity</ion-col>
-            <ion-col>null</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>&nbsp;
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>Make</ion-col>
-            <ion-col>null</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>&nbsp;
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>Model</ion-col>
-            <ion-col>null</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>&nbsp;
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>Type</ion-col>
-            <ion-col>null</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>&nbsp;
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col>Unit Serial Number</ion-col>
-            <ion-col>null</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>&nbsp;
+    <ion-list *ngFor="let rec of varData| async">
+      <ion-card>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>{{rec.parParameterName}}</ion-col>
+              <ion-col>{{rec?.linkItemParamValue || 'null'}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
     <!--ion-item>
       <ion-label>Brand: null</ion-label>
     </ion-item>

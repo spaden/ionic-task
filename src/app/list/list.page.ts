@@ -48,7 +48,7 @@ export class ListPage implements OnInit {
 
         this.items = this.orginal
         this.items = this.items.filter(function(e){
-          if(e.imgHeight == params['q']){
+          if(e.AssetId == params['q']){
             //console.log("found")
             return true
           }
@@ -83,8 +83,9 @@ export class ListPage implements OnInit {
   
   }
 
-  showAssetInfo() {
-    this.route.navigateByUrl('assets');
+  showAssetInfo(assetId: string) {
+    console.log(assetId);
+    this.route.navigate(['/assets'], {queryParams: {id: assetId}});
   }
  
  
