@@ -35,8 +35,7 @@ export class MainComponent implements OnInit {
   constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, private listService: DataItemsService,public menuCtrl: MenuController,public localStorage:LocalStorageService ) {}
 
   ngOnInit() {
-    this.listService.download()
-    this.listService.view_result()
+   
     //this.listService.download()
     //this.listService.view_result()
     this.listService.getUserRoles()
