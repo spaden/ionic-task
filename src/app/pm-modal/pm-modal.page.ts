@@ -12,13 +12,13 @@ export class PmModalPage implements OnInit {
               private params: NavParams,
               private datepicker: DatePicker,
               private toastCtrl: ToastController) { }
-  PoNo = this.params.data[0].Po_no;
-  Status = this.params.data[0].Status;
-  Start = this.params.data[0].Start;
-  End = this.params.data[0].End;
-  ExtraCost = this.params.data[0].ExtraCost;
-  Comments = this.params.data[0].Comments;
-  Service = this.params.data[0].Service;
+  poNo = this.params.data[0].poNo;
+  status = this.params.data[0].status;
+  start = this.params.data[0].start;
+  end = this.params.data[0].end;
+  extraCost = this.params.data[0].extraCost;
+  comments = this.params.data[0].comments;
+  service = this.params.data[0].service;
   calendar(name: string) {
     this.datepicker.show({
       date: new Date(),
@@ -26,56 +26,34 @@ export class PmModalPage implements OnInit {
       androidTheme: this.datepicker.ANDROID_THEMES.THEME_HOLO_LIGHT
     }).then(
         date => {
-          const newDate = date.getDate() + '/' + date.toLocaleString('default', { month: 'long' }) + '/' + date.getFullYear();
+          const newDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
           if (name === 'start') {
-            this.Start = newDate;
+            this.start = newDate;
           } else if (name === 'end') {
-            this.End = newDate;
+            this.end = newDate;
           } else {
-            this.Service = newDate;
+            this.service = newDate;
           }
         } ,
         err => console.log(err)
     );
   }
-  calendar1() {
-    /*this.datepicker.show({
-      date: new Date(),
-      mode: 'date',
-      androidTheme: this.datepicker.ANDROID_THEMES.THEME_HOLO_LIGHT
-    }).then(
-        date => this.End = date.getDate() + '/' + date.toLocaleString('default', { month: 'long' }) + '/' + date.getFullYear(),
-        err => console.log(err)
-    );*/
-    console.log('cal1');
-  }
-  calendar2() {
-    /*this.datepicker.show({
-      date: new Date(),
-      mode: 'date',
-      androidTheme: this.datepicker.ANDROID_THEMES.THEME_HOLO_LIGHT
-    }).then(
-        date => this.Service = date.getDate() + '/' + date.toLocaleString('default', { month: 'long' }) + '/' + date.getFullYear(),
-        err => console.log(err)
-    );*/
-    console.log('cal2');
-  }
   submit() {
-    if ( !this.PoNo || !this.Start || !this.End ||
-        !this.Service || !this.ExtraCost || !this.Status ) {
-      this.displayToast('Fill all the details!');
-    } else {
-      const data = {
-        PoNo: this.PoNo,
-        Status: this.Status,
-        Start: this.Start,
-        End: this.End,
-        ExtraCost: this.ExtraCost,
-        Comments: this.Comments,
-        Service: this.Service
+      if ( !this.poNo || !this.start || !this.end ||
+           !this.service || !this.extraCost || !this.status ) {
+          this.displayToast('Fill all the details - ' + this.poNo);
+      } else {
+          const data = {
+              poNo: this.poNo,
+              status: this.status,
+              start: this.start,
+              end: this.end,
+              extraCost: this.extraCost,
+              comments: this.comments,
+              service: this.service
+          };
+          this.viewCtrl.dismiss(data);
       }
-      this.viewCtrl.dismiss(data);
-    }
   }
   async displayToast(mess: string) {
     const toast = await this.toastCtrl.create({

@@ -1,9 +1,25 @@
 export class LoginClass {
-    userId: string;
+    userId: number;
     password: string;
-    /*constructor(
-        userId: string,
-        password: string) { this.userId = userId;
-                            this.password = password;
-    }*/
+    superUserId: number;
+    superUserCheck: boolean;
+    userLogin(
+        userId: number,
+        password: string
+    ) {
+        this.userId = userId;
+        this.password = password;
+        this.superUserCheck = false;
+    }
+
+    superUserLogin(
+        userId: number,
+        superUserId: number,
+        superUserPassword: string
+    ) {
+        this.userId = userId;
+        this.superUserId = superUserId;
+        this.password = superUserPassword;
+        this.superUserCheck = true;
+    }
 }

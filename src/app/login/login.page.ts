@@ -19,8 +19,8 @@ export class LoginPage {
   password: string;
   showSuper = false;
   superUserId: number;
-  superUserPassword: string;
-  // private user = new LoginClass();
+  // server code
+  private user = new LoginClass();
   constructor(public platform: Platform ,
               public router: Router,
               public toastCtrl: ToastController,
@@ -29,36 +29,66 @@ export class LoginPage {
     if (this.showSuper) {
       this.showSuper = false;
     } else {
-      this.userId = null;
-      this.showSuper = true;
+        this.userId = null;
+        this.password = null;
+        this.showSuper = true;
     }
   }
   login() {
-    if (!this.showSuper) {
-      if (!this.userId || !this.password) {
+   if (!this.showSuper) {
+      /*if (!this.userId || !this.password) {
           this.displayToast('Fill all the details!');
       } else if (this.userId === 1234 && this.password === '1234') {
         this.router.navigateByUrl('home');
       } else {
         this.displayToast('Details Not Matched! Try Again');
+      }*/
+      // server code
+      if (!this.userId || !this.password) {
+          this.displayToast('Fill all the details!');
+      } else {
+          this.user.userLogin(this.userId, this.password);
+          /*this.loginService.postUserData(this.user).subscribe((data: boolean) => {
+              console.log(data);
+              if (data) {
+                  this.router.navigateByUrl('home');
+              } else {
+                  this.displayToast('Details Not Matched! Try Again');
+              }
+          });*/
+          this.loginService.postLoginData(this.user).subscribe((data: string) => {
+              console.log(data);
+              if (data) {
+                  this.router.navigateByUrl('home');
+              } else {
+                  this.displayToast('Try Again!');
+              }
+          });
       }
-      /*this.user.userId = this.userId;
-      this.user.password = this.password;
-      this.loginService.postData(this.user).subscribe((data: boolean) => {
-        console.log(data);
-        if (data) {
-          this.router.navigateByUrl('home');
-        } else {
-          this.displayToast();
-        }
-      });*/
     } else {
-        if (!this.userId || !this.superUserId || !this.superUserPassword ) {
+        /*if (!this.userId || !this.superUserId || !this.superUserPassword ) {
             this.displayToast('Fill all the details!');
         } else if (this.userId === 345 && this.superUserId === 345 && this.superUserPassword === '345') {
             this.router.navigateByUrl('home');
         } else {
             this.displayToast('Details Not Matched! Try Again');
+        }*/
+        // server code
+        if (!this.userId || !this.superUserId || !this.password) {
+            this.displayToast('Fill all the details!');
+        } else {
+            this.user.superUserLogin(this.userId, this.superUserId, this.password);
+            /*this.loginService.postSuperUserData(this.user).subscribe((data: boolean) => {
+                console.log(data);
+                if (data) {
+                    this.router.navigateByUrl('home');
+                } else {
+                    this.displayToast('Details Not Matched! Try Again');
+                }
+            });*/
+            this.loginService.postLoginData(this.user).subscribe((data: string) => {
+                this.router.navigateByUrl('home');
+            });
         }
     }
   }

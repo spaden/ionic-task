@@ -16,6 +16,8 @@ import {DataItemsService} from './services/list_service/data-items.service'
 import {LocalStorageService} from './services/storage/local-storage.service'
 import {DatePicker} from '@ionic-native/date-picker/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import {File} from '@ionic-native/file/ngx';
+import {FileChooser} from '@ionic-native/file-chooser/ngx';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -34,6 +36,8 @@ import { IonicStorageModule } from '@ionic/storage';
     QRScanner,
     StatusBar,
     SplashScreen,
+    FileChooser,
+    File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DataItemsService,LocalStorageService,
       DatePicker
