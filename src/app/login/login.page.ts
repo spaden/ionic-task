@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 
 import {LoginServiceService} from '../services/login_service/login-service.service';
 import {LoginClass} from '../classes/login_class/login-class';
+import {LocalStorageService} from '../services/storage/local-storage.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class LoginPage {
   constructor(public platform: Platform ,
               public router: Router,
               public toastCtrl: ToastController,
-              public loginService: LoginServiceService) {}
+              public loginService: LoginServiceService,
+              public localStorage: LocalStorageService) {}
   checkBoxClicked() {
     if (this.showSuper) {
       this.showSuper = false;
@@ -56,10 +58,18 @@ export class LoginPage {
                   this.displayToast('Details Not Matched! Try Again');
               }
           });*/
-          this.loginService.postLoginData(this.user).subscribe((data: string) => {
+          this.loginService.postLoginData(this.user).subscribe((data: any) => {
               console.log(data);
               if (data) {
-                  this.router.navigateByUrl('home');
+                  if (data.firstLogin) {
+                      this.localStorage.set('id', data.id);
+                      this.router.navigateByUrl('home');
+                  } else {
+                      this.localStorage.set('id', data.id);
+                      this.localStorage.set('role', data.role);
+                      this.localStorage.set('location', data.location);
+                      this.router.navigateByUrl('home');
+                  }
               } else {
                   this.displayToast('Try Again!');
               }
@@ -86,7 +96,11 @@ export class LoginPage {
                     this.displayToast('Details Not Matched! Try Again');
                 }
             });*/
-            this.loginService.postLoginData(this.user).subscribe((data: string) => {
+            this.loginService.postLoginData(this.user).subscribe((data: any) => {
+                this.localStorage.set('id', data.id);
+                this.localStorage.set('role', data.role);
+                this.localStorage.set('location', data.location);
+                this.router.navigateByUrl('home');
                 this.router.navigateByUrl('home');
             });
         }

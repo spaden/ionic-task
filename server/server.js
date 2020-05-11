@@ -4,8 +4,6 @@ var config = require('./config'),
     mysql = require('mysql'),
     bcrypt = require('bcryptjs'),
     app = express(),
-    LocalStorage = require('node-localstorage').LocalStorage,
-    localStorage = new LocalStorage('./scratch');
 //http = require('http');
 cors = require('cors');
 const path = require('path');
@@ -46,7 +44,7 @@ function handleDisconnect(){
     con =  mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: 'Laptop@22197',
         database: 'equiapp2',
         port: 3306,
         multipleStatements: true,
@@ -223,11 +221,11 @@ function loginAsSuperuser(username, loginquery, uname, req, res) {
                             {
                                 expiresIn: '1h'
                             });
-                        localStorage.setItem("id",username);
-                        localStorage.setItem("role",highestrole);
-                        localStorage.setItem("location",loc);
                         return res.status(200).json({
-                            token: JWTToken
+                            token: JWTToken,
+                            id: username,
+                            role: highestrole,
+                            location: loc
                         });
                     });
                 } else {
@@ -291,11 +289,12 @@ function loginAsAdmin(username, loginquery, uname, req, res) {
                                     {
                                         expiresIn: '1h'
                                     });
-                                localStorage.setItem("id",username);
-                                localStorage.setItem("role",highestrole);
-                                localStorage.setItem("location",loc);
                                 return res.status(200).json({
-                                    token: JWTToken
+                                    token: JWTToken,
+                                    firstLogin: false,
+                                    id: username,
+                                    role: highestrole,
+                                    location: loc
                                 });
                             });
                         } else {
@@ -308,11 +307,10 @@ function loginAsAdmin(username, loginquery, uname, req, res) {
                                 {
                                     expiresIn: '1h'
                                 });
-                            localStorage.setItem("id",username);
-                            localStorage.setItem("role",highestrole);
-                            localStorage.setItem("location",loc);
                             return res.status(200).json({
-                                token: JWTToken
+                                token: JWTToken,
+                                id: username,
+                                firstLogin: true
                             });
                         }
                     })

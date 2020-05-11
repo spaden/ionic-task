@@ -32,7 +32,7 @@ export class LoginServiceService {
         catchError(this.errorHandler)
     );
   }*/
-  postLoginData(data): Observable<string> {
+  postLoginData(data): Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
@@ -40,7 +40,7 @@ export class LoginServiceService {
     headers.append('content-type', 'application/json');
     console.log(data);
     const url = 'http://localhost:8080/data/checklogin';
-    return this.httpService.post<string>(url, data, {headers}).pipe(
+    return this.httpService.post<any>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
   }
