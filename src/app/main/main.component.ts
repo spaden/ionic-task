@@ -37,6 +37,8 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.listService.download()
     this.listService.view_result()
+    //this.listService.download()
+    //this.listService.view_result()
     this.listService.getUserRoles()
     
 
