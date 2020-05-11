@@ -4,6 +4,8 @@ import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {DataItemsService} from '../services/list_service/data-items.service'
 import { MenuController } from '@ionic/angular';
+import {LocalStorageService} from '../services/storage/local-storage.service'
+
 
 @Component({
   selector: 'app-main',
@@ -30,11 +32,28 @@ export class MainComponent implements OnInit {
       icon: 'list'
     }
   ];
-  constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, private listService: DataItemsService,public menuCtrl: MenuController) {}
+  constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, private listService: DataItemsService,public menuCtrl: MenuController,public localStorage:LocalStorageService ) {}
 
   ngOnInit() {
     this.listService.download()
     this.listService.view_result()
+    this.listService.getUserRoles()
+    
+
+    this.localStorage.getObject("userData").then(result=> {
+            if(result!=null){
+              console.log("admin data stored in localstorage")
+              console.log(result)
+            }else {
+              console.log("setting storage")
+              this.listService.getUserInfo()
+              this.listService.getUserRoles()
+
+            }
+
+    }).catch(err=> {
+         console.log(err)
+    })
   }
   
 
@@ -55,23 +74,27 @@ export class MainComponent implements OnInit {
   }
 
   async swithRole() {  
+    var ar = []
+    var check = false
+    this.listService.userRoles.forEach(item => {
+      var obj={}
+      obj['name'] = item._rolename
+      obj['type']='radio'
+      obj['label']= item._rolename
+      obj['value'] = item
+      if(check == false) {
+        obj['checked']=true
+        check = true
+      }
+
+      ar.push(obj)
+    })
+    console.log("switch roles")
+    console.log(ar) 
+
     const alert = await this.alertCtrl.create({
       header: "Testing",
-      inputs :[
-        {
-          name : 'Radio 1',
-          type: 'radio',
-          label: 'Standard user',
-          value: 'value1',
-          checked: true
-        },
-        {
-          name: 'radio2',
-          type: 'radio',
-          label: 'Admin',
-          value: 'value2'
-        },
-      ],
+      inputs :ar,
       buttons: [
         {
           text: 'Cancel',
@@ -84,6 +107,7 @@ export class MainComponent implements OnInit {
           text: 'Ok',
           handler: (data) => {
             console.log('Confirm Ok', data);
+            
           }
         }
       ]

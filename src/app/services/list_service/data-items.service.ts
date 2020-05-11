@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {LocalStorageService} from '../storage/local-storage.service'
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +9,11 @@ export class DataItemsService {
   
   items: any = []
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public localStorage: LocalStorageService) { }
   
-  
+  userData: object
+  userRoles: any
+
   download(){
     
 
@@ -39,7 +42,30 @@ export class DataItemsService {
     console.log(this.items)
   }
   
-  
+  getUserInfo(){
+    const headers =  {'Content-Type': 'application/json'};
+    var body = {
+      id:106414
+    }
+    this.http.post('http://localhost:8080/data/user/profile/access', JSON.stringify(body), { headers }).subscribe(data => {
+         console.log(data)
+         this.userData = data
+         this.localStorage.setObject('userData', this.userData);
+    })
+
+  }
+
+  getUserRoles(){
+    const headers =  {'Content-Type': 'application/json'};
+    var body = {
+      adminid:106414
+    }
+    this.http.post('http://localhost:8080/data/profile/roles', JSON.stringify(body), { headers }).subscribe(data => {
+         console.log(data)
+         this.userRoles = data
+    })
+  }
+
 
 
 }

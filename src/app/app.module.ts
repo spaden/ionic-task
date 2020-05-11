@@ -13,7 +13,10 @@ import {PmModalPageModule} from './pm-modal/pm-modal.module';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {HttpClientModule} from '@angular/common/http';
 import {DataItemsService} from './services/list_service/data-items.service'
+import {LocalStorageService} from './services/storage/local-storage.service'
 import {DatePicker} from '@ionic-native/date-picker/ngx';
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   declarations: [AppComponent, MainComponent],
   entryComponents: [],
@@ -24,14 +27,15 @@ import {DatePicker} from '@ionic-native/date-picker/ngx';
     SuperTabsModule.forRoot(),
     PmModalPageModule,
     Ng2SearchPipeModule,
-    HttpClientModule
+    HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     QRScanner,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    DataItemsService,
+    DataItemsService,LocalStorageService,
       DatePicker
   ],
   bootstrap: [AppComponent]
