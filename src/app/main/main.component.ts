@@ -35,9 +35,7 @@ export class MainComponent implements OnInit {
   constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, public listService: DataItemsService,public menuCtrl: MenuController,public localStorage:LocalStorageService ) {}
 
   ngOnInit() {
-   
-    //this.listService.download()
-    //this.listService.view_result()
+
     //this.listService.getUserRoles()
   
     this.listService.set_userID()
@@ -96,6 +94,7 @@ export class MainComponent implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
+            this.listService.switchData();
             console.log('Confirm Ok', data);
             
           }

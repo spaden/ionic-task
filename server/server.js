@@ -84,7 +84,7 @@ function handleDisconnect(){
 handleDisconnect();
 
 // assets list
-app.get('/lists', (req, res) => {
+app.post('/lists', (req, res) => {
     let items = [];
 
     /*rotateImg = 0
@@ -108,21 +108,49 @@ app.get('/lists', (req, res) => {
         throw err
     }
     console.log("route working")*/
-    const fetchQuery = 'select poolAssetID as AssetId, poolItemPONumber as PO, buiBuildingAddress as Location from dataitempool inner join linkitemlayer on(dataitempool.poolItemKeyPK=linkitemlayer.linkItemKeyPK) inner join databuilding on(linkitemlayer.linkItemBuildingFK=buiBuildingPK) where buiIsActive=1;';
-    con.query(fetchQuery,function (err,result) {
-        if (err) {
+    console.log(req.body);
+    if (Object.keys(req.body).length!==0&&req.body.location!==undefined){
+        console.log(req.body.role,req.body.location);
+        if(req.body.role===0){
             res.status(401).json({
                 failed: 'Unauthorized Access'
             });
-        }
-        if (result.length === 0) {
-            res.status(401).json({
-                failed: 'Unauthorized Access'
+        }else{
+            const fetchQuery = 'select poolAssetID as AssetId, poolItemPONumber as PO, buiBuildingAddress as Location from dataitempool inner join linkitemlayer on(dataitempool.poolItemKeyPK=linkitemlayer.linkItemKeyPK) inner join databuilding on(linkitemlayer.linkItemBuildingFK=buiBuildingPK) where buiIsActive=1 and buiBuildingPK IN (select linkSpace from linkadminaccess where linkRoleFK = ? and linkSpace=?);';
+            con.query(fetchQuery,[req.body.role,req.body.location],function (err,result) {
+                if (err) {
+                    res.status(401).json({
+                        failed: 'Unauthorized Access'
+                    });
+                }
+                if (result.length === 0) {
+                    res.status(401).json({
+                        failed: 'Unauthorized Access'
+                    });
+                }
+                console.log(result);
+                res.status(200).json(result);
             });
         }
-        console.log(result);
-        res.status(200).json(result);
-    });
+
+    }else{
+        console.log(req.body);
+        const fetchQuery = 'select poolAssetID as AssetId, poolItemPONumber as PO, buiBuildingAddress as Location from dataitempool inner join linkitemlayer on(dataitempool.poolItemKeyPK=linkitemlayer.linkItemKeyPK) inner join databuilding on(linkitemlayer.linkItemBuildingFK=buiBuildingPK) where buiIsActive=1 and buiBuildingPK IN (select linkSpace from linkadminaccess where linkRoleFK = ?);';
+        con.query(fetchQuery,[req.body.role],function (err,result) {
+            if (err) {
+                res.status(401).json({
+                    failed: 'Unauthorized Access'
+                });
+            }
+            if (result.length === 0) {
+                res.status(401).json({
+                    failed: 'Unauthorized Access'
+                });
+            }
+            console.log(result);
+            res.status(200).json(result);
+        });
+    }
 });
 
 // variable asset parameter
@@ -205,7 +233,7 @@ function loginAsSuperuser(username, loginquery, uname, req, res) {
                         let highestrole = 7;
                         let loc;
                         admin.forEach(element => {
-                            if (parseInt(element.linkRoleFK) <= highestrole) {
+                            if (parseInt(element.linkRoleFK) === highestrole) {
                                 highestrole = parseInt(element.linkRoleFK);
                                 loc = element.linkSpace;
                             }
@@ -345,7 +373,7 @@ app.post('/data/checklogin', (req, res) => {
         loginAsSuperuser(userId, loginquery, uname, req, res);
     } else {
         uname = userId;
-        loginquery = "SELECT admpwd,admDOJ as doj,admName as name FROM dataadmin inner join linkadminaccess on(linkadminaccess.linkAdminFK=dataadmin.admadminPk) where admAdminPk= ? and linkRoleFK = 0  and admIsActive=true";
+        loginquery = "SELECT admpwd,admDOJ as doj,admName as name FROM dataadmin inner join linkadminaccess on(linkadminaccess.linkAdminFK=dataadmin.admadminPk) where admAdminPk= ? and linkRoleFK = 7  and admIsActive=true";
         loginAsAdmin(userId, loginquery, uname, req, res);
     }
 
