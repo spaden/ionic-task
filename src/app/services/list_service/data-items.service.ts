@@ -10,9 +10,7 @@ export class DataItemsService {
 
   constructor(private http: HttpClient, public localStorage: LocalStorageService) { }
   
-  userData: object = {
-    email : "test@tcs.com"
-  }
+  userData: object
   userRoles: any
   userId: any
   gotData: Boolean = false
