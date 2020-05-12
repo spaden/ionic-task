@@ -44,7 +44,7 @@ function handleDisconnect(){
     con =  mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: 'Laptop@22197',
+        password: 'root',
         database: 'equiapp2',
         port: 3306,
         multipleStatements: true,
@@ -351,6 +351,40 @@ app.post('/data/checklogin', (req, res) => {
 
 });
 
+//kalyan
+//access profile details
+app.post("/data/user/profile/access", function(req, res) {
+    let accessadmindataquery = `select admPhotoURL as url,admMobileNo as mobnum,admFaxNo as faxnum,
+    admEmail as email,admVoIP as voip,admOffLandLineNo	as landlinenum from dataadmin 
+    where admAdminPK = ?`;
+    con.query(accessadmindataquery, [req.body.id], function(err, result) {
+        res.end(JSON.stringify(result[0]));
+    })
+});
+
+
+//kalyan
+//access roles based on user login
+app.post("/data/profile/roles", function(req, res) {
+    let rolesquery = `select linkadminfk as _adminid,linkRoleFK as _roleid,linkSpace as _locid,
+    case 
+    when linkRoleFK=0 then 'Superuser'
+    when linkRoleFK=1  then 'Corporate Admin'
+    when linkRoleFK=2 then (select geoName from datageography where geoGeographyPK=linkSpace)
+    when linkRoleFK=3 then (select couName from datacountry where couCountryPK=linkSpace)
+    when linkRoleFK=4 then (select staName from datastate where staStatePK=linkSpace)
+    when linkRoleFK=5 then (select citName from datacity where citCityPK=linkSpace)
+    when linkRoleFK=6 then (select locName from datalocation where locLocationPK=linkSpace)
+    when linkRoleFK=7 then (select buiName from databuilding where buiBuildingPK=linkSpace)
+    end as _rolename
+    
+    from linkadminaccess where linkadminfk = ?;
+    `;
+    con.query(rolesquery, [req.body.adminid], function(err, response) {
+        if (err) throw err;
+        res.end(JSON.stringify(response));
+    })
+})
 
 app.listen(config.port, function() {
     console.log("server running @ " + config.port);

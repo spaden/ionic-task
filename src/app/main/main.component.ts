@@ -38,31 +38,20 @@ export class MainComponent implements OnInit {
    
     //this.listService.download()
     //this.listService.view_result()
-    this.listService.getUserRoles()
-    
-
-    this.localStorage.getObject("userData").then(result=> {
-            if(result!=null){
-              console.log("admin data stored in localstorage")
-              console.log(result)
-            }else {
-              console.log("setting storage")
-              this.listService.getUserInfo()
-              this.listService.getUserRoles()
-
-            }
-
-    }).catch(err=> {
-         console.log(err)
-    })
+    //this.listService.getUserRoles()
+  
+    this.listService.set_userID()
+   
+   
   }
   
 
   ionViewDidEnter(){
-   
+    console.log(this.localStorage.get('id'))
   }
 
   async showAlert() {  
+  
     const alert = await this.alertCtrl.create({  
       header: 'Location/Building',  
       subHeader: 'Sequence',  

@@ -12,8 +12,8 @@ export class DataItemsService {
   
   userData: object
   userRoles: any
-
-  
+  userId: any
+  gotData: Boolean = false
     
 
    
@@ -42,16 +42,37 @@ export class DataItemsService {
   view_result() {
     console.log(this.items);
   }
+
+  set_userID(){
+    this.localStorage.get("id").then(result=> {
+      if(result!=null){
+        this.userId = result
+        this.getUserInfo()
+        this.getUserRoles()
+        
+      }else {
+        alert("login error")
+        
+      }
+
+    }).catch(err=> {
+      console.log(err)
+    })
+    console.log(this.userId)
+
+  }
   
   getUserInfo(){
     const headers =  {'Content-Type': 'application/json'};
     var body = {
-      id:106414
+      id:this.userId
     }
+    console.log(body)
     this.http.post('http://localhost:8080/data/user/profile/access', JSON.stringify(body), { headers }).subscribe(data => {
          console.log(data)
          this.userData = data
          this.localStorage.setObject('userData', this.userData);
+         this.gotData = true
     })
 
   }
@@ -59,7 +80,7 @@ export class DataItemsService {
   getUserRoles(){
     const headers =  {'Content-Type': 'application/json'};
     var body = {
-      adminid:106414
+      adminid:this.userId
     }
     this.http.post('http://localhost:8080/data/profile/roles', JSON.stringify(body), { headers }).subscribe(data => {
          console.log(data)

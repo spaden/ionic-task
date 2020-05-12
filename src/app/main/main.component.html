@@ -13,7 +13,7 @@
                 <ion-item>
                         <div class="profile">
                                 <img class="profile-picture" src="https://si.wsj.net/public/resources/images/BN-SS512_2YjoP_OR_20170330060433.jpg?width=620&height=415" />
-                                <h3>Elon Musk</h3>
+                                <h4 *ngIf="this.listService.gotData !== false">{{this.listService.userData.email}}</h4>
                                 <div class="location">
                                         Los Angeles/ SpaceX
                                         <button (click)="showAlert()">></button>
