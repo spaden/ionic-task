@@ -74,6 +74,7 @@ export class LoginPage {
                           location: data.location
                       }
                       this.localStorage.setObject('userLoginData', this.userLoginData);
+                      this.listService.set_userID();
                       this.listService.fetchData();
                       this.router.navigateByUrl('home');
                   }
@@ -110,6 +111,7 @@ export class LoginPage {
                     location: data.location
                 }
                 this.localStorage.setObject('userLoginData', this.userLoginData);
+                this.listService.set_userID();
                 this.listService.fetchData();
                 this.router.navigateByUrl('home');
                 this.router.navigateByUrl('home');

@@ -10,7 +10,9 @@ export class DataItemsService {
 
   constructor(private http: HttpClient, public localStorage: LocalStorageService) { }
   
-  userData: object
+  userData: object = {
+    email: "tcs@object.com"
+  }
   userRoles: any
   userId: any
   gotData: Boolean = false
@@ -39,13 +41,14 @@ export class DataItemsService {
             role: data.role,
             location: data.location
           };
-          this.http.post('http://localhost:8080/lists', this.sendData).subscribe((response) => {
-            console.log(response);
-            this.items = response;
+          this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
+            next: response => this.items = response,
+            error: error => window.alert('Unauthorized Access')
           });
-          console.log(this.sendData);
         }
       });
+
+      this.view_result();
   }
 
   switchData() {
@@ -55,9 +58,9 @@ export class DataItemsService {
           role: data[0]._roleid,
           location: data[0]._locid
         };
-        this.http.post('http://localhost:8080/lists', this.sendData).subscribe((response) => {
-          console.log(response);
-          this.items = response;
+        this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
+            next: response => this.items = response,
+            error: error => window.alert('Unauthorized Access')
         });
         console.log(data[0]._locid);
       }
@@ -67,9 +70,9 @@ export class DataItemsService {
 
   
   
-  /*view_result() {
+  view_result() {
     console.log(this.items);
-  }*/
+  }
 
 
   set_userID(){
@@ -79,10 +82,10 @@ export class DataItemsService {
         this.getUserInfo()
         this.getUserRoles()
         
-      }else {
+      }/*else {
         alert("login error")
         
-      }
+      }*/
 
     }).catch(err=> {
       console.log(err)
