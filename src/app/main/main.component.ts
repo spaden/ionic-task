@@ -30,6 +30,11 @@ export class MainComponent implements OnInit {
       title: 'PO Management',
       url: '/list-po',
       icon: 'list'
+    }, 
+    {
+      title: 'Edit Profile',
+      url: '/edit-profile',
+      icon: 'list'
     }
   ];
   constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, public listService: DataItemsService,public menuCtrl: MenuController,public localStorage:LocalStorageService ) {}
