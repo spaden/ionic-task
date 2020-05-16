@@ -34,7 +34,11 @@ const routes: Routes = [
   {
     path: 'list-po',
     loadChildren: () => import('./list-po/list-po.module').then(m => m.ListPoPageModule)
+  },  {
+    path: 'edit-profile',
+    loadChildren: () => import('./edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
   }
+
 ];
 
 @NgModule({
