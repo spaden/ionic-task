@@ -43,7 +43,7 @@ export class DataItemsService {
           };
           this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
             next: response => this.items = response,
-            error: error => window.alert('Unauthorized Access')
+            error: error => window.alert('Assets Error - Unauthorized Access')
           });
         }
       });
@@ -60,7 +60,7 @@ export class DataItemsService {
         };
         this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
             next: response => this.items = response,
-            error: error => window.alert('Unauthorized Access')
+            error: error => window.alert('Assets Error - Unauthorized Access')
         });
         console.log(data[0]._locid);
       }
