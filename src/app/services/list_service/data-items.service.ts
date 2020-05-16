@@ -68,8 +68,8 @@ export class DataItemsService {
     console.log(this.sendData);
   }
 
-  
-  
+
+
   view_result() {
     console.log(this.items);
   }
@@ -81,10 +81,10 @@ export class DataItemsService {
         this.userId = result
         this.getUserInfo()
         this.getUserRoles()
-        
+
       }/*else {
         alert("login error")
-        
+
       }*/
 
     }).catch(err=> {
@@ -92,7 +92,7 @@ export class DataItemsService {
     })
     console.log(this.userId)
   }
-  
+
   getUserInfo(){
     const headers =  {'Content-Type': 'application/json'};
     var body = {
