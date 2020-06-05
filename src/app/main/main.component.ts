@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import {DataItemsService} from '../services/list_service/data-items.service'
+import {DataItemsService} from '../services/list_service/data-items.service';
 import { MenuController } from '@ionic/angular';
-import {LocalStorageService} from '../services/storage/local-storage.service'
+import {LocalStorageService} from '../services/storage/local-storage.service';
 
 
 @Component({
@@ -13,8 +13,8 @@ import {LocalStorageService} from '../services/storage/local-storage.service'
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  @ViewChild(IonRouterOutlet, {static:false}) routerOutlet: IonRouterOutlet;
-
+  @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
+  role: any;
   public appPages = [
     {
       title: 'Dashboard',
@@ -23,71 +23,92 @@ export class MainComponent implements OnInit {
     },
     {
       title: 'Asset Management',
-      url: '/list/n',
+      url: '/list',
       icon: 'list'
     },
     {
       title: 'PO Management',
       url: '/list-po',
       icon: 'list'
-    }, 
+    },
     {
       title: 'Edit Profile',
       url: '/edit-profile',
       icon: 'list'
+    },
+    {
+      title: 'Scanner',
+      url: '/scan',
+      icon: 'qr-scanner'
     }
   ];
-  constructor(public alertCtrl: AlertController,private router: Router,private platform: Platform, public listService: DataItemsService,public menuCtrl: MenuController,public localStorage:LocalStorageService ) {}
+  constructor(public alertCtrl: AlertController,
+              private router: Router,
+              public listService: DataItemsService,
+              public menuCtrl: MenuController,
+              public localStorage: LocalStorageService ) {}
 
   ngOnInit() {
 
-    //this.listService.getUserRoles()
-  
+    // this.listService.getUserRoles()
+
     // this.listService.set_userID()
-   
-   
-  }
-  
-
-  ionViewDidEnter(){
-    console.log(this.localStorage.get('id'))
   }
 
-  async showAlert() {  
-  
-    const alert = await this.alertCtrl.create({  
-      header: 'Location/Building',  
-      subHeader: 'Sequence',  
-      message: 'USA -> Los Angeles -> California -> SpaceX -> Building Q3',  
-      buttons: ['OK']  
-    });  
-    await alert.present();  
-    const result = await alert.onDidDismiss();  
-    console.log(result);  
+
+  ionViewDidEnter() {
+    console.log(this.localStorage.get('id'));
   }
 
-  async swithRole() {  
-    var ar = []
-    var check = false
-    this.listService.userRoles.forEach(item => {
-      var obj={}
-      obj['name'] = item._rolename
-      obj['type']='radio'
-      obj['label']= item._rolename
-      obj['value'] = item
-      if(check == false) {
-        obj['checked']=true
-        check = true
+  async showAlert() {
+    let loc;
+    console.log(this.listService.userLocations);
+    const len = this.listService.userLocations.length;
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = len - 1; i >= 0; i--) {
+      if (i === len - 1) {
+        loc = this.listService.userLocations[i] + ' -> ';
+      } else if (i === 0) {
+        loc += this.listService.userLocations[i];
+      } else {
+        loc += this.listService.userLocations[i] + ' -> ';
       }
+    }
+    const alert = await this.alertCtrl.create({
+      header: 'Location Hierarchy',
+      subHeader: 'Sequence',
+      message: loc,
+      buttons: ['OK']
+    });
+    await alert.present();
+    const result = await alert.onDidDismiss();
+    console.log(result);
+  }
 
-      ar.push(obj)
-    })
-    console.log("switch roles")
-    console.log(ar) 
+  async swithRole() {
+    const ar = [];
+    this.listService.userRoles.forEach(item => {
+      let str = item.locname;
+      str += '\n';
+      str += '(' + item.admintype + ')';
+      const obj = {
+        name: item.locname,
+        type: 'radio',
+        label: str,
+        value: item,
+        checked: false,
+      };
+      if (this.listService.location === item.locname) {
+        obj.checked = true;
+      }
+      ar.push(obj);
+    });
+    console.log('switch roles');
+    console.log(ar);
 
     const alert = await this.alertCtrl.create({
-      header: "Testing",
-      inputs :ar,
+      header: 'User Role',
+      inputs : ar,
       buttons: [
         {
           text: 'Cancel',
@@ -99,9 +120,8 @@ export class MainComponent implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
-            this.listService.switchData();
             console.log('Confirm Ok', data);
-            
+            this.listService.switchData(data);
           }
         }
       ]
@@ -109,13 +129,13 @@ export class MainComponent implements OnInit {
     await alert.present();
   }
 
-  logOut(){
+  logOut() {
     this.menuCtrl.close();
 
-    if(window.confirm("Do you want to exit app")){
+    if (window.confirm('Do you want to exit app')) {
       this.router.navigateByUrl('');
 
     }
-   
+
   }
 }

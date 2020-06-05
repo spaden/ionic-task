@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
-    path: 'list/:q',
+    path: 'list',
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
   {
@@ -34,7 +34,8 @@ const routes: Routes = [
   {
     path: 'list-po',
     loadChildren: () => import('./list-po/list-po.module').then(m => m.ListPoPageModule)
-  },  {
+  },
+  {
     path: 'edit-profile',
     loadChildren: () => import('./edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
   }

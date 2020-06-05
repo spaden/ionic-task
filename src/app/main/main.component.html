@@ -10,20 +10,20 @@
 
         <ion-content>
             <ion-list>
-                <ion-item>
+                <div>
                         <div class="profile">
-                                <img class="profile-picture" src="https://si.wsj.net/public/resources/images/BN-SS512_2YjoP_OR_20170330060433.jpg?width=620&height=415" />
-                                <h4 *ngIf="this.listService.gotData !== false">{{this.listService.userData["email"]}}</h4>
-                                <div class="location">
-                                        Los Angeles/ SpaceX
-                                        <button (click)="showAlert()">></button>
-                                </div>
-                                
-                                <div class="role">
-                                        Switch Role <button (click)="swithRole()"> >> </button>
-                                </div>
+                            <img class="profile-picture" [src]=this.listService.img />
+                            <h4 *ngIf="this.listService.gotData !== false">{{this.listService.userName}}</h4>
+                            <ion-item lines="none">
+                                <ion-label>{{this.listService.role}}</ion-label>
+                                <ion-button (click)="swithRole()">Switch</ion-button>
+                            </ion-item>
+                            <ion-item lines="none">
+                                <ion-label>{{this.listService.location}}</ion-label>
+                                <ion-button (click)="showAlert()">Show</ion-button>
+                            </ion-item>
                         </div>
-                </ion-item>
+                </div>
             </ion-list>
 
             <ion-list>

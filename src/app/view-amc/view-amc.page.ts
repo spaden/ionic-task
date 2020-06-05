@@ -11,14 +11,14 @@ export class ViewAmcPage implements OnInit {
   showWarranty = true;
   allData = [{
     Po_no: 'Ud21345',
-    Start: '22/01/1994',
-    End: '23/09/2111',
+    Start: '22/01/2018',
+    End: '23/09/2021',
     Cost: '34532',
     Status: 'AMC'
   },
     { Po_no: 'Ad21345',
-      Start: '22/01/1344',
-      End: '23/09/2911',
+      Start: '25/06/2017',
+      End: '03/12/2018',
       Cost: '54532',
       Status: 'Warranty'}];
   allAmc: any[];

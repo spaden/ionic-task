@@ -75,22 +75,21 @@ export class ListPoPage implements OnInit {
             this.clicked = 2
             document.getElementById("srchId").style.display="block"
             this.showTitle = false;
-        }
-        else if (this.clicked ==2){
+        } else if (this.clicked ==2){
             document.getElementById("srchId").style.display= "none"
             this.showTitle = true;
             var srchVal = (<HTMLInputElement>document.getElementById("srchId")).value
 
-            if(srchVal !== ""){
+            if (srchVal !== ""){
                 this.items = this.items.filter(function(e){
-                    if(e.name == srchVal){
+                    if (e.name == srchVal){
                         //console.log("found")
                         return true
                     }
                 })
 
-                if(this.items.length == 0){
-                    alert("No Assets found")
+                if (this.items.length == 0){
+                    alert('No Assets found')
                     this.items = this.orginal
                 }
 

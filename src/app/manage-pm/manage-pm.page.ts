@@ -18,9 +18,9 @@ export class ManagePmPage implements OnInit {
   showNotCompleted = true;
   allData = [{
     poNo: 'Ud21345',
-    start: '22/01/1994',
-    end: '23/09/2111',
-    service: '21/04/2312',
+    start: '22/01/2018',
+    end: '23/09/2021',
+    service: '21/08/2019',
     comments: 'ok',
     extraCost: '0',
     status: 'done'

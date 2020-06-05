@@ -15,7 +15,7 @@ export class LoginServiceService {
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
     console.log(data);
-    const url = 'http://localhost:8080/verifyUserLogin';
+    const url = 'http://192.168.43.170:8080/verifyUserLogin';
     return this.httpService.post<boolean>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
@@ -27,7 +27,7 @@ export class LoginServiceService {
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
     console.log(data);
-    const url = 'http://localhost:8080/verifySuperUserLogin';
+    const url = 'http://192.168.43.170:8080/verifySuperUserLogin';
     return this.httpService.post<boolean>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
@@ -39,7 +39,7 @@ export class LoginServiceService {
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
     console.log(data);
-    const url = 'http://localhost:8080/data/checklogin';
+    const url = 'http://192.168.43.170:8080/data/checklogin';
     return this.httpService.post<any>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );

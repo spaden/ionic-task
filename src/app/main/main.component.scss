@@ -2,7 +2,9 @@ ion-toolbar{
     --background: #5680e9;
 }
 
-
+ion-title, ion-button{
+    color: #ffffff;
+}
 
 .profile {
     top: 0;
@@ -12,10 +14,10 @@ ion-toolbar{
     overflow: hidden;
     text-align: center;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: pre-line;
     width: 100%;
     padding-top: 5px;
-    height: 250px;
+    height: 300px;
 }
 
 .profile .name {
@@ -32,4 +34,18 @@ ion-toolbar{
 
 .role {
     margin-top: 5%;
+    display: inline-block;
 }
+
+.icon{
+  color: #000000;
+  font-size: 25px;
+  display: inline-block;
+}
+.text{
+  display: inline-block;
+  vertical-align: center;
+}
+
+
+

@@ -34,3 +34,25 @@ ion-buttons {
     border-radius: 5px;
     display: none;
 }
+
+.card {
+    margin: 10px;
+}
+
+.card_color{
+    background: #3f6fe6;
+}
+
+ion-card{
+    position: relative;
+    text-align: center;
+    box-shadow: 5px 5px 2px lightgrey;
+}
+ion-card-header {
+    text-align: center;
+    font-size: 18px;
+}
+ion-card-content {
+    font-size: 15px;
+    color: #000000;
+}
