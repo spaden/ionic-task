@@ -193,7 +193,7 @@ app.post('/getVarAsset',(req,res) => {
 // mandatory asset parameter
 app.post('/getAsset',(req,res) => {
     console.log(req.body.AssetId);
-    let query = 'select poolAssetID as AssetId, iteName as AssetType, poolProcurementDate as Procurement,poolCurrency as Currency,iteDepreciationValue as Depreciation, iteCriticality as Criticality, poolIsWarrantyOrAMC as AmcOrWarranty ,poolItemPONumber as PoNo,poolQuantity as Quantity,poolIsBulk as Bulk,pooIsWorking as Working, poolCost as Cost from dataitempool inner join dataitem on(dataitempool.poolItemFK=dataitem.iteItemPK) where poolAssetID=?';
+    let query = 'select poolAssetID as AssetId, iteName as AssetType, poolProcurementDate as Procurement,poolCurrency as Currency,iteDepreciationValue as Depreciation, iteCriticality as Criticality, poolIsWarrantyOrAMC as AmcOrWarranty ,poolItemPONumber as PoNo,poolQuantity as Quantity,poolIsBulk as Bulk,pooIsWorking as Working,dataitempool.poolURLItemPO as pourl,poolCost as Cost from dataitempool inner join dataitem on(dataitempool.poolItemFK=dataitem.iteItemPK) where poolAssetID=?;';
     con.query(query,[req.body.AssetId],function (err,result) {
         if (err) {
             res.status(401).json({
