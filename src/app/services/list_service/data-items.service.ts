@@ -31,7 +31,7 @@ export class DataItemsService {
           this.sendData = {
             location: data._location
           };
-          this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
+          this.http.post('http://192.168.43.170:8080/lists', this.sendData).subscribe({
             next: response => this.items = response,
             error: error => window.alert('Assets Error - Unauthorized Access')
           });
@@ -48,7 +48,7 @@ export class DataItemsService {
       };
       this.userLoc = this.sendData.location;
       this.getUserLocation();
-      this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
+      this.http.post('http://192.168.43.170:8080/lists', this.sendData).subscribe({
         next: response => this.items = response,
         error: error => window.alert('Assets Error - Unauthorized Access')
       });
@@ -70,14 +70,41 @@ export class DataItemsService {
         this.userId = result._id;
         this.userName = result._name;
         this.userLoc = result._location;
+        this.getUserImage();
         this.getUserInfo();
         this.getUserRoles();
-        this.getUserLocation();
+        if (this.userLoc === '0') {
+          this.location = 'Home';
+          const locationData = ['Home'];
+          this.userLocations = locationData;
+        } else {
+          this.getUserLocation();
+        }
       }
     }).catch(err => {
       console.log(err);
     });
     return this.userId;
+  }
+
+  getUserImage() {
+    const body = {
+      id: this.userId
+    };
+    console.log(body);
+    this.http.post('http://192.168.43.170:8080/data/user/profileimage', body, {observe: 'response',
+      responseType: 'blob'}).subscribe(data => {
+      console.log(data);
+      this.createImageFromBlob(data.body);
+    });
+  }
+
+  createImageFromBlob(image: Blob) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      this.img = reader.result;
+    });
+    reader.readAsDataURL(image);
   }
 
   getUserInfo() {
@@ -86,7 +113,7 @@ export class DataItemsService {
       id: this.userId
     };
     console.log(body);
-    this.http.post('http://localhost:8080/data/user/profile/access', JSON.stringify(body), { headers }).subscribe(data => {
+    this.http.post('http://192.168.43.170:8080/data/user/profile/access', JSON.stringify(body), { headers }).subscribe(data => {
          this.userData = data;
          this.img = this.userData.url;
          this.localStorage.setObject('userData', this.userData);
@@ -100,7 +127,7 @@ export class DataItemsService {
     const body = {
       adminid: this.userId
     };
-    this.http.post('http://localhost:8080/data/profile/roles', JSON.stringify(body), { headers }).subscribe(data => {
+    this.http.post('http://192.168.43.170:8080/data/profile/roles', JSON.stringify(body), { headers }).subscribe(data => {
          console.log(data);
          this.userRoles = data;
          this.role = this.userRoles[0].admintype;
@@ -113,7 +140,8 @@ export class DataItemsService {
     const body = {
       locid: this.userLoc
     };
-    this.http.post('http://localhost:8080/accessHierarchy', JSON.stringify(body), { headers }).subscribe(data => {
+    console.log(body);
+    this.http.post('http://192.168.43.170:8080/accessHierarchy', JSON.stringify(body), { headers }).subscribe(data => {
         this.userLocations = data;
         this.location = this.userLocations[0];
     });

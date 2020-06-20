@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage';
 export class LocalStorageService {
 
   constructor(public storage: Storage) { }
-   
+
   async set(key: string, value: any): Promise<any> {
           try {
                 const result = await this.storage.set(key, value);
@@ -36,7 +36,7 @@ export class LocalStorageService {
     }
     // set a key/value object
     async setObject(key: string, object: Object) {
-    
+
       try {
           const result = await this.storage.set(key, JSON.stringify(object));
           console.log('set Object in storage: ' + result);
@@ -50,7 +50,7 @@ export class LocalStorageService {
     async getObject(key: string): Promise<any> {
         try {
             const result = await this.storage.get(key);
-            
+
             if (result != null) {
                 return JSON.parse(result);
             }

@@ -11,22 +11,24 @@ export class PmModalPage implements OnInit {
   constructor(public viewCtrl: ModalController,
               private params: NavParams,
               private datepicker: DatePicker,
-              private toastCtrl: ToastController) { }
-  poNo = this.params.data[0].poNo;
-  status = this.params.data[0].status;
-  start = this.params.data[0].start;
-  end = this.params.data[0].end;
-  extraCost = this.params.data[0].extraCost;
-  comments = this.params.data[0].comments;
-  service = this.params.data[0].service;
+              private toastCtrl: ToastController) {}
+  poNo = this.params.data.poNo;
+  sno = this.params.data.sNo;
+  start = this.params.data.start;
+  end = this.params.data.end;
+  extraCost = this.params.data.extraCost;
+  comments = this.params.data.comments;
+  service = this.params.data.service;
   calendar(name: string) {
-    this.datepicker.show({
+      this.datepicker.show({
       date: new Date(),
       mode: 'date',
-      androidTheme: this.datepicker.ANDROID_THEMES.THEME_HOLO_LIGHT
+      androidTheme: this.datepicker.ANDROID_THEMES.THEME_HOLO_LIGHT,
+          minDate: this.start,
+          maxDate: this.end,
     }).then(
         date => {
-          const newDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+          const newDate = date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
           if (name === 'start') {
             this.start = newDate;
           } else if (name === 'end') {
@@ -40,12 +42,11 @@ export class PmModalPage implements OnInit {
   }
   submit() {
       if ( !this.poNo || !this.start || !this.end ||
-           !this.service || !this.extraCost || !this.status ) {
+           !this.service ) {
           this.displayToast('Fill all the details - ' + this.poNo);
       } else {
           const data = {
-              poNo: this.poNo,
-              status: this.status,
+              SNo: this.sno,
               start: this.start,
               end: this.end,
               extraCost: this.extraCost,

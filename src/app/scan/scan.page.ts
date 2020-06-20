@@ -12,46 +12,38 @@ export class ScanPage implements OnInit {
   scanSub: any;
   qrText: string;
 
- 
-  constructor(public platform: Platform, public qrScanner: QRScanner,private route: Router) {
-  
-     
+
+  constructor(public platform: Platform, public qrScanner: QRScanner, private route: Router) {
+
+
     this.platform.backButton.subscribeWithPriority(0, () => {
       this.scanSub.unsubscribe();
       document.getElementsByTagName('body')[0].style.opacity = '1';
 
       this.route.navigateByUrl('home');
- 
+
     });
 
    }
-  
 
- 
-    
+
+
+
   ngOnInit() {
-    //var btn = document.getElementById("qrScn");
-    //btn.style.display= "none"
-    //console.log("NgOnINit")
-    //console.log(btn.id)
-  
-    this.startScanning()
+    this.startScanning();
   }
-  
-  
+
+
 
   startScanning() {
-    // Optionally request the permission early
-
-
-
 
     this.qrScanner.prepare().
       then((status: QRScannerStatus) => {
         if (status.authorized) {
           this.qrScanner.show();
           this.scanSub = document.getElementsByTagName('body')[0].style.opacity = '0.3';
-          debugger
+          // tslint:disable-next-line:no-debugger
+          debugger;
           this.scanSub = this.qrScanner.scan()
             .subscribe((textFound: string) => {
               document.getElementsByTagName('body')[0].style.opacity = '1';
@@ -59,7 +51,7 @@ export class ScanPage implements OnInit {
               this.scanSub.unsubscribe();
 
               this.qrText = textFound;
-              this.route.navigateByUrl('assets');
+              this.route.navigate(['/asset'], {queryParams: {key: this.qrText}});
             }, (err) => {
               alert(JSON.stringify(err));
             });
@@ -74,7 +66,7 @@ export class ScanPage implements OnInit {
 
 
   ionViewWillLeave() {
-    this.qrScanner.hide()
-    this.qrScanner.destroy()
+    this.qrScanner.hide();
+    this.qrScanner.destroy();
   }
 }

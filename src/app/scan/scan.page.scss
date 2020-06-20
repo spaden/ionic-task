@@ -1,7 +1,19 @@
+ion-header::after{
+    background-image: none;
+    border-width: 0px !important;
+    border-bottom: none transparent !important;
+}
+ion-toolbar{
+    --background: #5680e9;
+}
+ion-title, ion-label, ion-buttons{
+    color: #ffffff;
+    text-align: center;
+}
 #bx {
     height: 300px;
     width: 320px;
-    border-color: green;
+    border-color: #5680e9;
     border-width: 10px;
     border-style: dashed;
     margin-top: 50%;

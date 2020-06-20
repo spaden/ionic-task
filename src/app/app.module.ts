@@ -12,12 +12,13 @@ import {SuperTabsModule} from '@ionic-super-tabs/angular';
 import {PmModalPageModule} from './pm-modal/pm-modal.module';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {HttpClientModule} from '@angular/common/http';
-import {DataItemsService} from './services/list_service/data-items.service'
-import {LocalStorageService} from './services/storage/local-storage.service'
+import {DataItemsService} from './services/list_service/data-items.service';
+import {LocalStorageService} from './services/storage/local-storage.service';
 import {DatePicker} from '@ionic-native/date-picker/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import {File} from '@ionic-native/file/ngx';
 import {FileChooser} from '@ionic-native/file-chooser/ngx';
+import {Downloader} from '@ionic-native/downloader/ngx';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -34,12 +35,13 @@ import {FileChooser} from '@ionic-native/file-chooser/ngx';
   ],
   providers: [
     QRScanner,
+    Downloader,
     StatusBar,
     SplashScreen,
     FileChooser,
     File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    DataItemsService,LocalStorageService,
+    DataItemsService, LocalStorageService,
       DatePicker
   ],
   bootstrap: [AppComponent]

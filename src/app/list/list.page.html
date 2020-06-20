@@ -18,13 +18,13 @@
 <ion-content class="ion-margin">
     <ng-container *ngFor="let rec of items | filter: term">
         <div class="card">
-            <ion-card (click)="showAssetInfo(rec.assetid)">
+            <ion-card (click)="showAssetInfo(rec.itemkey)">
                 <ion-card-header class="card_color">
                     <div class="ion-text-center">
                         <ion-label>{{rec.assetid}}</ion-label>
                     </div>
                 </ion-card-header>
-                <ion-card-content>
+                <!--ion-card-content>
                     <ion-grid>
                         <ion-row>
                             <ion-col>
@@ -44,7 +44,7 @@
                             </ion-row>
                         </ng-template>
                     </ion-grid>
-                </ion-card-content>
+                </ion-card-content-->
             </ion-card>
         </div>
     </ng-container>

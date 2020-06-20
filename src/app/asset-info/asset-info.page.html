@@ -27,7 +27,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>Procurement(mm-dd-yyyy)</ion-col>
-            <ion-col>{{rec.Procurement}}</ion-col>
+            <ion-col>{{rec.Procurement| date:'MM-dd-yyyy'}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -126,42 +126,6 @@
       </ion-card-content>
     </ion-card>&nbsp;
     </ion-list>
-    <!--ion-item>
-      <ion-label>Asset ID: BMS/ODC1</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Asset Type: BMS System</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Procurement Date(mm-dd-yyy): 7/2/2004</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Currency : INR</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Depreciation(%): 20</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Criticality: 3(Moderate)</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>AMC Status/Warranty: AMC</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Item PO Number: DEFAULT_PO_NO_8</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Quantity: 1</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Bulk Status: TRUE</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Working Status: TRUE</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Cost: 8614372</ion-label>
-    </ion-item-->&nbsp;
     <h4 class="ion-margin">Variable Parameters</h4>
     <ion-list *ngFor="let rec of varData| async">
       <ion-card>
@@ -169,29 +133,11 @@
           <ion-grid>
             <ion-row>
               <ion-col>{{rec.parParameterName}}</ion-col>
-              <ion-col>{{rec?.linkItemParamValue || 'null'}}</ion-col>
+              <ion-col>{{rec?.linkItemParamValue || '-'}}</ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>
       </ion-card>
     </ion-list>
-    <!--ion-item>
-      <ion-label>Brand: null</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Capacity: null</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Make: null</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Model: null</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Type: null</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Unit Serial Number: null</ion-label>
-    </ion-item-->
   </div>
 </ion-content>

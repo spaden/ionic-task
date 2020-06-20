@@ -6,6 +6,11 @@ import {ManagePmService} from '../services/pm_service/manage-pm.service';
 import {Observable} from 'rxjs';
 import {FileChooser} from '@ionic-native/file-chooser/ngx';
 import {File, FileEntry} from '@ionic-native/file/ngx';
+import {ActivatedRoute} from '@angular/router';
+import {AssetService} from '../services/asset_info_service/asset.service';
+import {Asset} from '../classes/asset_class/asset';
+import {Downloader, DownloadRequest, NotificationVisibility} from '@ionic-native/downloader/ngx';
+
 @Component({
   selector: 'app-manage-pm',
   templateUrl: './manage-pm.page.html',
@@ -16,73 +21,109 @@ export class ManagePmPage implements OnInit {
   public filter: string;
   showCompleted = true;
   showNotCompleted = true;
-  allData = [{
-    poNo: 'Ud21345',
-    start: '22/01/2018',
-    end: '23/09/2021',
-    service: '21/08/2019',
-    comments: 'ok',
-    extraCost: '0',
-    status: 'done'
-  },
-    { poNo: 'Ad21345',
-      start: '',
-      end: '',
-      service: '',
-      comments: '',
-      extraCost: '',
-      status: 'not done'}];
-  // data: Observable<ManagePm[]>;
+  data: Observable<ManagePm[]>;
+  formData = new FormData();
+  filename: any;
+  fileData: any;
+  fileBlob: Blob;
   result: any[];
   allComplete: any[];
   allNotComplete: any[];
-  // server code
-  /*public get allPmData(): Observable<ManagePm[]> {
+  assetKey: any;
+  editData: any;
+  assetId: any;
+  sendData = false;
+  assData: Observable<Asset[]>;
+  public get assetData(): Observable<Asset[]> {
+    return this.assData;
+  }
+  public set assetData(value: Observable<Asset[]>) {
+    this.assData = value;
+  }
+  public get allPmData(): Observable<ManagePm[]> {
     return this.data;
   }
   public set allPmData(value: Observable<ManagePm[]>) {
     this.data = value;
-  }*/
+  }
   constructor(public modalController: ModalController,
               public managePmService: ManagePmService,
               private fileChooser: FileChooser,
               private file: File,
-              private toastCtrl: ToastController) { }
-  /*getCompleteData(): any[] {
-    return this.allData.filter(all => all.Status === 'done');
+              public assetService: AssetService,
+              private route: ActivatedRoute,
+              private toastCtrl: ToastController,
+              private downloader: Downloader) {
+    this.assetKey = this.route.snapshot.queryParams.key;
+    console.log(this.assetKey);
   }
-  getInCompleteData(): any[] {
-    return this.allData.filter(all => all.Status === 'not done');
-  }*/
-  getData(value): any[] {
-    return this.allData.filter(all => all.poNo === value);
-    // server code
-    // return this.allNotComplete.filter(all => all.poNo === value);
+  getData(event): any {
+    console.log(event.target);
+    console.log(event.target.value);
+    console.log(event.target.poNo);
+    console.log(event.target.startDate);
+    return event.target.value;
   }
-  // server code
-  /*setData(value) {
-    // let val = this.allData.filter(all => all.Po_no === value.Po_no).pop();
-    // val = value;
-    this.allData = this.allData.concat(value);
-    console.log(this.allData);
-  }*/
+  setData(value) {
+    this.editData = {
+        SNo: value.SNo,
+        start: value.start,
+        end: value.end,
+        service: value.service,
+        extra: value.extraCost,
+        comment: value.comments,
+        status: 1,
+    };
+    console.log(this.editData);
+    this.sendData = true;
+  }
+  download(sno) {
+    const body = {
+      id: sno,
+    };
+    console.log(body);
+    this.managePmService.getFile(body);
+    console.log(this.file);
+    const request: DownloadRequest = {
+      // @ts-ignore
+      uri: this.file,
+      title: 'MyDownload',
+      description: '',
+      mimeType: '',
+      visibleInDownloadsUi: true,
+      notificationVisibility: NotificationVisibility.VisibleNotifyCompleted,
+      destinationInExternalFilesDir: {
+        dirType: 'Downloads',
+        subPath: 'MyFile.apk'
+      }
+    };
+    this.downloader.download(request)
+        .then((location: string) => this.displayToast('File downloaded at:' + location))
+        .catch((error: any) => console.error(error));
+  }
   loadDisplay() {
-    // this.allComplete = this.getCompleteData();
-    // this.allNotComplete = this.getInCompleteData();
+    const id = {
+      AssetId: this.assetKey
+    };
+    this.assetData = this.assetService.getAssetData(id);
     this.showCompleted = true;
     this.showNotCompleted = true;
     // server code
-    /*this.allPmData = this.managePmService.getPmData();
+    const data = {
+      key: this.assetKey,
+    };
+    this.allPmData = this.managePmService.getPmData(data);
     this.data.subscribe( dat => {
-      this.allComplete = dat.filter(all => all.status === 'done');
+      console.log(dat);
+      this.allComplete = dat.filter(all => all.status === false);
       console.log(this.allComplete);
-      this.allNotComplete = dat.filter(all => all.status === 'not done');
+      this.allNotComplete = dat.filter(all => all.status === true);
       console.log(this.allNotComplete);
     });
-    console.log(this.allNotComplete);*/
+    console.log(this.allNotComplete);
   }
   // file upload
-  /*uploadFile() {
+  uploadFile() {
     this.fileChooser.open().then( uri => {
       this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
         fileEntry.file(file => {
@@ -92,28 +133,32 @@ export class ManagePmPage implements OnInit {
     }).catch(e => console.log(e));
   }
   readFile(file: any) {
+    this.fileData = file;
+    this.filename = file.name;
     const reader = new FileReader();
     reader.onloadend = () => {
-      const fileBlob = new Blob([reader.result], {
+      const fileBlb = new Blob([reader.result], {
         type: file.type
       });
-      const formData = new FormData();
-      formData.append('name', 'hello');
-      formData.append('file', fileBlob, file.name);
-      const data = {
-        fileResult: file
-      };
-      this.displayToast('uploaded successfully');
-      /*this.managePmService.uploadFile(data).subscribe(dataResult => {
-        if (dataResult) {
-          this.displayToast('uploaded successfully');
-        } else {
-          this.displayToast('try again');
-        }
-      });
+      this.fileBlob = fileBlb;
+      this.formData.append('file', this.fileBlob, file.name);
+      this.displayToast('file uploaded successfully');
     };
     reader.readAsArrayBuffer(file);
-  }*/
+  }
+  send() {
+      this.formData.append('data', JSON.stringify(this.editData));
+      // server code
+      this.managePmService.postPmData(this.formData).subscribe( result => {
+          if (result) {
+              this.displayToast('Data Sent');
+              this.formData = new FormData();
+              this.loadDisplay();
+          } else {
+              console.log(result);
+          }
+      });
+  }
   async displayToast(mess: string) {
     const toast = await this.toastCtrl.create({
       message: mess,
@@ -128,31 +173,44 @@ export class ManagePmPage implements OnInit {
     this.showCompleted = false;
     this.showNotCompleted = true;
   }
-  async presentModal(value: string) {
-    const sendData = this.getData(value);
-    console.log(sendData);
-    const modal = await this.modalController.create({
-      component: PmModalPage,
-      componentProps: sendData
-    });
-    modal.onDidDismiss().then((data) => {
-      if (data != null ) {
-        // this.setData(data.data);
-        // server code
-        this.managePmService.postPmData(data.data).subscribe( result => {
-          if (result) {
-            this.loadDisplay();
-          } else {
-            console.log(result);
-          }
-        });
-        console.log(data.data);
-      }
-    });
-    return await modal.present();
+  async presentModal(sno, po, extra, comment, startDate, endDate, serviceDate, stat) {
+    if (!this.fileBlob || !this.fileData || !this.filename) {
+      window.alert('Upload file first');
+    } else {
+      const sendData = {
+        sNo: sno,
+        poNo: po,
+        extraCost: extra,
+        comments: comment,
+        start: startDate,
+        end: endDate,
+        service: serviceDate,
+        status: stat,
+      };
+      console.log(sendData);
+      const modal = await this.modalController.create({
+        component: PmModalPage,
+        componentProps: sendData
+      });
+      modal.onDidDismiss().then((data) => {
+        if (data != null ) {
+          this.setData(data.data);
+        }
+      });
+      return await modal.present();
+    }
   }
   ngOnInit() {
-    this.loadDisplay();
+      this.editData = null;
+      this.filename = null;
+      this.fileBlob = null;
+      this.fileData = null;
+      this.assetData = null;
+      this.data = null;
+      this.allNotComplete = null;
+      this.allComplete = null;
+      this.allPmData = null;
+      this.loadDisplay();
   }
 
 }

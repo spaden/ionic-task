@@ -21,99 +21,126 @@
   </ion-item>
   &nbsp;&nbsp;
   <div class="card_layout">
-    <div *ngIf="showAMC">
-      <ion-card *ngFor="let rec of allAmc | filter: filter">
-        <ion-card-header class="amc_color">
-          <div class="ion-text-center">
-            <ion-label color="white">{{rec.Po_no}}</ion-label>
-          </div>
-        </ion-card-header>
+    <ion-list class="list_layout" *ngFor="let rec of data| async">
+      <ion-card>
         <ion-card-content>
           <ion-grid>
             <ion-row>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>Start</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>End</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>Cost</ion-label>
-                </div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.Start}}</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.End}}</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.Cost}}</ion-label>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </div>&nbsp;
-    <div *ngIf="showWarranty">
-      <ion-card *ngFor="let rec of allWarranty | filter: filter">
-        <ion-card-header class="warranty_color">
-          <div class="ion-text-center">
-            <ion-label color="white">{{rec.Po_no}}</ion-label>
-          </div>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>Start</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>End</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>Cost</ion-label>
-                </div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.Start}}</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.End}}</ion-label>
-                </div>
-              </ion-col>
-              <ion-col>
-                <div class="ion-text-center">
-                  <ion-label>{{rec.Cost}}</ion-label>
-                </div>
-              </ion-col>
+              <ion-col>Asset ID</ion-col>
+              <ion-col>{{rec.AssetId}}</ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>
       </ion-card>&nbsp;
+      <ion-card>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>Asset Type</ion-col>
+              <ion-col>{{rec.AssetType}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>&nbsp;
+    </ion-list>
+    <div *ngIf="showAMC">
+      <ng-container *ngFor="let rec of allAmc | filter: filter">
+        <ion-card>
+          <ion-card-header class="amc_color">
+            <div class="ion-text-center">
+              <ion-label color="white">{{rec.PO}}</ion-label>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>Start</ion-label>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>End</ion-label>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>Cost</ion-label>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>{{rec.startDate| date:'dd/MM/yyyy'}}</ion-label>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>{{rec.endDate| date:'dd/MM/yyyy'}}</ion-label>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>{{rec.cost}}</ion-label>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+        <br>
+      </ng-container>
+    </div>&nbsp;
+    <div *ngIf="showWarranty">
+      <ng-container *ngFor="let rec of allWarranty | filter: filter">
+        <ion-card>
+          <ion-card-header class="warranty_color">
+            <div class="ion-text-center">
+              <ion-label color="white">{{rec.PO}}</ion-label>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>Start</ion-label>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>End</ion-label>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>Cost</ion-label>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>{{rec.startDate| date:'dd/MM/yyyy'}}</ion-label>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>{{rec.expDate| date:'dd/MM/yyyy'}}</ion-label>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="ion-text-center">
+                    <ion-label>{{rec.cost}}</ion-label>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>&nbsp;
+      </ng-container>
     </div>
   </div>
 </ion-content>

@@ -43,9 +43,9 @@ export class ListPage implements OnInit {
     this.items = this.list.items;
   }
 
-  showAssetInfo(assetId: string) {
-    console.log(assetId);
-    this.route.navigate(['/assets'], {queryParams: {id: assetId}});
+  showAssetInfo(itemKey: string) {
+    console.log(itemKey);
+    this.route.navigate(['/assets'], {queryParams: {key: itemKey}});
   }
 
 

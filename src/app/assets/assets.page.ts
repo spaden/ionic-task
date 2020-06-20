@@ -17,13 +17,13 @@ export class AssetsPage implements OnInit {
   constructor(private route: Router,
               private platform: Platform) {
     this.platform.backButton.subscribeWithPriority(0, () => {
-      this.route.navigateByUrl('/list/n');
+      this.route.navigateByUrl('/list');
 
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
+
   showScanner() {
     this.route.navigateByUrl('scan');
   }

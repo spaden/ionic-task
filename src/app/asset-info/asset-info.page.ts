@@ -4,6 +4,7 @@ import {AssetService} from '../services/asset_info_service/asset.service';
 import {Observable} from 'rxjs';
 import {Asset} from '../classes/asset_class/asset';
 import {AssetVariable} from '../classes/asset_class/asset-variable';
+import {LocalStorageService} from "../services/storage/local-storage.service";
 
 @Component({
   selector: 'app-asset-info',
@@ -16,7 +17,7 @@ export class AssetInfoPage implements OnInit {
   public varData: Observable<AssetVariable[]>;
   constructor(private route: ActivatedRoute,
               private assetService: AssetService) {
-    this.assetId = this.route.snapshot.queryParams.id;
+    this.assetId = this.route.snapshot.queryParams.key;
     console.log(this.assetId);
   }
   public get assetData(): Observable<Asset[]> {

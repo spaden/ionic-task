@@ -3,6 +3,7 @@ var config = require('./config'),
     bodyParser = require('body-parser'),
     mysql = require('mysql'),
     bcrypt = require('bcryptjs'),
+    multer = require('multer'),
     fs = require('fs'),
     app = express(),
 //http = require('http');
@@ -10,6 +11,18 @@ cors = require('cors');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 var con;
+
+// SET STORAGE
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'C:\\uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'Report'+ - +Date.now());
+    }
+});
+
+var upload = multer({ storage: storage }).single('file');
 
 /*Manage size limits for POST/PUT requests*/
 app.use(bodyParser.json());
@@ -87,71 +100,11 @@ handleDisconnect();
 // assets list
 app.post('/lists', (req, res) => {
     let items = [];
-    /*rotateImg = 0
-    lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    clicked = 1
-    images = [
-        'bandit',
 
-    ]
-    for (let i = 0; i < 1000; i++) {
-        items.push({
-            name: i + ' - ' + images[rotateImg],
-            imgHeight: Math.floor(Math.random() * 50 + 150),
-        })
-    }*/
-
-    /*try {
-        res.json(items)
-    } catch (err) {
-        console.log("error")
-        throw err
-    }
-    console.log("route working")*/
     console.log(req.body);
     let loc = req.body.location;
     loc += '%';
     console.log(loc);
-    /*if (req.body.location!==undefined&&req.body.location!=='0'){
-        console.log(req.body.role,req.body.location);
-        const fetchQuery = 'select poolAssetID as AssetId, poolItemPONumber as PO, ' +
-            'buiBuildingAddress as Location from dataitempool inner join linkitemlayer ' +
-            'on(dataitempool.poolItemKeyPK=linkitemlayer.linkItemKeyPK) inner join databuilding ' +
-            'on(linkitemlayer.linkItemBuildingFK=buiBuildingPK) where buiIsActive=1 and buiBuildingPK IN ' +
-            '(select linkSpace from linkadminaccess where linkRoleFK = ? and linkSpace=?);';
-        con.query(fetchQuery,[req.body.role,req.body.location],function (err,result) {
-                if (err) {
-                    res.status(401).json({
-                        failed: 'Unauthorized Access'
-                    });
-                }
-                if (result.length === 0) {
-                    res.status(401).json({
-                        failed: 'Unauthorized Access'
-                    });
-                }
-                console.log(result);
-                res.status(200).json(result);
-            });
-
-    }else{
-        console.log(req.body);
-        const fetchQuery = 'select poolAssetID as AssetId, poolItemPONumber as PO, buiBuildingAddress as Location from dataitempool inner join linkitemlayer on(dataitempool.poolItemKeyPK=linkitemlayer.linkItemKeyPK) inner join databuilding on(linkitemlayer.linkItemBuildingFK=buiBuildingPK) where buiIsActive=1 and buiBuildingPK IN (select linkSpace from linkadminaccess);';
-        con.query(fetchQuery,function (err,result) {
-            if (err) {
-                res.status(401).json({
-                    failed: 'Unauthorized Access'
-                });
-            }
-            if (result.length === 0) {
-                res.status(401).json({
-                    failed: 'Unauthorized Access'
-                });
-            }
-            console.log(result);
-            res.status(200).json(result);
-        });
-    }*/
     const query = `select poolItemKeyPk as itemkey,poolassetid as assetid,poolItemPONumber as poNumber,
     locName as location ,buiName as building,layname as layer from  dataitempool
     inner join linkitemlayer on(dataitempool.poolItemKeyPK=linkitemlayer.linkItemKeyPK)
@@ -173,7 +126,7 @@ app.post('/lists', (req, res) => {
 // variable asset parameter
 app.post('/getVarAsset',(req,res) => {
     console.log(req.body.AssetId);
-    let query = 'select linkItemParamValue,parParameterName from linkitemparametervalue inner join linkitemparameter on(linkitemparametervalue.linkItemParameterFK=linkitemparameter.linkItemParameterPK) inner join dataparameter on(dataparameter.parParameterPK=linkitemparameter.linkParameterFK) where linkItemKeyFK IN (select poolItemKeyPK from dataitempool where poolAssetID=?)';
+    let query = 'select linkItemParamValue,parParameterName from linkitemparametervalue inner join linkitemparameter on(linkitemparametervalue.linkItemParameterFK=linkitemparameter.linkItemParameterPK) inner join dataparameter on(dataparameter.parParameterPK=linkitemparameter.linkParameterFK) where linkItemKeyFK IN (select poolItemKeyPK from dataitempool where poolItemKeyPk=?)';
     con.query(query,[req.body.AssetId],function (err,result) {
        if (err) {
             res.status(401).json({
@@ -193,7 +146,7 @@ app.post('/getVarAsset',(req,res) => {
 // mandatory asset parameter
 app.post('/getAsset',(req,res) => {
     console.log(req.body.AssetId);
-    let query = 'select poolAssetID as AssetId, iteName as AssetType, poolProcurementDate as Procurement,poolCurrency as Currency,iteDepreciationValue as Depreciation, iteCriticality as Criticality, poolIsWarrantyOrAMC as AmcOrWarranty ,poolItemPONumber as PoNo,poolQuantity as Quantity,poolIsBulk as Bulk,pooIsWorking as Working,dataitempool.poolURLItemPO as pourl,poolCost as Cost from dataitempool inner join dataitem on(dataitempool.poolItemFK=dataitem.iteItemPK) where poolAssetID=?;';
+    let query = 'select poolAssetID as AssetId, iteName as AssetType, poolProcurementDate as Procurement,poolCurrency as Currency,iteDepreciationValue as Depreciation, iteCriticality as Criticality, poolIsWarrantyOrAMC as AmcOrWarranty ,poolItemPONumber as PoNo,poolQuantity as Quantity,poolIsBulk as Bulk,pooIsWorking as Working,dataitempool.poolURLItemPO as pourl,poolCost as Cost from dataitempool inner join dataitem on(dataitempool.poolItemFK=dataitem.iteItemPK) where poolItemKeyPk=?;';
     con.query(query,[req.body.AssetId],function (err,result) {
         if (err) {
             res.status(401).json({
@@ -398,12 +351,6 @@ app.post("/data/user/profile/access", function(req, res) {
     where admAdminPK = ?`;
     con.query(accessadmindataquery, [req.body.id], function(err, result) {
         console.log(result[0]);
-        /*const l = fs.readFileSync('C:\\Users\\Lenovo\\Desktop\\1234.jpg',{encoding: 'base64'});
-        console.log(l);
-        res.send({
-            data: JSON.stringify(result[0]),
-            img: l,
-        });*/
         res.end(JSON.stringify(result[0]));
     })
 });
@@ -447,8 +394,17 @@ app.post("/data/profile/roles", function(req, res) {
     })
 });
 
-app.post('/accessHierarchy', async function (req, res) {
+app.post("/data/user/profileimage", function(req, res) {
+    console.log(req.body);
+    let accessadmindataquery = `select admPhotoURL as url from dataadmin 
+    where admAdminPK = ?`;
+    con.query(accessadmindataquery, [req.body.id], function(err, result) {
+        console.log(result);
+        res.sendFile(result[0].url);
+    })
+});
 
+app.post('/accessHierarchy', async function (req, res) {
 
     let hList = [];
     console.log(req.body.locid);
@@ -506,6 +462,104 @@ async function createHierarchyList(hList, locid) {
 
 }
 
+//access amc-warranty
+app.post("/amc-warranty", function(req, res) {
+    console.log(req.body);
+    let query = `select amcPOPK as PO, linkProcurementDate as startDate, 
+                linkExpiryDate as endDate, amcBaseContractCost as cost ,
+                '1' as amc
+                from dataamc inner join linkitemamc on(dataamc.amcPOPK=linkitemamc.linkAMCPOFK)
+                where linkItemKeyFK=?;`;
+    con.query(query,[req.body.key],function(err,result) {
+        if(err){
+            res.status(400).json({
+                failed: 'Unauthorized Access'
+            });
+        }else{
+            console.log(result);
+            query = `select poolItemPONumber as PO, linkItemAllocDate as startDate,
+                     warExpiryDate as expDate,poolCost as cost,'0' as amc 
+                     from datawarranty inner join linkitemlayer on 
+                     (datawarranty.warItemKeyFK=linkitemlayer.linkItemKeyPK)
+                     inner join dataitempool on(dataitempool.poolitemkeypk=linkitemlayer.linkitemkeypk)
+                     where linkItemKeypk=?;`;
+            con.query(query,[req.body.key],function(err,resdata) {
+                if(err){
+                    res.status(400).json({
+                        failed: 'Unauthorized Access'
+                    });
+                } else if(resdata.length === 0) {
+                    res.status(200).json({
+                        amcData: result,
+                    });
+                } else if(result.length === 0) {
+                    res.status(200).json({
+                        warrantyData: resdata,
+                    });
+                } else {
+                    res.status(200).json({
+                        amcData: result,
+                        warrantyData: resdata,
+                    });
+                }
+            });
+        }
+    });
+});
+
+//get pm file
+app.post("/getPmFile", function(req, res) {
+    console.log(req.body);
+    const query = `select pmServiceReportURL as url from datapmscheduledetails where pmPMScheduleDetailsPK = ?;`;
+    con.query(query, [req.body.id], function(err, result) {
+        console.log(result);
+        res.sendFile(result[0].url);
+    })
+});
+
+//access pm
+app.post("/getPmData", function(req, res) {
+    console.log(req.body);
+    const pmQuery = `select  pmPMScheduleDetailsPK as SNo, amcPOPK as poNo,DATE_FORMAT(pmStartDate,\'%d/%m/%Y\') as start,DATE_FORMAT(pmEndDate,\'%d/%m/%Y\') as end,DATE_FORMAT(pmDateOfService,\'%d/%m/%Y\') as service,
+                     pmExtraCostIncurred as extraCost,pmComments as comments,pmIsServiceDone as status
+                     from dataamc inner join linkitemamc on(dataamc.amcPOPK=linkitemamc.linkAMCPOFK)
+                     inner join datapmscheduledetails on(datapmscheduledetails.pmItemAMCFK=linkitemamc.linkItemAMCPK)
+                     where linkItemKeyFK=? and pmEndDate <= now() order by  pmIsServiceDone asc,pmEndDate desc;`;
+    con.query(pmQuery,[req.body.key],(err, result) => {
+
+        if (err) throw err;
+        res.end(JSON.stringify(result))
+    })
+});
+
+//update pm
+app.post("/updatePmData", function(req, res) {
+    console.log(req.body);
+    upload(req,res,function(err) {
+        console.log(req.file);
+        console.log(req.file.path);
+        console.log(req.body.data);
+        let data = JSON.parse(req.body.data);
+        console.log(data);
+        let start = data.start.split("/").reverse().join("-");
+        let end = data.end.split("/").reverse().join("-");
+        let service = data.service.split("/").reverse().join("-");
+        console.log(start+""+end+" "+service);
+        const pmQuery = `update datapmscheduledetails set pmStartDate = ?, pmEndDate = ?,
+                     pmDateOfService=?,pmExtraCostIncurred=?,pmComments=?,pmIsServiceDone=?,
+                     pmServiceReportURL=? where pmPMScheduleDetailsPK = ?;`;
+        con.query(pmQuery,[start,end,service,data.extra,data.comment,data.status,req.file.path,data.SNo],(err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(401).json({
+                    failed: 'Unauthorized Access'
+                });
+            }else{
+                res.end(JSON.stringify(result));
+            }
+        });
+    });
+});
 
 app.listen(config.port, function() {
     console.log("server running @ " + config.port);

@@ -66,7 +66,9 @@ export class MainComponent implements OnInit {
     const len = this.listService.userLocations.length;
     // tslint:disable-next-line:prefer-for-of
     for (let i = len - 1; i >= 0; i--) {
-      if (i === len - 1) {
+      if (i === len - 1 && i === 0) {
+        loc = this.listService.userLocations[i];
+      } else if (i === len - 1) {
         loc = this.listService.userLocations[i] + ' -> ';
       } else if (i === 0) {
         loc += this.listService.userLocations[i];

@@ -9,7 +9,8 @@ import {LoginClass} from '../classes/login_class/login-class';
 import {LocalStorageService} from '../services/storage/local-storage.service';
 import {DataItemsService} from '../services/list_service/data-items.service';
 
-import * as jwt_decode from "jwt-decode";
+import * as jwt_decode from 'jwt-decode';
+import {Storage} from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,8 @@ export class LoginPage {
               public toastCtrl: ToastController,
               public loginService: LoginServiceService,
               public localStorage: LocalStorageService,
-              public listService: DataItemsService) {}
+              public listService: DataItemsService,
+              public storage: Storage) {}
   checkBoxClicked() {
     if (this.showSuper) {
       this.showSuper = false;
@@ -42,14 +44,6 @@ export class LoginPage {
   }
   login() {
    if (!this.showSuper) {
-      /*if (!this.userId || !this.password) {
-          this.displayToast('Fill all the details!');
-      } else if (this.userId === 1234 && this.password === '1234') {
-        this.router.navigateByUrl('home');
-      } else {
-        this.displayToast('Details Not Matched! Try Again');
-      }*/
-      // server code
       if (!this.userId || !this.password) {
           this.displayToast('Fill all the details!');
       } else {
@@ -58,10 +52,11 @@ export class LoginPage {
               console.log(jwt_decode(data.token));
               if (data) {
                   this.userLoginData = jwt_decode(data.token);
-                  this.localStorage.setObject('userLoginData', jwt_decode(data.token));
-                  this.listService.set_userID();
-                  this.listService.fetchData();
-                  this.router.navigateByUrl('home');
+                  this.localStorage.setObject('userLoginData', jwt_decode(data.token)).then(result => {
+                      this.listService.set_userID();
+                      this.listService.fetchData();
+                      this.router.navigateByUrl('home');
+                  });
               } else {
                   this.displayToast('Try Again!');
               }
@@ -74,10 +69,11 @@ export class LoginPage {
             this.user.superUserLogin(this.userId, this.superUserId, this.password);
             this.loginService.postLoginData(this.user).subscribe((data: any) => {
                 console.log(jwt_decode(data.token));
-                this.localStorage.setObject('userLoginData', jwt_decode(data.token));
-                this.listService.set_userID();
-                this.listService.fetchData();
-                this.router.navigateByUrl('home');
+                this.localStorage.setObject('userLoginData', jwt_decode(data.token)).then(result => {
+                    this.listService.set_userID();
+                    this.listService.fetchData();
+                    this.router.navigateByUrl('home');
+                });
             });
         }
     }
