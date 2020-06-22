@@ -1,8 +1,8 @@
 <ion-content>
-  <div style="padding-top: 20px;padding-bottom: 20px;">
+  <div style="padding-top: 10px;padding-bottom: 10px;">
     <ion-searchbar type="text" id="search" placeholder="Search PO Number" [(ngModel)]="filter"></ion-searchbar>
   </div>
-  <ion-item>
+  <ion-item class="ion-no-margin">
       <ion-row>
         <ion-col>
           <ion-item lines="none" (click)="showAMCOnly()">
@@ -10,6 +10,7 @@
             <ion-label>&nbsp;AMC</ion-label>
           </ion-item>
         </ion-col>
+        <ion-col></ion-col>
         <ion-col></ion-col>
         <ion-col>
           <ion-item lines="none" (click)="showWarrantyOnly()">
@@ -19,30 +20,19 @@
         </ion-col>
       </ion-row>
   </ion-item>
-  &nbsp;&nbsp;
+  <ion-item>
+    <ion-grid  *ngFor="let rec of data| async">
+      <ion-row>
+        <ion-col>Asset Id</ion-col>
+        <ion-col>{{rec.AssetId}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Asset Type</ion-col>
+        <ion-col>{{rec.AssetType}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
   <div class="card_layout">
-    <ion-list class="list_layout" *ngFor="let rec of data| async">
-      <ion-card>
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col>Asset ID</ion-col>
-              <ion-col>{{rec.AssetId}}</ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>&nbsp;
-      <ion-card>
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col>Asset Type</ion-col>
-              <ion-col>{{rec.AssetType}}</ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>&nbsp;
-    </ion-list>
     <div *ngIf="showAMC">
       <ng-container *ngFor="let rec of allAmc | filter: filter">
         <ion-card>

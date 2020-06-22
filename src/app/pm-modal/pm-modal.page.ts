@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {IonInput, ModalController, NavParams, ToastController} from '@ionic/angular';
 import {DatePicker} from '@ionic-native/date-picker/ngx';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-pm-modal',
@@ -19,26 +20,28 @@ export class PmModalPage implements OnInit {
   extraCost = this.params.data.extraCost;
   comments = this.params.data.comments;
   service = this.params.data.service;
+  startDate = moment(this.start).format( 'DD/MM/YYYY');
+  endDate = moment(this.end).format( 'DD/MM/YYYY');
   calendar(name: string) {
-      this.datepicker.show({
-      date: new Date(),
-      mode: 'date',
-      androidTheme: this.datepicker.ANDROID_THEMES.THEME_HOLO_LIGHT,
-          minDate: this.start,
-          maxDate: this.end,
-    }).then(
-        date => {
-          const newDate = date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
-          if (name === 'start') {
-            this.start = newDate;
-          } else if (name === 'end') {
-            this.end = newDate;
-          } else {
-            this.service = newDate;
-          }
-        } ,
-        err => console.log(err)
-    );
+        this.datepicker.show({
+            date: new Date(),
+            mode: 'date',
+            minDate: (new Date(moment(this.start).add(1, 'days').toISOString())).valueOf(),
+            maxDate: (new Date(moment(this.end).subtract(1, 'days').toISOString())).valueOf(),
+            androidTheme: this.datepicker.ANDROID_THEMES.THEME_HOLO_LIGHT,
+        }).then(
+            date => {
+                const newDate = date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+                if (name === 'start') {
+                    this.start = newDate;
+                } else if (name === 'end') {
+                    this.end = newDate;
+                } else {
+                    this.service = newDate;
+                }
+            } ,
+            err => console.log(err)
+        );
   }
   submit() {
       if ( !this.poNo || !this.start || !this.end ||
@@ -47,8 +50,8 @@ export class PmModalPage implements OnInit {
       } else {
           const data = {
               SNo: this.sno,
-              start: this.start,
-              end: this.end,
+              start: this.startDate,
+              end: this.endDate,
               extraCost: this.extraCost,
               comments: this.comments,
               service: this.service

@@ -32,7 +32,6 @@ export class ManagePmPage implements OnInit {
   assetKey: any;
   editData: any;
   assetId: any;
-  sendData = false;
   assData: Observable<Asset[]>;
   public get assetData(): Observable<Asset[]> {
     return this.assData;
@@ -75,7 +74,20 @@ export class ManagePmPage implements OnInit {
         status: 1,
     };
     console.log(this.editData);
-    this.sendData = true;
+    this.formData.append('data', JSON.stringify(this.editData));
+      // server code
+    this.managePmService.postPmData(this.formData).subscribe( result => {
+          if (result) {
+              this.displayToast('Data Sent');
+              this.formData = new FormData();
+              this.fileData = null;
+              this.fileBlob = null;
+              this.filename = null;
+              this.loadDisplay();
+          } else {
+              console.log(result);
+          }
+      });
   }
   download(sno) {
     const body = {
@@ -145,19 +157,6 @@ export class ManagePmPage implements OnInit {
       this.displayToast('file uploaded successfully');
     };
     reader.readAsArrayBuffer(file);
-  }
-  send() {
-      this.formData.append('data', JSON.stringify(this.editData));
-      // server code
-      this.managePmService.postPmData(this.formData).subscribe( result => {
-          if (result) {
-              this.displayToast('Data Sent');
-              this.formData = new FormData();
-              this.loadDisplay();
-          } else {
-              console.log(result);
-          }
-      });
   }
   async displayToast(mess: string) {
     const toast = await this.toastCtrl.create({

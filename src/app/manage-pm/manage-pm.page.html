@@ -1,5 +1,5 @@
 <ion-content>
-  <div style="padding-top: 20px;padding-bottom: 20px;">
+  <div style="padding-top: 10px;padding-bottom: 10px;">
     <ion-searchbar type="text" id="search" placeholder="Search PO Number" [(ngModel)]="filter"></ion-searchbar>
   </div>
   <ion-item class="ion-no-margin">
@@ -18,30 +18,19 @@
       </ion-col>
     </ion-row>
   </ion-item>
-  &nbsp;&nbsp;
+    <ion-item>
+        <ion-grid  *ngFor="let rec of assData| async">
+            <ion-row>
+                <ion-col>Asset Id</ion-col>
+                <ion-col>{{rec.AssetId}}</ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>Asset Type</ion-col>
+                <ion-col>{{rec.AssetType}}</ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-item>
     <div class="card_layout">
-        <ion-list class="list_layout" *ngFor="let rec of assData| async">
-            <ion-card>
-                <ion-card-content>
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col>Asset ID</ion-col>
-                            <ion-col>{{rec.AssetId}}</ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card-content>
-            </ion-card>&nbsp;
-            <ion-card>
-                <ion-card-content>
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col>Asset Type</ion-col>
-                            <ion-col>{{rec.AssetType}}</ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card-content>
-            </ion-card>&nbsp;
-        </ion-list>
         <ion-list *ngFor="let rec of data| async | filter:filter">
             <ng-container *ngIf="rec.status=='1'; then completeBlock; else notCompleteBlock">
             </ng-container>
@@ -83,17 +72,17 @@
                                 <ion-row>
                                     <ion-col>
                                         <div class="ion-text-center">
-                                            <ion-label>{{rec.start}}</ion-label>
+                                            <ion-label>{{rec.start| date: 'dd/MM/yyyy'}}</ion-label>
                                         </div>
                                     </ion-col>
                                     <ion-col>
                                         <div class="ion-text-center">
-                                            <ion-label>{{rec.end}}</ion-label>
+                                            <ion-label>{{rec.end| date: 'dd/MM/yyyy'}}</ion-label>
                                         </div>
                                     </ion-col>
                                     <ion-col>
                                         <div class="ion-text-center">
-                                            <ion-label>{{rec.service}}</ion-label>
+                                            <ion-label>{{rec.service| date: 'dd/MM/yyyy'}}</ion-label>
                                         </div>
                                     </ion-col>
                                 </ion-row>
@@ -152,17 +141,17 @@
                                 <ion-row>
                                     <ion-col>
                                         <div class="ion-text-center">
-                                            <ion-label>{{rec.start}}</ion-label>
+                                            <ion-label>{{rec.start| date: 'dd/MM/yyyy'}}</ion-label>
                                         </div>
                                     </ion-col>
                                     <ion-col>
                                         <div class="ion-text-center">
-                                            <ion-label>{{rec.end}}</ion-label>
+                                            <ion-label>{{rec.end| date: 'dd/MM/yyyy'}}</ion-label>
                                         </div>
                                     </ion-col>
                                     <ion-col>
                                         <div class="ion-text-center">
-                                            <ion-label>{{rec.service}}</ion-label>
+                                            <ion-label>{{rec.service| date: 'dd/MM/yyyy'}}</ion-label>
                                         </div>
                                     </ion-col>
                                 </ion-row>
@@ -176,8 +165,7 @@
                                 <ion-row>
                                     <ion-col class="ion-float-left">Actions:
                                         <ion-button class="not_completed_color" (click)="uploadFile()" [class.button-disabled]="fileData!=null"><ion-icon name="arrow-round-up"></ion-icon></ion-button>
-                                        <ion-button class="not_completed_color" (click)="send()"><ion-icon name="send"></ion-icon></ion-button>
-                                        <ion-button class="not_completed_color" (click)="presentModal(rec.SNo,rec.poNo,rec.extraCost,rec.Comments,rec.start,rec.end,rec.service,false)" [class.button-disabled]="sendData"><ion-icon name="create"></ion-icon></ion-button>
+                                        <ion-button class="not_completed_color" (click)="presentModal(rec.SNo,rec.poNo,rec.extraCost,rec.Comments,rec.start,rec.end,rec.service,false)"><ion-icon name="create"></ion-icon></ion-button>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>

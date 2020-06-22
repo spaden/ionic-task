@@ -51,7 +51,7 @@ export class ScanPage implements OnInit {
               this.scanSub.unsubscribe();
 
               this.qrText = textFound;
-              this.route.navigate(['/asset'], {queryParams: {key: this.qrText}});
+              this.route.navigate(['/assets'], {queryParams: {key: this.qrText}});
             }, (err) => {
               alert(JSON.stringify(err));
             });

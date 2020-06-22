@@ -520,7 +520,7 @@ app.post("/getPmFile", function(req, res) {
 //access pm
 app.post("/getPmData", function(req, res) {
     console.log(req.body);
-    const pmQuery = `select  pmPMScheduleDetailsPK as SNo, amcPOPK as poNo,DATE_FORMAT(pmStartDate,\'%d/%m/%Y\') as start,DATE_FORMAT(pmEndDate,\'%d/%m/%Y\') as end,DATE_FORMAT(pmDateOfService,\'%d/%m/%Y\') as service,
+    const pmQuery = `select  pmPMScheduleDetailsPK as SNo, amcPOPK as poNo,pmStartDate as start,pmEndDate as end,pmDateOfService as service,
                      pmExtraCostIncurred as extraCost,pmComments as comments,pmIsServiceDone as status
                      from dataamc inner join linkitemamc on(dataamc.amcPOPK=linkitemamc.linkAMCPOFK)
                      inner join datapmscheduledetails on(datapmscheduledetails.pmItemAMCFK=linkitemamc.linkItemAMCPK)
