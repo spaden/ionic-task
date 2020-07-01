@@ -1,0 +1,78 @@
+<ion-content class="amc-background">
+  <div class="list">
+    <ion-list class="ion-padding">
+      <ion-item lines="none">
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input type="text"
+                   placeholder="Enter AMC PO Number"
+                   aria-label="Number"
+                   matInput
+                   [formControl]="poNo"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filterData| async" [value]="option.po" (onSelectionChange)="selectEvent(option)">{{option.po}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </ion-item>
+      <!--div class="ng-autocomplete">
+        <ng-autocomplete
+                [data]="amcPoData"
+                [searchKeyword]="keyword"
+                placeHolder="Enter AMC PO"
+                (selected)='selectEvent($event)'
+                historyIdentifier="amcPoData"
+                [itemTemplate]="itemTemplate"
+                [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+
+        <ng-template #itemTemplate let-item>
+          <div [innerHTML]="item" [(ngModel)]="poNo"></div>
+        </ng-template>
+
+        <ng-template #notFoundTemplate let-notFound>
+          <div [(ngModel)]="poNo" ></div>
+        </ng-template>
+      </div-->
+      <ion-item *ngIf="!disableProc; else vend">
+        <ion-label position="stacked">Vendor</ion-label>
+        <ion-select placeholder="Select Vendor" [(ngModel)]="vendor">
+          <ion-select-option value="{{val.Vid}}" *ngFor="let val of vendorData;">{{val.Name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ng-template #vend>
+        <ion-item>
+          <ion-label position="stacked">Vendor</ion-label>
+          <ion-input [(ngModel)]="vendor.Name" [disabled]="disableProc" value="{{vendor.Name}}"></ion-input>
+        </ion-item>
+      </ng-template>
+      <ion-item>
+        <ion-label position="stacked">Item AMC Cost</ion-label>
+        <ion-input type="number" [(ngModel)]="cost" (ionChange)="addCost()" required></ion-input>
+      </ion-item>
+      <ion-item *ngIf="showTotalCost">
+        <ion-label position="stacked">Total AMC Cost</ion-label>
+        <ion-input type="number" [disabled]="disableProc" [(ngModel)]="totalCost" value="{{totalCost}}" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Procurement Date</ion-label>
+        <ion-input [disabled]="disableProc" [(ngModel)]="procDate" value="{{procDate}}" (click)="calendarProc()"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Expiry Date</ion-label>
+        <ion-input [(ngModel)]="expDate" (click)="calendarExp()"></ion-input>
+      </ion-item>
+    </ion-list>&nbsp;
+    <div class="ion-text-center">
+      <ion-button (click)="upload()" [disabled]="url!=null">Upload AMC Document</ion-button>
+    </div>&nbsp;
+    <div class="ion-text-center">
+      <ion-button (click)="submit()">Submit</ion-button>
+    </div>&nbsp;
+    <div class="ion-text-center">
+      <ion-button (click)="dismiss()">Exit</ion-button>
+    </div>
+  </div>
+</ion-content>

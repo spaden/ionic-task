@@ -134,3 +134,8 @@
     </div>
   </div>
 </ion-content>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button fill="clear" [disabled]="disableAmc" (click)="presentModal()">
+    <ion-icon class="customIcon" name="add" style="font-size: 2em;"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

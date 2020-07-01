@@ -18,7 +18,7 @@ var storage = multer.diskStorage({
         cb(null, 'C:\\uploads')
     },
     filename: function (req, file, cb) {
-        cb(null, 'Report'+ - +Date.now());
+        cb(null, file.originalname);
     }
 });
 
@@ -469,7 +469,7 @@ app.post("/amc-warranty", function(req, res) {
                 linkExpiryDate as endDate, amcBaseContractCost as cost ,
                 '1' as amc
                 from dataamc inner join linkitemamc on(dataamc.amcPOPK=linkitemamc.linkAMCPOFK)
-                where linkItemKeyFK=?;`;
+                where linkItemKeyFK=? order by linkExpiryDate;`;
     con.query(query,[req.body.key],function(err,result) {
         if(err){
             res.status(400).json({
@@ -482,7 +482,7 @@ app.post("/amc-warranty", function(req, res) {
                      from datawarranty inner join linkitemlayer on 
                      (datawarranty.warItemKeyFK=linkitemlayer.linkItemKeyPK)
                      inner join dataitempool on(dataitempool.poolitemkeypk=linkitemlayer.linkitemkeypk)
-                     where linkItemKeypk=?;`;
+                     where linkItemKeypk=? order by warExpiryDate;`;
             con.query(query,[req.body.key],function(err,resdata) {
                 if(err){
                     res.status(400).json({
@@ -558,6 +558,201 @@ app.post("/updatePmData", function(req, res) {
                 res.end(JSON.stringify(result));
             }
         });
+    });
+});
+
+//get vendor list
+app.get("/getVendorList",function (req,res) {
+    const query = `select venVendorPK as Vid, venName as Name from datavendor order by Name;`;
+    con.query(query,(err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        }else{
+            res.end(JSON.stringify(result));
+        }
+    });
+});
+
+//get amcPo list
+app.get("/getAmcPoList",function (req,res) {
+    const query = `select amcPOPK as po, 
+                   amcBaseContractCost as cost, amcURLAMCPO as url, linkItemVendorFK as VId,
+                   linkProcurementDate as ProcDate from dataamc inner join linkitemamc on
+                   (dataamc.amcPOPK = linkitemamc.linkAMCPOFK) where linkItemAMCPK IN 
+                   (select MAX(linkItemAMCPK) from linkitemamc group by linkAMCPOFK);`;
+    con.query(query,(err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        }else{
+            res.end(JSON.stringify(result));
+        }
+    });
+});
+
+//get location of item
+app.post("/getLocation",function (req,res) {
+    console.log(req.body);
+    const query = `select SUBSTRING(linkitembuildingFK, 1, 11) as location from linkitemlayer where linkItemKeyPK = ?;`;
+    con.query(query,[req.body.key],(err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        }else{
+            res.end(JSON.stringify(result));
+        }
+    });
+});
+
+//create amc with upload of file
+app.post("/createAmc", function (req, res) {
+    console.log("reading body");
+    console.log(req.body);
+    upload(req, res, function (err) {
+        let data = JSON.parse(req.body.data);
+        console.log(data);
+        let proc = data.procDate.split("/").reverse().join("-");
+        let exp = data.expDate.split("/").reverse().join("-");
+        let query = `insert into dataamc(amcPOPK,amcVendorFK,amcBaseContractCost,amcURLAMCPO) values(?,?,?,?);`;
+        con.query(query, [data.poNo, data.vendor, data.cost, req.file.path], (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(401).json({
+                    failed: 'Unauthorized Access'
+                });
+            } else {
+                console.log("dataamc created succesfully");
+                query = 'select MAX(linkItemAMCPK) as id from linkitemamc;';
+                con.query(query, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.status(401).json({
+                            failed: 'Unauthorized Access'
+                        });
+                    } else {
+                        const item = result[0].id + 1;
+                        query = `insert into linkitemamc(linkItemAMCPK,linkItemVendorFK, linkAMCPOFK,
+                            linkItemKeyFK, linkBaseItemCost, linkProcurementDate, linkExpiryDate) values(?,?,?,?,?,?,?);`;
+                        con.query(query, [item, data.vendor, data.poNo, data.key, data.cost, proc, exp], (err, ress) => {
+                            if (err) {
+                                console.log(err);
+                                res.status(401).json({
+                                    failed: 'Unauthorized Access'
+                                });
+                            } else {
+                                console.log("amc insert success");
+                                query = 'select MAX(linklocationamcpk) as id from linkLocationAMC;';
+                                con.query(query, function (err, result) {
+                                    if (err) {
+                                        console.log(err);
+                                        res.status(401).json({
+                                            failed: 'Unauthorized Access'
+                                        });
+                                    } else {
+                                        const item = result[0].id + 1;
+                                        query = `insert into linkLocationAMC(linkLocationAMCPK,linkBaseLocationCost,linkAMCPOFK,linkLocationFK,linkpmannualexpiry) values(?,?,?,?,?);`;
+                                        con.query(query, [item, data.cost, data.poNo, data.location, "-03-31"], (err, resData) => {
+                                            if (err) {
+                                                console.log(err);
+                                                res.status(401).json({
+                                                    failed: 'Unauthorized Access'
+                                                });
+                                            } else {
+                                                res.end("true");
+                                            }
+                                        });
+
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+//update amc
+app.post("/create/amc",function(req,res) {
+    let proc = req.body.procDate.split("/").reverse().join("-");
+    let exp = req.body.expDate.split("/").reverse().join("-");
+    let query = `update dataamc set amcBaseContractCost=? where amcPOPK=?;`;
+    con.query(query,[req.body.totalCost,req.body.poNo],(err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        }else{
+            query = 'select MAX(linkItemAMCPK) as id from linkitemamc;';
+            con.query(query,function(err,result){
+               if (err) {
+                   console.log(err);
+                   res.status(401).json({
+                       failed: 'Unauthorized Access'
+                   });
+               } else {
+                   result.forEach(e => {
+                       const item = e.id + 1;
+                       console.log(e.id+" "+item);
+                       query = `insert into linkitemamc(linkItemAMCPK,linkItemVendorFK, linkAMCPOFK, linkItemKeyFK, linkBaseItemCost, linkProcurementDate, linkExpiryDate) values(?,?,?,?,?,?,?);`;
+                       con.query(query,[item,req.body.vendor,req.body.poNo,req.body.key,req.body.cost,proc,exp],(err, ress) => {
+                           if (err) {
+                               console.log(err);
+                               res.status(401).json({
+                                   failed: 'Unauthorized Access'
+                               });
+                           }else{
+                               query = `select linkLocationAMCPK from linkLocationAMCPK where linkAMCPOFK=?,linkLocationFK=?;`;
+                               con.query(query,[req.body.poNo,req.body.location],(err, resData) => {
+                                   if (err) {
+                                       console.log(err);
+                                       res.status(401).json({
+                                           failed: 'Unauthorized Access'
+                                       });
+                                   }else if (resData.length === 0) {
+                                       query = `insert into linkLocationAMCPK(linkBaseLocationCost,linkAMCPOFK,linkLocationFK) values(?,?,?);`;
+                                       con.query(query,[data.cost,data.po,data.location],(err, resData) => {
+                                           if (err) {
+                                               console.log(err);
+                                               res.status(401).json({
+                                                   failed: 'Unauthorized Access'
+                                               });
+                                           }else{
+                                               res.end("true");
+                                           }
+                                       });
+                                   } else {
+                                       resData.forEach(d=>{
+                                           let cost = d.linkBaseLocationCost + data.cost;
+                                           query = `update table linkLocationAMCPK set linkBaseLocationCost = ? where linkItemAMCPK=?;`;
+                                           con.query(query,[cost,d.linkItemAMCPK],(err, resData) => {
+                                               if (err) {
+                                                   console.log(err);
+                                                   res.status(401).json({
+                                                       failed: 'Unauthorized Access'
+                                                   });
+                                               }else{
+                                                   res.end("true");
+                                               }
+                                           });
+                                       });
+                                   }
+                               });
+                           }
+                       });
+                   });
+               }
+            });
+        }
     });
 });
 

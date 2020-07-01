@@ -19,6 +19,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import {File} from '@ionic-native/file/ngx';
 import {FileChooser} from '@ionic-native/file-chooser/ngx';
 import {Downloader} from '@ionic-native/downloader/ngx';
+import {AmcModalPageModule} from './amc-modal/amc-modal.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -29,9 +31,11 @@ import {Downloader} from '@ionic-native/downloader/ngx';
     AppRoutingModule,
     SuperTabsModule.forRoot(),
     PmModalPageModule,
+    AmcModalPageModule,
     Ng2SearchPipeModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [
     QRScanner,

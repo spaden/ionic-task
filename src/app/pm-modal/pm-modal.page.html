@@ -2,22 +2,28 @@
   <div class="list">
     <ion-list class="ion-padding">
       <ion-item>
-        <ion-input placeholder="PO Number" [disabled]="poNo!=null" [(ngModel)]="poNo" value="{{poNo}}" required></ion-input>
+        <ion-label position="stacked">PO Number</ion-label>
+        <ion-input [disabled]="poNo!=null" [(ngModel)]="poNo" value="{{poNo}}" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="Start Date" [disabled]="startDate!=null" [(ngModel)]="startDate" value="{{startDate}}" (click)="calendar('start')" required></ion-input>
+        <ion-label position="stacked">Start Date</ion-label>
+        <ion-input [disabled]="startDate!=null" [(ngModel)]="startDate" value="{{startDate}}" (click)="calendar('start')" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="End Date" [disabled]="endDate!=null" [(ngModel)]="endDate" value="{{endDate}}" (click)="calendar('end')" required></ion-input>
+        <ion-label position="stacked">End Date</ion-label>
+        <ion-input [disabled]="endDate!=null" [(ngModel)]="endDate" value="{{endDate}}" (click)="calendar('end')" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="Service Date" [(ngModel)]="service" value="{{service}}" (click)="calendar('service')" required></ion-input>
+        <ion-label position="stacked">Service Date</ion-label>
+        <ion-input [(ngModel)]="service" value="{{service}}" (click)="calendar('service')" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="number" placeholder="Extra Cost" [(ngModel)]="extraCost" value="{{extraCost}}" required></ion-input>
+        <ion-label position="stacked">Extra Cost</ion-label>
+        <ion-input type="number" [(ngModel)]="extraCost" value="{{extraCost}}" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="Comments" [(ngModel)]="comments" value="{{comments}}"></ion-input>
+        <ion-label position="stacked">Comments</ion-label>
+        <ion-input [(ngModel)]="comments" value="{{comments}}"></ion-input>
       </ion-item>
     </ion-list>&nbsp;
     <div class="ion-text-center">
