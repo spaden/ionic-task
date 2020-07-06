@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>AMC Management</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<super-tabs>
+  <super-tabs-toolbar slot="top" class="super-tab-color" color="blue">
+    <super-tab-button>
+      <ion-label>Create AMC</ion-label>
+    </super-tab-button>
+    <super-tab-button>
+      <ion-label>View AMC</ion-label>
+    </super-tab-button>
+  </super-tabs-toolbar>
+  <super-tabs-container>
+    <super-tab>
+      <ion-content>
+        <ion-nav [root]="createAmc"></ion-nav>
+      </ion-content>
+    </super-tab>
+    <super-tab>
+      <ion-content>
+        <ion-nav [root]="viewAllAmc"></ion-nav>
+      </ion-content>
+    </super-tab>
+  </super-tabs-container>
+</super-tabs>

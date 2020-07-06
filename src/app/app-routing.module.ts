@@ -38,7 +38,14 @@ const routes: Routes = [
   {
     path: 'edit-profile',
     loadChildren: () => import('./edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
-  }
+  },
+  {
+    path: 'manage-amc',
+    loadChildren: () => import('./manage-amc/manage-amc.module').then( m => m.ManageAmcPageModule)
+  },  {
+    path: 'all-amc-modal',
+    loadChildren: () => import('./all-amc-modal/all-amc-modal.module').then( m => m.AllAmcModalPageModule)
+  },
 
 ];
 

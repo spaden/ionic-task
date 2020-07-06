@@ -78,6 +78,13 @@
                 </ion-col>
               </ion-row>
             </ion-grid>
+            <ion-grid>
+              <ion-row>
+                <ion-col class="ion-float-left">Actions:&nbsp;
+                  <ion-button class="amc_color" tooltip="Download" placement="top" show-delay="50" (click)="download(rec.PO)"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-card-content>
         </ion-card>
         <br>
@@ -125,6 +132,13 @@
                   <div class="ion-text-center">
                     <ion-label>{{rec.cost}}</ion-label>
                   </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+            <ion-grid>
+              <ion-row>
+                <ion-col class="ion-float-left">Actions:&nbsp;
+                  <ion-button class="warranty_color" tooltip="Download" placement="top" show-delay="50" (click)="download(rec.PO)"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
                 </ion-col>
               </ion-row>
             </ion-grid>

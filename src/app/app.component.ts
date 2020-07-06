@@ -44,6 +44,9 @@ export class AppComponent {
         if (this.router.isActive('/manage-po', true) && this.router.url === '/manage-po') {
             this.nav.pop();
         }
+        if (this.router.isActive('/manage-amc', true) && this.router.url === '/manage-amc') {
+            this.nav.pop();
+        }
     });
   }
 }

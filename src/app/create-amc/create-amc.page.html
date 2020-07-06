@@ -1,0 +1,19 @@
+<ion-content>
+  <br>
+  <div style="padding-top: 10px;padding-bottom: 10px;">
+    <ion-searchbar type="text" id="search" placeholder="Search Asset Item" [(ngModel)]="filter"></ion-searchbar>
+  </div>
+  <br>
+  <div class="ion-text-center">
+    <ion-button class="primary" (click)="presentModal()">Next</ion-button>
+  </div>
+  <br>
+  <div class="card_layout">
+    <ion-list>
+      <ion-item *ngFor="let entry of assetList| filter: filter">
+        <ion-label>{{entry.Id}}</ion-label>
+        <ion-checkbox slot="end" color="primary" [(ngModel)]="entry.Checked" (click)="addItem(entry, $event)"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

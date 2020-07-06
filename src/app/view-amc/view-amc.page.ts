@@ -5,8 +5,9 @@ import {AssetService} from '../services/asset_info_service/asset.service';
 import {Observable} from 'rxjs';
 import {Asset} from '../classes/asset_class/asset';
 import * as moment from 'moment';
-import {ModalController} from '@ionic/angular';
+import {ModalController, ToastController} from '@ionic/angular';
 import {AmcModalPage} from '../amc-modal/amc-modal.page';
+import {Downloader, DownloadRequest, NotificationVisibility} from '@ionic-native/downloader/ngx';
 
 @Component({
   selector: 'app-view-amc',
@@ -26,7 +27,9 @@ export class ViewAmcPage implements OnInit {
   constructor(private route: ActivatedRoute,
               public assetService: AssetService,
               private service: AmcServiceService,
-              public modalController: ModalController) {
+              public modalController: ModalController,
+              private toastCtrl: ToastController,
+              private downloader: Downloader) {
     this.assetKey = this.route.snapshot.queryParams.key;
     console.log(this.assetKey);
   }
@@ -46,27 +49,38 @@ export class ViewAmcPage implements OnInit {
     };
     this.service.getAmcData(data).subscribe(result => {
       console.log(result);
-      console.log(result.amcData);
-      if (result.amcData) {
-        this.allAmc = result.amcData;
-        this.showAMC = true;
-        const length = this.allAmc.length;
-        const today = new Date();
-        const end = new Date(this.allAmc[length - 1].endDate);
-        if (end < today) {
-          window.alert('AMC has expired');
+      if (result.length === 0) {
+        this.disableAmc = false;
+      } else {
+        console.log(result.amcData);
+        if (result.amcData.length === 0) {
           this.disableAmc = false;
+        } else {
+          this.allAmc = result.amcData;
+          this.showAMC = true;
+          const length = this.allAmc.length;
+          console.log(this.allAmc[length-1]);
+          const today = new Date();
+          const end = new Date(this.allAmc[length - 1].endDate);
+          if (end < today) {
+            window.alert('AMC has expired');
+            this.disableAmc = false;
+          } else {
+            {
+              this.disableAmc = true;
+            }
+          }
         }
-      }
-      if (result.warrantyData) {
-        this.allWarranty = result.warrantyData;
-        this.showWarranty = true;
-        const length = this.allWarranty.length;
-        const today = new Date();
-        const end = new Date(this.allWarranty[length - 1].endDate);
-        if (end < today) {
-          window.alert('Warranty has expired');
-          this.disableAmc = false;
+        if (result.warrantyData) {
+          this.allWarranty = result.warrantyData;
+          this.showWarranty = true;
+          const length = this.allWarranty.length;
+          const today = new Date();
+          const end = new Date(this.allWarranty[length - 1].endDate);
+          if (end < today) {
+            window.alert('Warranty has expired');
+            this.disableAmc = false;
+          }
         }
       }
     });
@@ -78,6 +92,36 @@ export class ViewAmcPage implements OnInit {
   showWarrantyOnly() {
     this.showWarranty = true;
     this.showAMC = false;
+  }
+  download(sno) {
+    const body = {
+      id: sno,
+    };
+    console.log(body);
+    this.service.getFile(body);
+    console.log(this.service.file);
+    const request: DownloadRequest = {
+      // @ts-ignore
+      uri: this.service.file,
+      title: 'MyDownload',
+      description: '',
+      mimeType: '',
+      visibleInDownloadsUi: true,
+      notificationVisibility: NotificationVisibility.VisibleNotifyCompleted,
+      destinationInExternalFilesDir: {
+        dirType: 'C:\\uploads',
+        subPath: 'content'
+      }
+    };
+    this.downloader.download(request)
+        .then((location: string) => this.displayToast('File downloaded at:' + location))
+        .catch((error: any) => console.error(error));
+  }
+  async displayToast(mess: string) {
+    const toast = await this.toastCtrl.create({
+      message: mess,
+      duration: 2000});
+    toast.present();
   }
   async presentModal() {
     const sendData = {

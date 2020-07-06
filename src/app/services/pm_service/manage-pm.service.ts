@@ -16,7 +16,7 @@ export class ManagePmService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/getPmData';
+    const url = 'http://192.168.43.170:8080/getPmData';
     return this.httpService.post<ManagePm[]>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
@@ -27,13 +27,13 @@ export class ManagePmService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/updatePmData';
+    const url = 'http://192.168.43.170:8080/updatePmData';
     return this.httpService.post<ManagePm[]>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
   }
   getFile(data): any {
-    const url = 'http://localhost:8080/getPmFile';
+    const url = 'http://192.168.43.170:8080/getPmFile';
     return this.httpService.post(url, data, {observe: 'response',
       responseType: 'blob'}).subscribe(result => {
       console.log(result);

@@ -1,0 +1,57 @@
+.amc-background{
+  --background: url("../../assets/createAMC.png") 0 0/100% 100% no-repeat;
+  background: url("../../assets/createAMC.png") no-repeat fixed center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+.list{
+  margin-top: 230px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+ion-item{
+  margin: 10px;
+  --highlight-color-valid: #8860d0;
+}
+.check{
+  margin:5px;
+}
+ion-label{
+  margin:5px;
+  --ion-color-base: #808080;
+}
+ion-button{
+  --background : #5680e9;
+  --background-hover: #8860d0;
+  --border-radius: 5px;
+  margin-top: -8px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  width: 200px;
+  height: 40px;
+}
+ion-list{
+  --padding:40px;
+}
+.ng-autocomplete {
+  width:100%;
+  max-width: 600px;
+  display: table;
+  margin: 0 auto;
+  box-shadow: inset 0px 0px 0px 0px;
+}
+ion-select {
+  width: 100% !important;
+  max-width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+.example-full-width {
+  width: 100%;
+}
+.example-form {
+  width: 100%;
+}

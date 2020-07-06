@@ -1,0 +1,15 @@
+ion-header::after{
+  background-image: none;
+  border-width: 0px !important;
+  border-bottom: none transparent !important;
+}
+ion-toolbar{
+  --background: #5680e9;
+}
+ion-title, ion-label, ion-buttons{
+  color: #ffffff;
+  text-align: center;
+}
+.super-tab-color{
+  --ion-color-base: #5680e9;
+}

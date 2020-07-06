@@ -50,7 +50,7 @@
       </ng-template>
       <ion-item>
         <ion-label position="stacked">Item AMC Cost</ion-label>
-        <ion-input type="number" [(ngModel)]="cost" (ionChange)="addCost()" required></ion-input>
+        <ion-input type="number" [disabled]="disableCost" [(ngModel)]="cost" (focusout)="addCost()" required></ion-input>
       </ion-item>
       <ion-item *ngIf="showTotalCost">
         <ion-label position="stacked">Total AMC Cost</ion-label>
@@ -62,7 +62,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Expiry Date</ion-label>
-        <ion-input [(ngModel)]="expDate" (click)="calendarExp()"></ion-input>
+        <ion-input [(ngModel)]="expDate" value="{{expDate}}" (click)="calendarExp()"></ion-input>
       </ion-item>
     </ion-list>&nbsp;
     <div class="ion-text-center">

@@ -4,24 +4,24 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AmcModalPageRoutingModule } from './amc-modal-routing.module';
+import { AllAmcModalPageRoutingModule } from './all-amc-modal-routing.module';
 
-import { AmcModalPage } from './amc-modal.page';
-import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { AllAmcModalPage } from './all-amc-modal.page';
 import {MatAutocompleteModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        AmcModalPageRoutingModule,
+        AllAmcModalPageRoutingModule,
         AutocompleteLibModule,
         MatFormFieldModule,
+        ReactiveFormsModule,
         MatAutocompleteModule,
         MatInputModule,
-        ReactiveFormsModule,
     ],
-  declarations: [AmcModalPage],
+  declarations: [AllAmcModalPage]
 })
-export class AmcModalPageModule {}
+export class AllAmcModalPageModule {}

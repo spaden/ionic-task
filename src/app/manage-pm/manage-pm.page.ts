@@ -95,18 +95,18 @@ export class ManagePmPage implements OnInit {
     };
     console.log(body);
     this.managePmService.getFile(body);
-    console.log(this.file);
+    console.log(this.managePmService.file);
     const request: DownloadRequest = {
       // @ts-ignore
-      uri: this.file,
+      uri: this.managePmService.file,
       title: 'MyDownload',
       description: '',
       mimeType: '',
       visibleInDownloadsUi: true,
       notificationVisibility: NotificationVisibility.VisibleNotifyCompleted,
       destinationInExternalFilesDir: {
-        dirType: 'Downloads',
-        subPath: 'MyFile.apk'
+        dirType: 'C:\\uploads',
+        subPath: 'EquipMax.pdf'
       }
     };
     this.downloader.download(request)

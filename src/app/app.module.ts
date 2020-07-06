@@ -21,6 +21,7 @@ import {FileChooser} from '@ionic-native/file-chooser/ngx';
 import {Downloader} from '@ionic-native/downloader/ngx';
 import {AmcModalPageModule} from './amc-modal/amc-modal.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AllAmcModalPageModule} from "./all-amc-modal/all-amc-modal.module";
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -32,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SuperTabsModule.forRoot(),
     PmModalPageModule,
     AmcModalPageModule,
+    AllAmcModalPageModule,
     Ng2SearchPipeModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),

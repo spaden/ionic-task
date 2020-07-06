@@ -28,6 +28,7 @@ export class AmcModalPage implements OnInit {
   name: any;
   amcPoData = [];
   disableProc = false;
+  disableCost = false;
   filterData: Observable<any>;
   showTotalCost = false;
   location: any;
@@ -75,6 +76,7 @@ export class AmcModalPage implements OnInit {
     this.totalCost = item.cost;
     this.proc = item.ProcDate;
     this.procDate = moment(item.ProcDate).format('DD/MM/YYYY');
+    this.expDate = moment(item.ExpDate).format('DD/MM/YYYY');
     this.url = item.url;
     this.vendor = this.vendorData.find(data => data.Vid === item.VId);
     this.name = this.vendor.Name;
@@ -84,6 +86,7 @@ export class AmcModalPage implements OnInit {
   addCost() {
     if (this.showTotalCost) {
       this.totalCost += this.cost;
+      this.disableCost = true;
     }
   }
   upload() {
@@ -127,7 +130,7 @@ export class AmcModalPage implements OnInit {
             location: this.location,
         };
         console.log(this.data);
-        this.service.createAamc(this.data).subscribe(result => {
+        this.service.updateAmc(this.data).subscribe(result => {
             if (result) {
                 this.displayToast('Data sent');
                 this.viewCtrl.dismiss(true);
@@ -167,7 +170,7 @@ export class AmcModalPage implements OnInit {
   ngOnInit() {
       const d = {
           key: this.key,
-      }
+      };
       this.service.getLocation(d).subscribe(data => {
           console.log(data);
           this.location = data[0].location;

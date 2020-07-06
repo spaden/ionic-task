@@ -5,18 +5,18 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AmcServiceService {
+export class ManageAmcService {
   file: any;
   constructor(private httpService: HttpClient) { }
 
-  getAmcData(data): Observable<any> {
+  getAmcData(): Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/amc-warranty';
-    return this.httpService.post<any>(url, data, {headers});
+    const url = 'http://192.168.43.170:8080/getAmcAssetList';
+    return this.httpService.get<any>(url, {headers});
   }
   getVendorData(): Observable<any> {
     const headers = new HttpHeaders();
@@ -42,17 +42,17 @@ export class AmcServiceService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/getLocation';
+    const url = 'http://192.168.43.170:8080/getAllLocation';
     return this.httpService.post<any>(url, data, {headers});
   }
   createAmc(data): Observable<any> {
-        const headers = new HttpHeaders();
-        headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
-        headers.append('Accept', 'application/json');
-        headers.append('content-type', 'application/json');
-        const url = 'http://192.168.43.170:8080/createAMC';
-        return this.httpService.post<any>(url, data, {headers});
+    const headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
+    headers.append('Accept', 'application/json');
+    headers.append('content-type', 'application/json');
+    const url = 'http://192.168.43.170:8080/createAllAMC';
+    return this.httpService.post<any>(url, data, {headers});
   }
   updateAmc(data): Observable<any> {
     const headers = new HttpHeaders();
@@ -60,7 +60,7 @@ export class AmcServiceService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/updateAmc';
+    const url = 'http://192.168.43.170:8080/updateAllAmc';
     return this.httpService.post<any>(url, data, {headers});
   }
   getFile(data): any {
