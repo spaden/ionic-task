@@ -94,12 +94,6 @@ export class AllAmcModalPage implements OnInit {
     console.log(this.name);
     this.showTotalCost = true;
   }
-  addCost() {
-    if (this.showTotalCost) {
-      this.totalCost += this.cost;
-      this.disableCost = true;
-    }
-  }
   upload() {
     this.fileChooser.open().then( uri => {
       this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
@@ -140,8 +134,12 @@ export class AllAmcModalPage implements OnInit {
       console.log(this.data);
       this.service.updateAmc(this.data).subscribe(result => {
         if (result) {
-          this.displayToast('Data sent');
-          this.viewCtrl.dismiss(true);
+          this.service.insertLocation(this.data).subscribe(resultData => {
+            if (resultData) {
+              this.displayToast('Data sent');
+              this.viewCtrl.dismiss(true);
+            }
+          });
         }
       });
     } else {
@@ -158,8 +156,12 @@ export class AllAmcModalPage implements OnInit {
       this.formData.append('data', JSON.stringify(this.data));
       this.service.createAmc(this.formData).subscribe(result => {
         if (result) {
-          this.displayToast('Data sent');
-          this.viewCtrl.dismiss(true);
+          this.service.insertLocation(this.data).subscribe(resultData => {
+            if (resultData) {
+              this.displayToast('Data sent');
+              this.viewCtrl.dismiss(true);
+            }
+          });
         }
       });
     }

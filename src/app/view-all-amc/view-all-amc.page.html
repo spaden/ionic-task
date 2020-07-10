@@ -1,3 +1,78 @@
 <ion-content>
-
+    <div style="padding-top: 10px;padding-bottom: 10px;">
+        <ion-searchbar type="text" id="search" placeholder="Search PO Number" [(ngModel)]="filter"></ion-searchbar>
+    </div>
+    <div class="card_layout">
+        <div>
+            <ng-container *ngFor="let rec of amc | filter: filter;let i = index">
+                <ion-card (click)="fetch(rec.po,i)">
+                    <ion-card-header class="amc_color">
+                        <div class="ion-text-center">
+                            <ion-label color="white">{{rec.po}}</ion-label>
+                        </div>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>Start</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>End</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>Total Cost</ion-label>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.ProcDate| date:'dd/MM/yyyy'}}</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.ExpDate| date:'dd/MM/yyyy'}}</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.cost}}</ion-label>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                            <ng-container *ngIf="show[i]">
+                                <ion-list *ngFor="let val of asset">
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-label>Asset ID - {{val.Id}}</ion-label>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-label>Cost - {{val.Cost}}</ion-label>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-list>
+                            </ng-container>
+                        </ion-grid>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col class="ion-float-left">Actions:&nbsp;
+                                    <ion-button class="amc_color" tooltip="Download" placement="top" show-delay="50" (click)="download(rec.po)"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>
+                <br>
+            </ng-container>
+        </div>&nbsp;
+    </div>
 </ion-content>

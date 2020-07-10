@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ViewAllAmcPage } from './view-all-amc.page';
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        Ng2SearchPipeModule,
+    ],
   declarations: [ViewAllAmcPage],
   entryComponents: [ViewAllAmcPage]
 })

@@ -15,7 +15,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/getAmcAssetList';
+    const url = 'http://localhost:8080/getAmcAssetList';
     return this.httpService.get<any>(url, {headers});
   }
   getVendorData(): Observable<any> {
@@ -24,7 +24,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/getVendorList';
+    const url = 'http://localhost:8080/getVendorList';
     return this.httpService.get<any>(url, {headers});
   }
   getAmcPoData(): Observable<any> {
@@ -33,7 +33,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/getAmcPoList';
+    const url = 'http://localhost:8080/getAmcPoList';
     return this.httpService.get<any>(url, {headers});
   }
   getLocation(data): Observable<any> {
@@ -42,7 +42,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/getAllLocation';
+    const url = 'http://localhost:8080/getAllLocation';
     return this.httpService.post<any>(url, data, {headers});
   }
   createAmc(data): Observable<any> {
@@ -51,7 +51,16 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/createAllAMC';
+    const url = 'http://localhost:8080/createAllAMC';
+    return this.httpService.post<any>(url, data, {headers});
+  }
+  viewAmc(data): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
+    headers.append('Accept', 'application/json');
+    headers.append('content-type', 'application/json');
+    const url = 'http://localhost:8080/viewAllAMC';
     return this.httpService.post<any>(url, data, {headers});
   }
   updateAmc(data): Observable<any> {
@@ -60,11 +69,20 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://192.168.43.170:8080/updateAllAmc';
+    const url = 'http://localhost:8080/updateAllAmc';
+    return this.httpService.post<any>(url, data, {headers});
+  }
+  getAssetAmc(data): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
+    headers.append('Accept', 'application/json');
+    headers.append('content-type', 'application/json');
+    const url = 'http://localhost:8080/fetchAssetList/Amc';
     return this.httpService.post<any>(url, data, {headers});
   }
   getFile(data): any {
-    const url = 'http://192.168.43.170:8080/getAmcFile';
+    const url = 'http://localhost:8080/getAmcFile';
     return this.httpService.post(url, data, {observe: 'response',
       responseType: 'blob'}).subscribe(result => {
       console.log(result);
@@ -78,4 +96,13 @@ export class ManageAmcService {
     });
     reader.readAsDataURL(image);
   }
+  insertLocation(data): Observable<any> {
+        const headers = new HttpHeaders();
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
+        headers.append('Accept', 'application/json');
+        headers.append('content-type', 'application/json');
+        const url = 'http://localhost:8080/insertLocation';
+        return this.httpService.post<any>(url, data, {headers});
+    }
 }
