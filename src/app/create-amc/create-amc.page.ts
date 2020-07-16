@@ -1,20 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ManageAmcService} from '../services/manage-amc/manage-amc.service';
 import {ModalController} from '@ionic/angular';
 import {AllAmcModalPage} from '../all-amc-modal/all-amc-modal.page';
+import {DataItemsService} from '../services/list_service/data-items.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-create-amc',
   templateUrl: './create-amc.page.html',
   styleUrls: ['./create-amc.page.scss'],
 })
-export class CreateAmcPage implements OnInit {
+export class CreateAmcPage implements OnInit, OnDestroy {
 
   assetList = [];
+  asset = [];
   selectList = [];
+  subscription: Subscription;
+  data: any;
   filter: any;
+  val: any;
   constructor(private service: ManageAmcService,
-              public modalController: ModalController) { }
+              public modalController: ModalController,
+              private list: DataItemsService) {
+      this.data = this.list.amcItems;
+      this.subscription = this.list.amcItemsChange.subscribe((value) => {
+          console.log(value);
+          this.data = value;
+          this.loadDisplay();
+      });
+  }
 
   addItem(entry, event) {
     console.log(event.target.checked);
@@ -35,23 +49,28 @@ export class CreateAmcPage implements OnInit {
   loadDisplay() {
       this.assetList = [];
       this.selectList = [];
-      this.service.getAmcData().subscribe(data => {
-          console.log(data);
-          // tslint:disable-next-line:prefer-for-of
-          for (let i = 0; i < data.length; i++) {
-              const val = {
-                  Id: data[i].Id,
-                  Key: data[i].itemKey,
-                  Checked: false,
-                  Cost: null,
-              };
-              this.assetList.push(val);
-          }
-          console.log(this.assetList);
-      });
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < this.data.length; i++) {
+          const val = {
+              Id: this.data[i].Id,
+              Key: this.data[i].itemKey,
+              Checked: false,
+              Cost: null,
+          };
+          this.assetList.push(val);
+      }
+      this.asset = this.assetList;
   }
   ngOnInit() {
+      this.data = this.list.amcItems;
       this.loadDisplay();
+  }
+  ngOnDestroy() {
+      this.subscription.unsubscribe();
+  }
+  onSearch(event) {
+     this.val = event.target.value;
+     this.assetList = this.asset.filter((dat) => dat.Id.includes(this.val));
   }
   async presentModal() {
         if (this.selectList.length === 0) {
@@ -67,6 +86,7 @@ export class CreateAmcPage implements OnInit {
             });
             modal.onDidDismiss().then((data) => {
                 if (data) {
+                    this.list.fetchAmcData();
                     this.loadDisplay();
                 }
             });

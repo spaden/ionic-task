@@ -16,8 +16,9 @@ import * as moment from 'moment';
 })
 export class AmcModalPage implements OnInit {
   poNo = new FormControl();
+  vend = new FormControl();
   vendor: any;
-  url: any;
+  url = false;
   cost: any;
   totalCost: any;
   procDate: any;
@@ -30,10 +31,12 @@ export class AmcModalPage implements OnInit {
   disableProc = false;
   disableCost = false;
   filterData: Observable<any>;
+  filterVendorData: Observable<any>;
   showTotalCost = false;
   location: any;
   proc: any;
   formData = new FormData();
+  ddata: any;
   constructor(private fileChooser: FileChooser,
               private file: File,
               public viewCtrl: ModalController,
@@ -83,6 +86,9 @@ export class AmcModalPage implements OnInit {
     console.log(this.name);
     this.showTotalCost = true;
   }
+  selectVendorEvent(item: any) {
+      this.ddata = item.Vid;
+  }
   addCost() {
     if (this.showTotalCost) {
       this.totalCost += this.cost;
@@ -93,13 +99,13 @@ export class AmcModalPage implements OnInit {
     this.fileChooser.open().then( uri => {
       this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
         fileEntry.file(file => {
-          this.readFile(file);
+            this.url = true;
+            this.readFile(file);
         });
       });
     }).catch(e => console.log(e));
   }
   readFile(file: any) {
-      this.url = file;
       const reader = new FileReader();
       reader.onloadend = () => {
           const fileBlb = new Blob([reader.result], {
@@ -113,7 +119,7 @@ export class AmcModalPage implements OnInit {
   }
   submit() {
     if ( !this.poNo || !this.procDate || !this.expDate ||
-        !this.cost || !this.vendor ) {
+        !this.cost) {
         this.displayToast('Fill all the details');
     } else if (!this.url) {
         this.displayToast('Upload the file');
@@ -138,7 +144,7 @@ export class AmcModalPage implements OnInit {
         });
     } else {
       this.data = {
-          vendor: this.vendor,
+          vendor: this.ddata,
           poNo: this.poNo.value,
           cost: this.cost,
           totalCost: this.totalCost,
@@ -176,22 +182,31 @@ export class AmcModalPage implements OnInit {
           this.location = data[0].location;
       });
       this.service.getVendorData().subscribe(data => {
-      this.vendorData = data;
-    });
+          this.vendorData = data;
+      });
       this.service.getAmcPoData().subscribe(data => {
-      this.amcPoData = data;
-      console.log(this.amcPoData);
-    });
+          this.amcPoData = data;
+          console.log(this.amcPoData);
+      });
       this.filterData = this.poNo.valueChanges
         .pipe(
             startWith(''),
-            map(value => this._filter(value))
+            map(value => value.length >= 3 ? this._filter(value) : [])
         );
+      this.filterVendorData = this.vend.valueChanges
+          .pipe(
+              startWith(''),
+              map(value => value.length >= 3 ? this._filterVendor(value) : [])
+          );
   }
   private _filter(value: string): string[] {
     const filterValue = value;
 
     return this.amcPoData.filter(option => option.po.includes(filterValue));
   }
+  private _filterVendor(value: string): string[] {
+        const filterValue = value;
 
+        return this.vendorData.filter(option => option.Name.includes(filterValue));
+    }
 }

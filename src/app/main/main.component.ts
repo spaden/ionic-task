@@ -92,7 +92,7 @@ export class MainComponent implements OnInit {
     console.log(result);
   }
 
-  async swithRole() {
+  async switchRole() {
     const ar = [];
     this.listService.userRoles.forEach(item => {
       let str = item.locname;

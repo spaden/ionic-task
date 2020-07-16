@@ -36,13 +36,23 @@
           <div [(ngModel)]="poNo" ></div>
         </ng-template>
       </div-->
-      <ion-item *ngIf="!disableProc; else vend">
-        <ion-label position="stacked">Vendor</ion-label>
-        <ion-select placeholder="Select Vendor" [(ngModel)]="vendor">
-          <ion-select-option value="{{val.Vid}}" *ngFor="let val of vendorData;">{{val.Name}}</ion-select-option>
-        </ion-select>
+      <ion-item *ngIf="!disableProc; else vendId" lines="none">
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input type="text"
+                   placeholder="Enter Vendor Name"
+                   aria-label="text"
+                   matInput
+                   [formControl]="vend"
+                   [matAutocomplete]="autoVend">
+            <mat-autocomplete #autoVend="matAutocomplete">
+              <mat-option *ngFor="let option of filterVendorData| async" [value]="option.Name" (onSelectionChange)="selectVendorEvent(option)">{{option.Name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
       </ion-item>
-      <ng-template #vend>
+      <ng-template #vendId>
         <ion-item>
           <ion-label position="stacked">Vendor</ion-label>
           <ion-input [(ngModel)]="vendor.Name" [disabled]="disableProc" value="{{vendor.Name}}"></ion-input>
@@ -66,7 +76,7 @@
       </ion-item>
     </ion-list>&nbsp;
     <div class="ion-text-center">
-      <ion-button (click)="upload()" [disabled]="url!=null">Upload AMC Document</ion-button>
+      <ion-button [disabled]="url" (click)="upload()">Upload AMC Document</ion-button>
     </div>&nbsp;
     <div class="ion-text-center">
       <ion-button (click)="submit()">Submit</ion-button>

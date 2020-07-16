@@ -9,15 +9,6 @@ export class ManageAmcService {
   file: any;
   constructor(private httpService: HttpClient) { }
 
-  getAmcData(): Observable<any> {
-    const headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
-    headers.append('Accept', 'application/json');
-    headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/getAmcAssetList';
-    return this.httpService.get<any>(url, {headers});
-  }
   getVendorData(): Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');

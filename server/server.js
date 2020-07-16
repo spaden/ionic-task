@@ -100,8 +100,6 @@ handleDisconnect();
 
 // assets list
 app.post('/lists', (req, res) => {
-    let items = [];
-
     console.log(req.body);
     let loc = req.body.location;
     loc += '%';
@@ -605,16 +603,22 @@ app.get("/getAmcPoList",function (req,res) {
 
 
 //get amcAsset list
-app.get("/getAmcAssetList",function (req,res) {
+app.post("/getAmcAssetList",function (req,res) {
+    console.log(req.body);
+    let loc = req.body.location;
+    loc += '%';
+    console.log(loc);
     const today = moment(new Date()).format("YYYY-MM-DD");
     const query = `select poolAssetId as Id, poolItemKeyPK as itemKey from linkitemlayer 
                    inner join dataitempool on(linkitemlayer.linkItemKeyPK=dataitempool.poolitemkeypk)
-                   where linkitemkeypk not in
+                   where linkItemBuildingFK like ?
+                   and
+                   linkitemkeypk not in
                    (select linkitemkeyfk from linkitemamc where linkExpiryDate > ?)  
                    and
                    linkitemkeypk not in
-                   (select warItemKeyFK from datawarranty where warExpiryDate > ?);`;
-    con.query(query,[today, today],(err, result) => {
+                   (select warItemKeyFK from datawarranty where warExpiryDate > ?)`;
+    con.query(query,[loc,today, today],(err, result) => {
         if (err) {
             console.log(err);
             res.status(401).json({
@@ -816,6 +820,7 @@ app.post("/insertLocation", function(req, res) {
         let query = `select linkLocationAMCPK,linkBaseLocationCost from linkLocationAMC where linkAMCPOFK=? and linkLocationFK=?;`;
         con.query(query, [data.poNo, locData[0][i]], (err, resData) => {
             console.log(resData);
+            console.log(locData[0][i]+" "+locData[i][1]);
             if (err) {
                 console.log(err);
                 res.status(401).json({
@@ -833,7 +838,7 @@ app.post("/insertLocation", function(req, res) {
                         const item = result[0].id + i + 1;
                         query = `insert into linkLocationAMC (linkLocationAMCPK,linkBaseLocationCost,
                                                              linkAMCPOFK,linkLocationFK,linkpmannualexpiry) values(?,?,?,?,?);`;
-                        con.query(query, [item, data.asset[i].Cost, data.poNo, data.location[i][1],"-03-31"], (err, resData) => {
+                        con.query(query, [item, locData[i][1], data.poNo, locData[0][i],"-03-31"], (err, resData) => {
                             if (err) {
                                 console.log(err);
                                 res.status(401).json({
@@ -848,7 +853,7 @@ app.post("/insertLocation", function(req, res) {
                     }
                 })
             } else {
-                let cost = resData[0].linkBaseLocationCost + data.asset[i].Cost;
+                let cost = resData[0].linkBaseLocationCost + locData[i][1];
                 query = `update linklocationamc set linkBaseLocationCost = ? where linklocationamcpk=?;`;
                 con.query(query, [cost, resData[0].linkLocationAMCPK], (err, resData) => {
                     if (err) {

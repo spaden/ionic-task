@@ -17,7 +17,8 @@ import {ManageAmcService} from '../services/manage-amc/manage-amc.service';
 export class AllAmcModalPage implements OnInit {
   poNo = new FormControl();
   vendor: any;
-  url: any;
+  vend = new FormControl();
+  url = false;
   cost = 0;
   totalCost: any;
   procDate: any;
@@ -30,11 +31,13 @@ export class AllAmcModalPage implements OnInit {
   disableProc = false;
   disableCost = false;
   filterData: Observable<any>;
+  filterVendorData: Observable<any>;
   showTotalCost = false;
   location: any;
   proc: any;
   formData = new FormData();
   next = false;
+  ddata: any;
   constructor(private fileChooser: FileChooser,
               private file: File,
               public viewCtrl: ModalController,
@@ -44,14 +47,18 @@ export class AllAmcModalPage implements OnInit {
               private service: ManageAmcService) { }
   selectedData = this.params.data.selectData;
   change() {
-    if ( !this.poNo || !this.procDate || !this.expDate ||
-        !this.vendor ) {
+    console.log(this.ddata);
+    console.log(this.vend.value);
+    if ( !this.poNo || !this.procDate || !this.expDate) {
       this.displayToast('Fill all the details');
     } else if (!this.url) {
       this.displayToast('Upload the file');
     } else {
       this.next = true;
     }
+  }
+  back() {
+    this.next = false;
   }
   calendarProc() {
     this.datepicker.show({
@@ -81,6 +88,9 @@ export class AllAmcModalPage implements OnInit {
         err => console.log(err)
     );
   }
+  selectVendorEvent(item: any) {
+    this.ddata = item.Vid;
+  }
   selectEvent(item: any) {
     console.log(item);
     this.disableProc = true;
@@ -98,13 +108,14 @@ export class AllAmcModalPage implements OnInit {
     this.fileChooser.open().then( uri => {
       this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
         fileEntry.file(file => {
+          this.url = true;
           this.readFile(file);
         });
       });
     }).catch(e => console.log(e));
   }
   readFile(file: any) {
-    this.url = file;
+    // this.url = file;
     const reader = new FileReader();
     reader.onloadend = () => {
       const fileBlb = new Blob([reader.result], {
@@ -144,7 +155,7 @@ export class AllAmcModalPage implements OnInit {
       });
     } else {
       this.data = {
-        vendor: this.vendor,
+        vendor: this.ddata,
         poNo: this.poNo.value,
         totalCost: this.cost,
         expDate: this.expDate,
@@ -193,12 +204,22 @@ export class AllAmcModalPage implements OnInit {
     this.filterData = this.poNo.valueChanges
         .pipe(
             startWith(''),
-            map(value => this._filter(value))
+            map(value => value.length >= 3 ? this._filter(value) : [])
+        );
+    this.filterVendorData = this.vend.valueChanges
+        .pipe(
+            startWith(''),
+            map(value => value.length >= 3 ? this._filterVendor(value) : [])
         );
   }
   private _filter(value: string): string[] {
     const filterValue = value;
 
     return this.amcPoData.filter(option => option.po.includes(filterValue));
+  }
+  private _filterVendor(value: string): string[] {
+    const filterValue = value;
+
+    return this.vendorData.filter(option => option.Name.includes(filterValue));
   }
 }

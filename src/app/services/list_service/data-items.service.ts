@@ -1,13 +1,16 @@
 import {Injectable, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {LocalStorageService} from '../storage/local-storage.service';
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataItemsService {
   items: any = [];
-
+  itemsChange: Subject<any[]> = new Subject<any[]>();
+  amcItems: any = [];
+  amcItemsChange: Subject<any[]> = new Subject<any[]>();
   constructor(private http: HttpClient, public localStorage: LocalStorageService) { }
 
   userData: any;
@@ -23,7 +26,6 @@ export class DataItemsService {
   img: any;
 
 
-
   fetchData() {
       this.localStorage.getObject('userLoginData').then(data => {
         console.log(data);
@@ -31,9 +33,20 @@ export class DataItemsService {
           this.sendData = {
             location: data._location
           };
+          this.userLoc = this.sendData.location;
           this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
-            next: response => this.items = response,
+            next: response => {
+              this.items = response;
+              this.itemsChange.next(this.items);
+            },
             error: error => window.alert('Assets Error - Unauthorized Access')
+          });
+          this.http.post('http://localhost:8080/getAmcAssetList', this.sendData).subscribe({
+            next: response => {
+              this.amcItems = response;
+              this.amcItemsChange.next(this.amcItems);
+            },
+            error: error => window.alert('AMC Assets Error - Unauthorized Access')
           });
         }
       });
@@ -41,6 +54,19 @@ export class DataItemsService {
       this.view_result();
   }
 
+  fetchAmcData() {
+    this.sendData = {
+      location: this.userLoc
+    };
+    this.http.post('http://localhost:8080/getAmcAssetList', this.sendData).subscribe({
+      next: response => {
+        this.amcItems = response;
+        this.amcItemsChange.next(this.amcItems);
+      },
+      error: error => window.alert('AMC Assets Error - Unauthorized Access')
+    });
+    console.log(this.userLoc);
+  }
   switchData(data: any) {
     if (data != null) {
       this.sendData = {
@@ -49,8 +75,18 @@ export class DataItemsService {
       this.userLoc = this.sendData.location;
       this.getUserLocation();
       this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
-        next: response => this.items = response,
+        next: response => {
+          this.items = response;
+          this.itemsChange.next(this.items);
+        },
         error: error => window.alert('Assets Error - Unauthorized Access')
+      });
+      this.http.post('http://localhost:8080/getAmcAssetList', this.sendData).subscribe({
+        next: response => {
+          this.amcItems = response;
+          this.amcItemsChange.next(this.amcItems);
+        },
+        error: error => window.alert('AMC Assets Error - Unauthorized Access')
       });
       console.log(data.locid);
     }

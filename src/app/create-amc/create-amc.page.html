@@ -1,7 +1,7 @@
 <ion-content>
   <br>
   <div style="padding-top: 10px;padding-bottom: 10px;">
-    <ion-searchbar type="text" id="search" placeholder="Search Asset Item" [(ngModel)]="filter"></ion-searchbar>
+    <ion-searchbar type="text" id="search" placeholder="Search Asset Item" (ionInput)="onSearch($event)"></ion-searchbar>
   </div>
   <br>
   <div class="ion-text-center">
@@ -9,11 +9,11 @@
   </div>
   <br>
   <div class="card_layout">
-    <ion-list>
-      <ion-item *ngFor="let entry of assetList| filter: filter">
+    <ion-virtual-scroll [items]="assetList">
+      <ion-item *virtualItem="let entry">
         <ion-label>{{entry.Id}}</ion-label>
         <ion-checkbox slot="end" color="primary" [(ngModel)]="entry.Checked" (click)="addItem(entry, $event)"></ion-checkbox>
       </ion-item>
-    </ion-list>
+    </ion-virtual-scroll>
   </div>
 </ion-content>
