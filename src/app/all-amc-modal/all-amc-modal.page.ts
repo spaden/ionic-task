@@ -8,6 +8,7 @@ import {DatePicker} from '@ionic-native/date-picker/ngx';
 import * as moment from 'moment';
 import {map, startWith} from 'rxjs/operators';
 import {ManageAmcService} from '../services/manage-amc/manage-amc.service';
+import {FilePath} from '@ionic-native/file-path/ngx';
 
 @Component({
   selector: 'app-all-amc-modal',
@@ -38,13 +39,15 @@ export class AllAmcModalPage implements OnInit {
   formData = new FormData();
   next = false;
   ddata: any;
+  fileName: any;
   constructor(private fileChooser: FileChooser,
               private file: File,
               public viewCtrl: ModalController,
               private params: NavParams,
               private datepicker: DatePicker,
               private toastCtrl: ToastController,
-              private service: ManageAmcService) { }
+              private service: ManageAmcService,
+              private path: FilePath) { }
   selectedData = this.params.data.selectData;
   change() {
     console.log(this.ddata);
@@ -106,6 +109,9 @@ export class AllAmcModalPage implements OnInit {
   }
   upload() {
     this.fileChooser.open().then( uri => {
+      this.path.resolveNativePath(uri).then(filePath => {
+          this.fileName = filePath.substr(filePath.lastIndexOf('/') + 1);
+      });
       this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
         fileEntry.file(file => {
           this.url = true;
@@ -123,7 +129,7 @@ export class AllAmcModalPage implements OnInit {
       });
       this.fileblob = fileBlb;
       this.formData.append('file', this.fileblob, file.name);
-      this.displayToast('Uploaded file');
+      this.displayToast('Uploaded file ');
     };
     reader.readAsArrayBuffer(file);
   }
@@ -219,7 +225,11 @@ export class AllAmcModalPage implements OnInit {
   }
   private _filterVendor(value: string): string[] {
     const filterValue = value;
-
-    return this.vendorData.filter(option => option.Name.includes(filterValue));
+    const result = this.vendorData.filter(option => option.Name.includes(filterValue));
+    if (result.length === 0) {
+        this.displayToast('No vendor exists in list');
+    } else {
+        return result;
+    }
   }
 }

@@ -59,7 +59,7 @@ export class ViewAmcPage implements OnInit {
           this.allAmc = result.amcData;
           this.showAMC = true;
           const length = this.allAmc.length;
-          console.log(this.allAmc[length-1]);
+          console.log(this.allAmc[length - 1]);
           const today = new Date();
           const end = new Date(this.allAmc[length - 1].endDate);
           if (end < today) {
@@ -102,15 +102,15 @@ export class ViewAmcPage implements OnInit {
     console.log(this.service.file);
     const request: DownloadRequest = {
       // @ts-ignore
-      uri: this.service.file,
+      uri: encodeURI(this.service.file),
       title: 'MyDownload',
       description: '',
       mimeType: '',
       visibleInDownloadsUi: true,
       notificationVisibility: NotificationVisibility.VisibleNotifyCompleted,
       destinationInExternalFilesDir: {
-        dirType: 'C:\\uploads',
-        subPath: 'content'
+        dirType: 'Downloads',
+        subPath: 'MyFile.apk'
       }
     };
     this.downloader.download(request)

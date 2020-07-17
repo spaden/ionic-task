@@ -21,7 +21,8 @@ import {FileChooser} from '@ionic-native/file-chooser/ngx';
 import {Downloader} from '@ionic-native/downloader/ngx';
 import {AmcModalPageModule} from './amc-modal/amc-modal.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {AllAmcModalPageModule} from "./all-amc-modal/all-amc-modal.module";
+import {AllAmcModalPageModule} from './all-amc-modal/all-amc-modal.module';
+import {FilePath} from '@ionic-native/file-path/ngx';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -46,9 +47,10 @@ import {AllAmcModalPageModule} from "./all-amc-modal/all-amc-modal.module";
     SplashScreen,
     FileChooser,
     File,
+    FilePath,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DataItemsService, LocalStorageService,
-      DatePicker
+    DatePicker
   ],
   bootstrap: [AppComponent]
 })

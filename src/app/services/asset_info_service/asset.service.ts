@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {Asset} from '../../classes/asset_class/asset';
 import {AssetVariable} from '../../classes/asset_class/asset-variable';
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AssetService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/getAsset';
+    const url = environment.url + '/getAsset';
     return this.httpService.post<Asset[]>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
@@ -30,7 +31,7 @@ export class AssetService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/getVarAsset';
+    const url = environment.url + '/getVarAsset';
     return this.httpService.post<AssetVariable[]>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );

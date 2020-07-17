@@ -54,7 +54,9 @@
         </ion-item>
       </ion-list>&nbsp;
       <div class="ion-text-center">
-        <ion-button [disabled]="url" (click)="upload()">Upload AMC Document</ion-button>
+        <ion-button (click)="upload()">Upload AMC Document</ion-button>
+        <br>
+        <ion-label *ngIf="fileName">{{fileName}}</ion-label>
       </div>&nbsp;
       <div class="ion-text-center">
         <ion-button (click)="change()">Next</ion-button>

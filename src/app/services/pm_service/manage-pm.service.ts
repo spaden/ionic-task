@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ManagePm} from '../../classes/pm_class/manage-pm';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ManagePmService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/getPmData';
+    const url = environment.url + '/getPmData';
     return this.httpService.post<ManagePm[]>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
@@ -27,13 +28,13 @@ export class ManagePmService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/updatePmData';
+    const url = environment.url + '/updatePmData';
     return this.httpService.post<ManagePm[]>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
   }
   getFile(data): any {
-    const url = 'http://localhost:8080/getPmFile';
+    const url = environment.url + '/getPmFile';
     return this.httpService.post(url, data, {observe: 'response',
       responseType: 'blob'}).subscribe(result => {
       console.log(result);

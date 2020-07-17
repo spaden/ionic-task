@@ -8,6 +8,7 @@ import {map, startWith} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
+import {FilePath} from "@ionic-native/file-path/ngx";
 
 @Component({
   selector: 'app-amc-modal',
@@ -37,13 +38,15 @@ export class AmcModalPage implements OnInit {
   proc: any;
   formData = new FormData();
   ddata: any;
+  fileName: any;
   constructor(private fileChooser: FileChooser,
               private file: File,
               public viewCtrl: ModalController,
               private params: NavParams,
               private datepicker: DatePicker,
               private toastCtrl: ToastController,
-              private service: AmcServiceService) { }
+              private service: AmcServiceService,
+              private path: FilePath) { }
   key = this.params.data.key;
   calendarProc() {
     this.datepicker.show({
@@ -96,14 +99,17 @@ export class AmcModalPage implements OnInit {
     }
   }
   upload() {
-    this.fileChooser.open().then( uri => {
-      this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
-        fileEntry.file(file => {
-            this.url = true;
-            this.readFile(file);
-        });
-      });
-    }).catch(e => console.log(e));
+      this.fileChooser.open().then( uri => {
+          this.path.resolveNativePath(uri).then(filePath => {
+              this.fileName = filePath.substr(filePath.lastIndexOf('/') + 1);
+          });
+          this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
+              fileEntry.file(file => {
+                  this.url = true;
+                  this.readFile(file);
+              });
+          });
+      }).catch(e => console.log(e));
   }
   readFile(file: any) {
       const reader = new FileReader();
@@ -205,8 +211,12 @@ export class AmcModalPage implements OnInit {
     return this.amcPoData.filter(option => option.po.includes(filterValue));
   }
   private _filterVendor(value: string): string[] {
-        const filterValue = value;
-
-        return this.vendorData.filter(option => option.Name.includes(filterValue));
-    }
+      const filterValue = value;
+      const result = this.vendorData.filter(option => option.Name.includes(filterValue));
+      if (result.length === 0) {
+          this.displayToast('No vendor exists in list');
+      } else {
+          return result;
+      }
+  }
 }

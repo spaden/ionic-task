@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/getVendorList';
+    const url = environment.url + '/getVendorList';
     return this.httpService.get<any>(url, {headers});
   }
   getAmcPoData(): Observable<any> {
@@ -24,7 +25,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/getAmcPoList';
+    const url = environment.url + '/getAmcPoList';
     return this.httpService.get<any>(url, {headers});
   }
   getLocation(data): Observable<any> {
@@ -33,7 +34,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/getAllLocation';
+    const url = environment.url + '/getAllLocation';
     return this.httpService.post<any>(url, data, {headers});
   }
   createAmc(data): Observable<any> {
@@ -42,7 +43,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/createAllAMC';
+    const url = environment.url + '/createAllAMC';
     return this.httpService.post<any>(url, data, {headers});
   }
   viewAmc(data): Observable<any> {
@@ -51,7 +52,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/viewAllAMC';
+    const url = environment.url + '/viewAllAMC';
     return this.httpService.post<any>(url, data, {headers});
   }
   updateAmc(data): Observable<any> {
@@ -60,7 +61,7 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/updateAllAmc';
+    const url = environment.url + '/updateAllAmc';
     return this.httpService.post<any>(url, data, {headers});
   }
   getAssetAmc(data): Observable<any> {
@@ -69,11 +70,11 @@ export class ManageAmcService {
     headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
-    const url = 'http://localhost:8080/fetchAssetList/Amc';
+    const url = environment.url + '/fetchAssetList/Amc';
     return this.httpService.post<any>(url, data, {headers});
   }
   getFile(data): any {
-    const url = 'http://localhost:8080/getAmcFile';
+    const url = environment.url + '/getAmcFile';
     return this.httpService.post(url, data, {observe: 'response',
       responseType: 'blob'}).subscribe(result => {
       console.log(result);
@@ -93,7 +94,7 @@ export class ManageAmcService {
         headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
         headers.append('Accept', 'application/json');
         headers.append('content-type', 'application/json');
-        const url = 'http://localhost:8080/insertLocation';
+        const url = environment.url + '/insertLocation';
         return this.httpService.post<any>(url, data, {headers});
     }
 }

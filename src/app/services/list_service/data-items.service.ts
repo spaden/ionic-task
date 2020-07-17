@@ -2,6 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {LocalStorageService} from '../storage/local-storage.service';
 import {Subject} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -34,19 +35,17 @@ export class DataItemsService {
             location: data._location
           };
           this.userLoc = this.sendData.location;
-          this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
+          this.http.post(environment.url + '/lists', this.sendData).subscribe({
             next: response => {
               this.items = response;
               this.itemsChange.next(this.items);
             },
-            error: error => window.alert('Assets Error - Unauthorized Access')
           });
-          this.http.post('http://localhost:8080/getAmcAssetList', this.sendData).subscribe({
+          this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
             next: response => {
               this.amcItems = response;
               this.amcItemsChange.next(this.amcItems);
             },
-            error: error => window.alert('AMC Assets Error - Unauthorized Access')
           });
         }
       });
@@ -58,12 +57,11 @@ export class DataItemsService {
     this.sendData = {
       location: this.userLoc
     };
-    this.http.post('http://localhost:8080/getAmcAssetList', this.sendData).subscribe({
+    this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
       next: response => {
         this.amcItems = response;
         this.amcItemsChange.next(this.amcItems);
       },
-      error: error => window.alert('AMC Assets Error - Unauthorized Access')
     });
     console.log(this.userLoc);
   }
@@ -74,19 +72,17 @@ export class DataItemsService {
       };
       this.userLoc = this.sendData.location;
       this.getUserLocation();
-      this.http.post('http://localhost:8080/lists', this.sendData).subscribe({
+      this.http.post(environment.url + '/lists', this.sendData).subscribe({
         next: response => {
           this.items = response;
           this.itemsChange.next(this.items);
         },
-        error: error => window.alert('Assets Error - Unauthorized Access')
       });
-      this.http.post('http://localhost:8080/getAmcAssetList', this.sendData).subscribe({
+      this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
         next: response => {
           this.amcItems = response;
           this.amcItemsChange.next(this.amcItems);
         },
-        error: error => window.alert('AMC Assets Error - Unauthorized Access')
       });
       console.log(data.locid);
     }
@@ -127,17 +123,19 @@ export class DataItemsService {
     const body = {
       id: this.userId
     };
-    console.log(body);
-    this.http.post('http://localhost:8080/data/user/profileimage', body, {observe: 'response',
+    this.http.post(environment.url + '/data/user/profileimage', body, {
       responseType: 'blob'}).subscribe(data => {
       console.log(data);
-      this.createImageFromBlob(data.body);
+      this.createImageFromBlob(data);
     });
+
   }
 
   createImageFromBlob(image: Blob) {
     const reader = new FileReader();
-    reader.addEventListener('load', () => {
+    reader.onloadend = (evt => {
+      console.log('Read as data URL');
+      console.log(reader.result);
       this.img = reader.result;
     });
     reader.readAsDataURL(image);
@@ -149,7 +147,7 @@ export class DataItemsService {
       id: this.userId
     };
     console.log(body);
-    this.http.post('http://localhost:8080/data/user/profile/access', JSON.stringify(body), { headers }).subscribe(data => {
+    this.http.post(environment.url + '/data/user/profile/access', JSON.stringify(body), { headers }).subscribe(data => {
          this.userData = data;
          this.img = this.userData.url;
          this.localStorage.setObject('userData', this.userData);
@@ -163,7 +161,7 @@ export class DataItemsService {
     const body = {
       adminid: this.userId
     };
-    this.http.post('http://localhost:8080/data/profile/roles', JSON.stringify(body), { headers }).subscribe(data => {
+    this.http.post(environment.url + '/data/profile/roles', JSON.stringify(body), { headers }).subscribe(data => {
          console.log(data);
          this.userRoles = data;
          this.role = this.userRoles[0].admintype;
@@ -177,7 +175,7 @@ export class DataItemsService {
       locid: this.userLoc
     };
     console.log(body);
-    this.http.post('http://localhost:8080/accessHierarchy', JSON.stringify(body), { headers }).subscribe(data => {
+    this.http.post(environment.url + '/accessHierarchy', JSON.stringify(body), { headers }).subscribe(data => {
         this.userLocations = data;
         this.location = this.userLocations[0];
     });

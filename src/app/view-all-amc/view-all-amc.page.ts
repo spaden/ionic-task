@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ManageAmcService} from '../services/manage-amc/manage-amc.service';
 import {Downloader, DownloadRequest, NotificationVisibility} from '@ionic-native/downloader/ngx';
 import {ToastController} from '@ionic/angular';
-import {DataItemsService} from "../services/list_service/data-items.service";
+import {DataItemsService} from '../services/list_service/data-items.service';
 
 @Component({
   selector: 'app-view-all-amc',

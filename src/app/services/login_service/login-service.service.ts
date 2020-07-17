@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class LoginServiceService {
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
     console.log(data);
-    const url = 'http://localhost:8080/verifyUserLogin';
+    const url = environment.url + '/verifyUserLogin';
     return this.httpService.post<boolean>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
@@ -27,7 +28,7 @@ export class LoginServiceService {
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
     console.log(data);
-    const url = 'http://localhost:8080/verifySuperUserLogin';
+    const url = environment.url + '/verifySuperUserLogin';
     return this.httpService.post<boolean>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
@@ -39,7 +40,7 @@ export class LoginServiceService {
     headers.append('Accept', 'application/json');
     headers.append('content-type', 'application/json');
     console.log(data);
-    const url = 'http://localhost:8080/data/checklogin';
+    const url = environment.url + '/data/checklogin';
     return this.httpService.post<any>(url, data, {headers}).pipe(
         catchError(this.errorHandler)
     );
