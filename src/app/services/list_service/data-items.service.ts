@@ -12,6 +12,8 @@ export class DataItemsService {
   itemsChange: Subject<any[]> = new Subject<any[]>();
   amcItems: any = [];
   amcItemsChange: Subject<any[]> = new Subject<any[]>();
+  viewAmcItems: any = [];
+  viewAmcItemsChange: Subject<any[]> = new Subject<any[]>();
   constructor(private http: HttpClient, public localStorage: LocalStorageService) { }
 
   userData: any;
@@ -35,18 +37,51 @@ export class DataItemsService {
             location: data._location
           };
           this.userLoc = this.sendData.location;
-          this.http.post(environment.url + '/lists', this.sendData).subscribe({
-            next: response => {
-              this.items = response;
-              this.itemsChange.next(this.items);
-            },
-          });
-          this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
-            next: response => {
-              this.amcItems = response;
-              this.amcItemsChange.next(this.amcItems);
-            },
-          });
+          if (this.userLoc === '00') {
+            this.sendData = {
+              location: '0'
+            };
+            this.http.post(environment.url + '/lists', this.sendData).subscribe({
+              next: response => {
+                this.items = response;
+                this.itemsChange.next(this.items);
+              },
+            });
+            this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
+              next: response => {
+                this.amcItems = response;
+                this.amcItemsChange.next(this.amcItems);
+              },
+            });
+            this.http.post(environment.url + '/viewAllAMC', this.sendData).subscribe({
+              next: result => {
+                // @ts-ignore
+                this.viewAmcItems = result.data;
+                this.viewAmcItemsChange.next(this.viewAmcItems);
+              }
+            });
+          } else {
+            this.http.post(environment.url + '/lists', this.sendData).subscribe({
+              next: response => {
+                this.items = response;
+                this.itemsChange.next(this.items);
+              },
+            });
+            this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
+              next: response => {
+                this.amcItems = response;
+                this.amcItemsChange.next(this.amcItems);
+              },
+            });
+            this.http.post(environment.url + '/viewAllAMC', this.sendData).subscribe({
+              next: result => {
+                console.log(result);
+                // @ts-ignore
+                this.viewAmcItems = result.data;
+                this.viewAmcItemsChange.next(this.viewAmcItems);
+              }
+            });
+          }
         }
       });
 
@@ -54,15 +89,42 @@ export class DataItemsService {
   }
 
   fetchAmcData() {
-    this.sendData = {
-      location: this.userLoc
-    };
-    this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
-      next: response => {
-        this.amcItems = response;
-        this.amcItemsChange.next(this.amcItems);
-      },
-    });
+    if (this.userLoc === '00') {
+      this.sendData = {
+        location: '0'
+      };
+      this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
+        next: response => {
+          this.amcItems = response;
+          this.amcItemsChange.next(this.amcItems);
+        },
+      });
+      this.http.post(environment.url + '/viewAllAMC', this.sendData).subscribe({
+        next: result => {
+          // @ts-ignore
+          this.viewAmcItems = result.data;
+          this.viewAmcItemsChange.next(this.viewAmcItems);
+        }
+      });
+    } else {
+      this.sendData = {
+        location: this.userLoc
+      };
+      this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
+        next: response => {
+          this.amcItems = response;
+          this.amcItemsChange.next(this.amcItems);
+        },
+      });
+      this.http.post(environment.url + '/viewAllAMC', this.sendData).subscribe({
+        next: result => {
+          console.log(result);
+          // @ts-ignore
+          this.viewAmcItems = result.data;
+          this.viewAmcItemsChange.next(this.viewAmcItems);
+        }
+      });
+    }
     console.log(this.userLoc);
   }
   switchData(data: any) {
@@ -83,6 +145,14 @@ export class DataItemsService {
           this.amcItems = response;
           this.amcItemsChange.next(this.amcItems);
         },
+      });
+      this.http.post(environment.url + '/viewAllAMC', this.sendData).subscribe({
+        next: result => {
+          console.log(result);
+          // @ts-ignore
+          this.viewAmcItems = result.data;
+          this.viewAmcItemsChange.next(this.viewAmcItems);
+        }
       });
       console.log(data.locid);
     }

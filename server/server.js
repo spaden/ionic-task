@@ -19,7 +19,7 @@ var storage = multer.diskStorage({
         cb(null, 'C:\\uploads')
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname + '-' + Date.now());
+        cb(null, file.originalname);
     }
 });
 
@@ -463,6 +463,7 @@ app.post("/amc-warranty", function(req, res) {
     console.log(req.body);
     let query = `select amcPOPK as PO, linkProcurementDate as startDate, 
                 linkExpiryDate as endDate, amcBaseContractCost as cost ,
+                amcURLAMCPO as url,
                 '1' as amc
                 from dataamc inner join linkitemamc on(dataamc.amcPOPK=linkitemamc.linkAMCPOFK)
                 where linkItemKeyFK=? order by linkExpiryDate;`;
@@ -473,7 +474,7 @@ app.post("/amc-warranty", function(req, res) {
             });
         }else{
             console.log(result);
-            query = `select poolItemPONumber as PO, linkItemAllocDate as startDate,
+            query = `select poolItemPONumber as PO, poolURLItemPO as url, linkItemAllocDate as startDate,
                      warExpiryDate as expDate,poolCost as cost,'0' as amc 
                      from datawarranty inner join linkitemlayer on 
                      (datawarranty.warItemKeyFK=linkitemlayer.linkItemKeyPK)
@@ -527,7 +528,7 @@ app.post("/getAmcFile", function(req, res) {
 app.post("/getPmData", function(req, res) {
     console.log(req.body);
     const pmQuery = `select  pmPMScheduleDetailsPK as SNo, amcPOPK as poNo,pmStartDate as start,pmEndDate as end,pmDateOfService as service,
-                     pmExtraCostIncurred as extraCost,pmComments as comments,pmIsServiceDone as status
+                     pmExtraCostIncurred as extraCost,pmServiceReportURL as url,pmComments as comments,pmIsServiceDone as status
                      from dataamc inner join linkitemamc on(dataamc.amcPOPK=linkitemamc.linkAMCPOFK)
                      inner join datapmscheduledetails on(datapmscheduledetails.pmItemAMCFK=linkitemamc.linkItemAMCPK)
                      where linkItemKeyFK=? and pmEndDate <= now() order by  pmIsServiceDone asc,pmEndDate desc;`;
@@ -682,6 +683,11 @@ app.post("/createAmc", function (req, res) {
     console.log("reading body");
     console.log(req.body);
     upload(req, res, function (err) {
+        console.log(req.file);
+        // console.log(req.body.file);
+        console.log(req.file.path);
+        // const d = fs.readFileSync(req.file);
+        // console.log(d);
         let data = JSON.parse(req.body.data);
         console.log(data);
         let proc = data.procDate.split("/").reverse().join("-");
@@ -1003,13 +1009,16 @@ app.post("/updateAllAmc", function (req, res) {
 //view all amc
 app.post("/viewAllAmc", function (req, res) {
     console.log(req.body);
-    let query = `select amcpopk as po, linkProcurementDate as ProcDate, 
-                linkExpiryDate as ExpDate, amcBaseContractCost as cost from dataamc 
+    let loc = req.body.location;
+    loc += '%';
+    console.log(loc);
+    let query = `select amcpopk as po, linkProcurementDate as ProcDate, amcURLAMCPO as url,
+                 linkExpiryDate as ExpDate, amcBaseContractCost as cost from dataamc 
                  inner join linkitemamc on(linkitemamc.linkAMCPOFK=dataamc.amcPOPK)
                  inner join linkitemlayer on(linkitemlayer.linkItemKeyPK=linkitemamc.linkItemKeyFK)
                  where linkItemBuildingFK like ?
                  group by amcpopk;`;
-    con.query(query,[req.body.location], (err, result) => {
+    con.query(query,[loc], (err, result) => {
         if (err) {
             console.log(err);
             res.status(401).json({

@@ -32,19 +32,24 @@ const routes: Routes = [
     loadChildren: () => import('./manage-po/manage-po.module').then( m => m.ManagePoPageModule)
   },
   {
-    path: 'list-po',
-    loadChildren: () => import('./list-po/list-po.module').then(m => m.ListPoPageModule)
-  },
-  {
     path: 'edit-profile',
     loadChildren: () => import('./edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
   },
   {
     path: 'manage-amc',
     loadChildren: () => import('./manage-amc/manage-amc.module').then( m => m.ManageAmcPageModule)
-  },  {
+  },
+  {
     path: 'all-amc-modal',
     loadChildren: () => import('./all-amc-modal/all-amc-modal.module').then( m => m.AllAmcModalPageModule)
+  },
+  {
+    path: 'amc-pm',
+    loadChildren: () => import('./amc-pm/amc-pm.module').then( m => m.AmcPmPageModule)
+  },
+  {
+    path: 'po',
+    loadChildren: () => import('./po/po.module').then( m => m.PoPageModule)
   },
 
 ];

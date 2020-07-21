@@ -10,6 +10,9 @@ import {ActivatedRoute} from '@angular/router';
 import {AssetService} from '../services/asset_info_service/asset.service';
 import {Asset} from '../classes/asset_class/asset';
 import {Downloader, DownloadRequest, NotificationVisibility} from '@ionic-native/downloader/ngx';
+import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer/ngx";
+import {FileOpener} from "@ionic-native/file-opener/ngx";
+import {FilePath} from "@ionic-native/file-path/ngx";
 
 @Component({
   selector: 'app-manage-pm',
@@ -23,7 +26,6 @@ export class ManagePmPage implements OnInit {
   showNotCompleted = true;
   data: Observable<ManagePm[]>;
   formData = new FormData();
-  filename: any;
   fileData: any;
   fileBlob: Blob;
   result: any[];
@@ -33,6 +35,7 @@ export class ManagePmPage implements OnInit {
   editData: any;
   assetId: any;
   assData: Observable<Asset[]>;
+  fileName = 'file.pdf';
   public get assetData(): Observable<Asset[]> {
     return this.assData;
   }
@@ -52,7 +55,10 @@ export class ManagePmPage implements OnInit {
               public assetService: AssetService,
               private route: ActivatedRoute,
               private toastCtrl: ToastController,
-              private downloader: Downloader) {
+              private downloader: Downloader,
+              private path: FilePath,
+              private transfer: FileTransfer,
+              private opener: FileOpener) {
     this.assetKey = this.route.snapshot.queryParams.key;
     console.log(this.assetKey);
   }
@@ -82,36 +88,39 @@ export class ManagePmPage implements OnInit {
               this.formData = new FormData();
               this.fileData = null;
               this.fileBlob = null;
-              this.filename = null;
+              this.fileName = null;
               this.loadDisplay();
           } else {
               console.log(result);
           }
       });
   }
-  download(sno) {
+  download(sno, url) {
     const body = {
       id: sno,
     };
     console.log(body);
-    this.managePmService.getFile(body);
-    console.log(this.managePmService.file);
-    const request: DownloadRequest = {
-      // @ts-ignore
-      uri: this.managePmService.file,
-      title: 'MyDownload',
-      description: '',
-      mimeType: '',
-      visibleInDownloadsUi: true,
-      notificationVisibility: NotificationVisibility.VisibleNotifyCompleted,
-      destinationInExternalFilesDir: {
-        dirType: 'C:\\uploads',
-        subPath: 'EquipMax.pdf'
-      }
-    };
-    this.downloader.download(request)
-        .then((location: string) => this.displayToast('File downloaded at:' + location))
-        .catch((error: any) => console.error(error));
+    console.log(url.substr(url.lastIndexOf('\\') + 1));
+    this.fileName = url.substr(url.lastIndexOf('\\') + 1);
+    this.managePmService.getFile(body).subscribe(data => {
+      this.downloadFromBlob(data.body);
+    });
+  }
+  downloadFromBlob(image) {
+    console.log(image.type);
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    const reader = new FileReader();
+    reader.onloadend = (evt => {
+      console.log(reader.result);
+      fileTransfer.download(reader.result.toString(), this.file.externalRootDirectory + this.fileName).then((entry) => {
+        this.opener.open(entry.toURL(), image.type)
+            .then(() => this.displayToast('download complete: ' + entry.toURL()))
+            .catch(e => console.log('Error ' + e));
+      }, err => {
+        console.log('download error: ' + err);
+      });
+    });
+    reader.readAsDataURL(image);
   }
   loadDisplay() {
     const id = {
@@ -137,6 +146,9 @@ export class ManagePmPage implements OnInit {
   // file upload
   uploadFile() {
     this.fileChooser.open().then( uri => {
+      this.path.resolveNativePath(uri).then(filePath => {
+        this.fileName = filePath.substr(filePath.lastIndexOf('/') + 1);
+      });
       this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
         fileEntry.file(file => {
           this.readFile(file);
@@ -146,14 +158,18 @@ export class ManagePmPage implements OnInit {
   }
   readFile(file: any) {
     this.fileData = file;
-    this.filename = file.name;
     const reader = new FileReader();
     reader.onloadend = () => {
       const fileBlb = new Blob([reader.result], {
         type: file.type
       });
       this.fileBlob = fileBlb;
-      this.formData.append('file', this.fileBlob, file.name);
+      if (this.formData.has('file')) {
+        this.formData.delete('file');
+        this.formData.append('file', this.fileBlob, this.fileName);
+      } else {
+        this.formData.append('file', this.fileBlob, this.fileName);
+      }
       this.displayToast('file uploaded successfully');
     };
     reader.readAsArrayBuffer(file);
@@ -173,7 +189,7 @@ export class ManagePmPage implements OnInit {
     this.showNotCompleted = true;
   }
   async presentModal(sno, po, extra, comment, startDate, endDate, serviceDate, stat) {
-    if (!this.fileBlob || !this.fileData || !this.filename) {
+    if (!this.fileBlob || !this.fileData || !this.fileName) {
       window.alert('Upload file first');
     } else {
       const sendData = {
@@ -201,7 +217,7 @@ export class ManagePmPage implements OnInit {
   }
   ngOnInit() {
       this.editData = null;
-      this.filename = null;
+      this.fileName = null;
       this.fileBlob = null;
       this.fileData = null;
       this.assetData = null;

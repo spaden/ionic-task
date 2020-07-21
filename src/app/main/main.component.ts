@@ -33,7 +33,7 @@ export class MainComponent implements OnInit {
     },
     {
       title: 'PO Management',
-      url: '/list-po',
+      url: '/po',
       icon: 'list'
     },
     {

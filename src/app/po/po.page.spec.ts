@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ListPoPage } from './list-po.page';
+import { PoPage } from './po.page';
 
-describe('ListPoPage', () => {
-  let component: ListPoPage;
-  let fixture: ComponentFixture<ListPoPage>;
+describe('PoPage', () => {
+  let component: PoPage;
+  let fixture: ComponentFixture<PoPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListPoPage ],
+      declarations: [ PoPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ListPoPage);
+    fixture = TestBed.createComponent(PoPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

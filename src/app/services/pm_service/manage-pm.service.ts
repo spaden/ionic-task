@@ -36,17 +36,7 @@ export class ManagePmService {
   getFile(data): any {
     const url = environment.url + '/getPmFile';
     return this.httpService.post(url, data, {observe: 'response',
-      responseType: 'blob'}).subscribe(result => {
-      console.log(result);
-      this.createImageFromBlob(result.body);
-    });
-  }
-  createImageFromBlob(image: Blob) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      this.file = reader.result;
-    });
-    reader.readAsDataURL(image);
+      responseType: 'blob'});
   }
   errorHandler(error) {
     let errorMessage = '';

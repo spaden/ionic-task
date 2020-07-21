@@ -64,19 +64,9 @@ export class AmcServiceService {
     const url = environment.url + '/updateAmc';
     return this.httpService.post<any>(url, data, {headers});
   }
-  getFile(data): any {
+  getFile(data): Observable<any> {
     const url = environment.url + '/getAmcFile';
     return this.httpService.post(url, data, {observe: 'response',
-      responseType: 'blob'}).subscribe(result => {
-      console.log(result);
-      this.createImageFromBlob(result.body);
-    });
-  }
-  createImageFromBlob(image: Blob) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      this.file = reader.result;
-    });
-    reader.readAsDataURL(image);
+      responseType: 'blob'});
   }
 }

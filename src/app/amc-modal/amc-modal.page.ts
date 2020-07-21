@@ -8,7 +8,7 @@ import {map, startWith} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
-import {FilePath} from "@ionic-native/file-path/ngx";
+import {FilePath} from '@ionic-native/file-path/ngx';
 
 @Component({
   selector: 'app-amc-modal',
@@ -102,6 +102,7 @@ export class AmcModalPage implements OnInit {
       this.fileChooser.open().then( uri => {
           this.path.resolveNativePath(uri).then(filePath => {
               this.fileName = filePath.substr(filePath.lastIndexOf('/') + 1);
+              this.formData.append('file', uri, this.fileName);
           });
           this.file.resolveLocalFilesystemUrl(uri).then((fileEntry: FileEntry) => {
               fileEntry.file(file => {
@@ -118,7 +119,12 @@ export class AmcModalPage implements OnInit {
               type: file.type
           });
           this.fileblob = fileBlb;
-          this.formData.append('file', this.fileblob, file.name);
+          if (this.formData.has('file')) {
+              this.formData.delete('file');
+              this.formData.append('file', this.fileblob, this.fileName);
+          } else {
+              this.formData.append('file', this.fileblob, this.fileName);
+          }
           this.displayToast('Uploaded file');
       };
       reader.readAsArrayBuffer(file);
@@ -202,7 +208,7 @@ export class AmcModalPage implements OnInit {
       this.filterVendorData = this.vend.valueChanges
           .pipe(
               startWith(''),
-              map(value => value.length >= 3 ? this._filterVendor(value) : [])
+              map(value => value.length >= 1 ? this._filterVendor(value) : [])
           );
   }
   private _filter(value: string): string[] {
@@ -211,10 +217,11 @@ export class AmcModalPage implements OnInit {
     return this.amcPoData.filter(option => option.po.includes(filterValue));
   }
   private _filterVendor(value: string): string[] {
-      const filterValue = value;
-      const result = this.vendorData.filter(option => option.Name.includes(filterValue));
+      const filterValue = value.toLowerCase();
+      const result = this.vendorData.filter(option => option.Name.toLowerCase().includes(filterValue));
       if (result.length === 0) {
           this.displayToast('No vendor exists in list');
+          return null;
       } else {
           return result;
       }

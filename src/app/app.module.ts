@@ -23,6 +23,8 @@ import {AmcModalPageModule} from './amc-modal/amc-modal.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AllAmcModalPageModule} from './all-amc-modal/all-amc-modal.module';
 import {FilePath} from '@ionic-native/file-path/ngx';
+import {FileTransfer} from '@ionic-native/file-transfer/ngx';
+import {FileOpener} from '@ionic-native/file-opener/ngx';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -48,6 +50,8 @@ import {FilePath} from '@ionic-native/file-path/ngx';
     FileChooser,
     File,
     FilePath,
+    FileOpener,
+    FileTransfer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DataItemsService, LocalStorageService,
     DatePicker

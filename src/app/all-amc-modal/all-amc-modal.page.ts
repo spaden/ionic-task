@@ -128,7 +128,12 @@ export class AllAmcModalPage implements OnInit {
         type: file.type
       });
       this.fileblob = fileBlb;
-      this.formData.append('file', this.fileblob, file.name);
+      if (this.formData.has('file')) {
+        this.formData.delete('file');
+        this.formData.append('file', this.fileblob, this.fileName);
+      } else {
+        this.formData.append('file', this.fileblob, this.fileName);
+      }
       this.displayToast('Uploaded file ');
     };
     reader.readAsArrayBuffer(file);
@@ -215,7 +220,7 @@ export class AllAmcModalPage implements OnInit {
     this.filterVendorData = this.vend.valueChanges
         .pipe(
             startWith(''),
-            map(value => value.length >= 3 ? this._filterVendor(value) : [])
+            map(value => value.length >= 1 ? this._filterVendor(value) : [])
         );
   }
   private _filter(value: string): string[] {
@@ -224,10 +229,11 @@ export class AllAmcModalPage implements OnInit {
     return this.amcPoData.filter(option => option.po.includes(filterValue));
   }
   private _filterVendor(value: string): string[] {
-    const filterValue = value;
-    const result = this.vendorData.filter(option => option.Name.includes(filterValue));
+    const filterValue = value.toLowerCase();
+    const result = this.vendorData.filter(option => option.Name.toLowerCase().includes(filterValue));
     if (result.length === 0) {
         this.displayToast('No vendor exists in list');
+        return null;
     } else {
         return result;
     }

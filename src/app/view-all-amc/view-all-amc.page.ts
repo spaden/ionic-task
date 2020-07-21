@@ -1,65 +1,76 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ManageAmcService} from '../services/manage-amc/manage-amc.service';
 import {Downloader, DownloadRequest, NotificationVisibility} from '@ionic-native/downloader/ngx';
 import {ToastController} from '@ionic/angular';
 import {DataItemsService} from '../services/list_service/data-items.service';
+import {FileTransfer, FileTransferObject} from '@ionic-native/file-transfer/ngx';
+import {File} from '@ionic-native/file/ngx';
+import {FileOpener} from '@ionic-native/file-opener/ngx';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-view-all-amc',
   templateUrl: './view-all-amc.page.html',
   styleUrls: ['./view-all-amc.page.scss'],
 })
-export class ViewAllAmcPage implements OnInit {
+export class ViewAllAmcPage implements OnInit, OnDestroy {
 
   filter: any;
   amc: any;
   asset: any;
   show: any;
+  fileName = 'file.pdf';
+  subscription: Subscription;
   constructor(private service: ManageAmcService,
               private toastCtrl: ToastController,
               private downloader: Downloader,
-              private listService: DataItemsService) {}
-
-  ngOnInit() {
-      console.log(this.listService.userLoc);
-      if (this.listService.userLoc  === '00') {
-          this.service.viewAmc({location: '0%'}).subscribe(data => {
-              this.amc = data.data;
-              this.show = new Array(this.amc.length).fill(false);
-              console.log(data);
-          });
-      } else {
-          this.service.viewAmc({location: this.listService.userLoc + '%'}).subscribe(data => {
-              this.amc = data.data;
-              this.show = new Array(this.amc.length).fill(false);
-              console.log(data);
-          });
-      }
+              private listService: DataItemsService,
+              private transfer: FileTransfer,
+              private file: File,
+              private opener: FileOpener) {
+      this.amc = this.listService.viewAmcItems;
+      this.show = new Array(this.amc.length).fill(false);
+      this.subscription = this.listService.viewAmcItemsChange.subscribe((value) => {
+          console.log(value);
+          this.amc = value;
+          this.show = new Array(this.amc.length).fill(false);
+      });
   }
 
-  download(sno) {
-        const body = {
-            id: sno,
-        };
-        console.log(body);
-        this.service.getFile(body);
-        console.log(this.service.file);
-        const request: DownloadRequest = {
-            // @ts-ignore
-            uri: this.service.file,
-            title: 'MyDownload',
-            description: '',
-            mimeType: '',
-            visibleInDownloadsUi: true,
-            notificationVisibility: NotificationVisibility.VisibleNotifyCompleted,
-            destinationInExternalFilesDir: {
-                dirType: 'C:\\uploads',
-                subPath: 'content'
-            }
-        };
-        this.downloader.download(request)
-            .then((location: string) => this.displayToast('File downloaded at:' + location))
-            .catch((error: any) => console.error(error));
+  ngOnInit() {
+      this.amc = this.listService.viewAmcItems;
+      this.show = new Array(this.amc.length).fill(false);
+  }
+  ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+  download(sno, url) {
+      const body = {
+          id: sno,
+      };
+      console.log(body);
+      console.log(url.substr(url.lastIndexOf('\\') + 1));
+      this.fileName = url.substr(url.lastIndexOf('\\') + 1);
+      this.service.getFile(body).subscribe(data => {
+          this.downloadFromBlob(data.body);
+      });
+  }
+  downloadFromBlob(image) {
+      console.log(image.type);
+      const fileTransfer: FileTransferObject = this.transfer.create();
+      const reader = new FileReader();
+      reader.onloadend = (evt => {
+          console.log(reader.result);
+          fileTransfer.download(reader.result.toString(), this.file.externalRootDirectory + this.fileName).then((entry) => {
+              this.opener.open(entry.toURL(), image.type)
+                  .then(() => this.displayToast('download complete: ' + entry.toURL()))
+                  .catch(e => console.log('Error ' + e));
+              }, err => {
+                console.log('download error: ' + err);
+          });
+      });
+      reader.readAsDataURL(image);
   }
   fetch(po, i) {
       if (!this.show[i]) {
