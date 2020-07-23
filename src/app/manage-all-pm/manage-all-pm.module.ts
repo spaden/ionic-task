@@ -6,13 +6,15 @@ import { IonicModule } from '@ionic/angular';
 
 
 import { ManageAllPmPage } from './manage-all-pm.page';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        Ng2SearchPipeModule
+    ],
   declarations: [ManageAllPmPage],
   entryComponents: [ManageAllPmPage]
 })

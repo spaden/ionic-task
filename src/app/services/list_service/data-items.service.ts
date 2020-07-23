@@ -14,6 +14,8 @@ export class DataItemsService {
   amcItemsChange: Subject<any[]> = new Subject<any[]>();
   viewAmcItems: any = [];
   viewAmcItemsChange: Subject<any[]> = new Subject<any[]>();
+  managePmItems: any = [];
+  managePmItemsChange: Subject<any[]> = new Subject<any[]>();
   constructor(private http: HttpClient, public localStorage: LocalStorageService) { }
 
   userData: any;
@@ -60,6 +62,14 @@ export class DataItemsService {
                 this.viewAmcItemsChange.next(this.viewAmcItems);
               }
             });
+            this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+              next: result => {
+                console.log(result);
+                // @ts-ignore
+                this.managePmItems = result.data;
+                this.managePmItemsChange.next(this.managePmItems);
+              }
+            });
           } else {
             this.http.post(environment.url + '/lists', this.sendData).subscribe({
               next: response => {
@@ -79,6 +89,14 @@ export class DataItemsService {
                 // @ts-ignore
                 this.viewAmcItems = result.data;
                 this.viewAmcItemsChange.next(this.viewAmcItems);
+              }
+            });
+            this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+              next: result => {
+                console.log(result);
+                // @ts-ignore
+                this.managePmItems = result.data;
+                this.managePmItemsChange.next(this.managePmItems);
               }
             });
           }
@@ -127,6 +145,34 @@ export class DataItemsService {
     }
     console.log(this.userLoc);
   }
+  fetchManagePmData() {
+    if (this.userLoc === '00') {
+      this.sendData = {
+        location: '0'
+      };
+      this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+        next: result => {
+          console.log(result);
+          // @ts-ignore
+          this.managePmItems = result.data;
+          this.managePmItemsChange.next(this.managePmItems);
+        }
+      });
+    } else {
+      this.sendData = {
+        location: this.userLoc
+      };
+      this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+        next: result => {
+          console.log(result);
+          // @ts-ignore
+          this.managePmItems = result.data;
+          this.managePmItemsChange.next(this.managePmItems);
+        }
+      });
+    }
+    console.log(this.userLoc);
+  }
   switchData(data: any) {
     if (data != null) {
       this.sendData = {
@@ -134,26 +180,67 @@ export class DataItemsService {
       };
       this.userLoc = this.sendData.location;
       this.getUserLocation();
-      this.http.post(environment.url + '/lists', this.sendData).subscribe({
-        next: response => {
-          this.items = response;
-          this.itemsChange.next(this.items);
-        },
-      });
-      this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
-        next: response => {
-          this.amcItems = response;
-          this.amcItemsChange.next(this.amcItems);
-        },
-      });
-      this.http.post(environment.url + '/viewAllAMC', this.sendData).subscribe({
-        next: result => {
-          console.log(result);
-          // @ts-ignore
-          this.viewAmcItems = result.data;
-          this.viewAmcItemsChange.next(this.viewAmcItems);
-        }
-      });
+      if (this.userLoc === '00') {
+        this.sendData = {
+          location: '0'
+        };
+        this.http.post(environment.url + '/lists', this.sendData).subscribe({
+          next: response => {
+            this.items = response;
+            this.itemsChange.next(this.items);
+          },
+        });
+        this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
+          next: response => {
+            this.amcItems = response;
+            this.amcItemsChange.next(this.amcItems);
+          },
+        });
+        this.http.post(environment.url + '/viewAllAMC', this.sendData).subscribe({
+          next: result => {
+            // @ts-ignore
+            this.viewAmcItems = result.data;
+            this.viewAmcItemsChange.next(this.viewAmcItems);
+          }
+        });
+        this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+          next: result => {
+            console.log(result);
+            // @ts-ignore
+            this.managePmItems = result.data;
+            this.managePmItemsChange.next(this.managePmItems);
+          }
+        });
+      } else {
+        this.http.post(environment.url + '/lists', this.sendData).subscribe({
+          next: response => {
+            this.items = response;
+            this.itemsChange.next(this.items);
+          },
+        });
+        this.http.post(environment.url + '/getAmcAssetList', this.sendData).subscribe({
+          next: response => {
+            this.amcItems = response;
+            this.amcItemsChange.next(this.amcItems);
+          },
+        });
+        this.http.post(environment.url + '/viewAllAMC', this.sendData).subscribe({
+          next: result => {
+            console.log(result);
+            // @ts-ignore
+            this.viewAmcItems = result.data;
+            this.viewAmcItemsChange.next(this.viewAmcItems);
+          }
+        });
+        this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+          next: result => {
+            console.log(result);
+            // @ts-ignore
+            this.managePmItems = result.data;
+            this.managePmItemsChange.next(this.managePmItems);
+          }
+        });
+      }
       console.log(data.locid);
     }
   }

@@ -1,9 +1,176 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>amc-pm</ion-title>
+    <ion-title>Manage PM</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div style="padding-top: 10px;padding-bottom: 10px;">
+    <ion-searchbar type="text" id="search" placeholder="Search PO Number" [(ngModel)]="filter"></ion-searchbar>
+  </div>
+  <ion-item class="ion-no-margin">
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none" (click)="showCompletedOnly()" class="ion-no-margin ion-no-padding">
+          <ion-icon name="square" class="completed_icon_color" color="blue"></ion-icon>
+          <ion-label>&nbsp;Complete</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item lines="none" (click)="showNotCompletedOnly()" class="ion-no-margin ion-no-padding">
+          <ion-icon name="square" class="not_completed_icon_color" color="green"></ion-icon>
+          <ion-label>&nbsp;Not Complete</ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-item>
+  <div class="card_layout">
+    <ion-list *ngFor="let rec of data| async | filter:filter">
+      <ng-container *ngIf="rec.status=='1'; then completeBlock; else notCompleteBlock">
+      </ng-container>
+      <ng-template #completeBlock>
+        <div *ngIf="showCompleted">
+          <ion-card>
+            <ion-card-header class="completed_color">
+              <div class="ion-text-center">
+                <ion-label color="white">{{po}}</ion-label>
+              </div>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>Extra Cost: {{rec.extraCost}}</ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>Comments: {{rec.comments}}</ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>Start</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>End</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>Service</ion-label>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>{{rec.start| date: 'dd/MM/yyyy'}}</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>{{rec.end| date: 'dd/MM/yyyy'}}</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>{{rec.service| date: 'dd/MM/yyyy'}}</ion-label>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="ion-float-left">Status: done</ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="ion-float-left">Actions:&nbsp;
+                    <ion-button class="completed_color" tooltip="Download" placement="top" show-delay="50" (click)="download(rec.SNo,rec.url)"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ng-template>
+      <ng-template #notCompleteBlock>
+        <div *ngIf="showNotCompleted">
+          <ion-card>
+            <ion-card-header class="not_completed_color">
+              <div class="ion-text-center">
+                <ion-label color="white">{{po}}</ion-label>
+              </div>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>Extra Cost: {{rec.extraCost}}</ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>Comments: {{rec.comments}}</ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>Start</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>End</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>Service</ion-label>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>{{rec.start| date: 'dd/MM/yyyy'}}</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>{{rec.end| date: 'dd/MM/yyyy'}}</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                      <ion-label>{{rec.service| date: 'dd/MM/yyyy'}}</ion-label>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="ion-float-left">Status: not done</ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="ion-float-left">Actions:
+                    <ion-button class="not_completed_color" (click)="uploadFile()" [class.button-disabled]="fileData!=null"><ion-icon name="arrow-round-up"></ion-icon></ion-button>
+                    <ion-button class="not_completed_color" (click)="presentModal(rec.SNo,po,rec.extraCost,rec.Comments,rec.start,rec.end,rec.service,false)"><ion-icon name="create"></ion-icon></ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ng-template>
+    </ion-list>&nbsp;&nbsp;
+  </div>
 </ion-content>
+

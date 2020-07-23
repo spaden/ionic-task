@@ -527,7 +527,7 @@ app.post("/getAmcFile", function(req, res) {
 //access pm
 app.post("/getPmData", function(req, res) {
     console.log(req.body);
-    const pmQuery = `select  pmPMScheduleDetailsPK as SNo, amcPOPK as poNo,pmStartDate as start,pmEndDate as end,pmDateOfService as service,
+    const pmQuery = `select pmPMScheduleDetailsPK as SNo, amcPOPK as poNo,pmStartDate as start,pmEndDate as end,pmDateOfService as service,
                      pmExtraCostIncurred as extraCost,pmServiceReportURL as url,pmComments as comments,pmIsServiceDone as status
                      from dataamc inner join linkitemamc on(dataamc.amcPOPK=linkitemamc.linkAMCPOFK)
                      inner join datapmscheduledetails on(datapmscheduledetails.pmItemAMCFK=linkitemamc.linkItemAMCPK)
@@ -535,7 +535,7 @@ app.post("/getPmData", function(req, res) {
     con.query(pmQuery,[req.body.key],(err, result) => {
 
         if (err) throw err;
-        res.end(JSON.stringify(result))
+        res.end(JSON.stringify(result));
     })
 });
 
@@ -1048,6 +1048,84 @@ app.post("/fetchAssetList/Amc", function (req, res) {
             res.status(200).send({
                 data: resultData
             });
+        }
+    });
+});
+
+//manage all pm
+app.post("/fetchAll/Amc-Warranty", function (req, res) {
+    console.log(req.body);
+    let loc = req.body.location;
+    loc += '%';
+    console.log(loc);
+    let query = `select * from (select amcPOPK as po, amcBaseContractCost as cost, amcURLAMCPO as url, linkProcurementDate as ProcDate,
+                 linkExpiryDate as ExpDate,linkItemAMCPK as PoKey, 1 as amc,max(pmendDate) as maxpm from datapmscheduledetails
+                 inner join linkitemamc on(linkitemamc.linkItemAMCPK=datapmscheduledetails.pmItemAMCFK)
+                 inner join linkitemlayer on(linkitemlayer.linkItemKeyPK=linkitemamc.linkItemKeyFK)
+                 inner join dataitempool on(dataitempool.poolitemkeypk=linkitemamc.linkItemKeyFK)
+                 inner join dataamc on(dataamc.amcPOPK=linkitemamc.linkAMCPOFK)
+                 where pmItemamcfk is not null and linkItemBuildingFK like ?
+                 group by amcPOPK) as amc where  maxpm >= DATE_SUB(now(),INTERVAL 1 YEAR)
+                 and now() <= DATE_ADD(maxpm,INTERVAL 1 YEAR)
+                 union
+                 select * from (select poolAssetID as po, poolCost as cost, poolURLItemPO as url, poolProcurementDate as ProcDate,
+                 warExpiryDate as ExpDate,warWarrantyPK as PoKey, 0 as amc,max(pmendDate) as maxpm from datapmscheduledetails
+                 inner join datawarranty on(datawarranty.warWarrantyPK=datapmscheduledetails.pmWarrantyFK)
+                 inner join linkitemlayer on(linkitemlayer.linkItemKeyPK=datawarranty.warItemKeyFK)
+                 inner join dataitempool on(dataitempool.poolitemkeypk=datawarranty.warItemKeyFK)
+                 where pmWarrantyFK is not null and linkItemBuildingFK like ?
+                 group by pmWarrantyFK) as war where maxpm >= DATE_SUB(now(),INTERVAL 1 YEAR)
+                 and now() <= DATE_ADD(maxpm,INTERVAL 1 YEAR) ;`;
+    con.query(query,[loc,loc], function (err, resultData) {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        } else {
+            res.status(200).send({
+                data: resultData
+            });
+        }
+    });
+});
+
+//fetch pm for amc
+app.post("/fetchPm/Amc", function (req, res) {
+    console.log(req.body);
+    let query = `select pmPMScheduleDetailsPK as SNo, pmStartDate as start,pmEndDate as end,
+                 pmDateOfService as service, pmExtraCostIncurred as extraCost,pmServiceReportURL as url,
+                 pmComments as comments,pmIsServiceDone as status from datapmscheduledetails
+                 where pmEndDate >= DATE_SUB(now(),INTERVAL 1 YEAR)
+                 and now() <= DATE_ADD(pmEndDate,INTERVAL 1 YEAR) and pmItemamcfk =?;`;
+    con.query(query,[req.body.key], function (err, resultData) {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        } else {
+            res.status(200).send(resultData);
+        }
+    });
+});
+
+//fetch pm for warranty
+app.post("/fetchPm/Warranty", function (req, res) {
+    console.log(req.body);
+    let query = `select pmPMScheduleDetailsPK as SNo,pmStartDate as start,pmEndDate as end,
+                 pmDateOfService as service, pmExtraCostIncurred as extraCost,pmServiceReportURL as url,
+                 pmComments as comments,pmIsServiceDone as status from datapmscheduledetails 
+                 where pmEndDate >= DATE_SUB(now(),INTERVAL 1 YEAR)
+                 and now() <= DATE_ADD(pmEndDate,INTERVAL 1 YEAR) and pmWarrantyFK=?;`;
+    con.query(query,[req.body.key], function (err, resultData) {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        } else {
+            res.status(200).send(resultData);
         }
     });
 });

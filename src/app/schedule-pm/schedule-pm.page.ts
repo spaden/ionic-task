@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-schedule-pm',
@@ -8,12 +7,7 @@ import {Router} from '@angular/router';
 })
 export class SchedulePmPage implements OnInit {
 
-  constructor(private route: Router) { }
+  constructor() { }
 
-  ngOnInit() {
-  }
-
-  send() {
-    this.route.navigateByUrl('/amc-pm');
-  }
+  ngOnInit() {}
 }

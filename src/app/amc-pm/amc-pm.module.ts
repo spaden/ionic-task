@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { AmcPmPageRoutingModule } from './amc-pm-routing.module';
 
 import { AmcPmPage } from './amc-pm.page';
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AmcPmPageRoutingModule
+    AmcPmPageRoutingModule,
+    Ng2SearchPipeModule
   ],
-  declarations: [AmcPmPage]
+  declarations: [AmcPmPage],
 })
 export class AmcPmPageModule {}
