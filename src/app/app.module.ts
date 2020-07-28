@@ -25,6 +25,7 @@ import {AllAmcModalPageModule} from './all-amc-modal/all-amc-modal.module';
 import {FilePath} from '@ionic-native/file-path/ngx';
 import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
+import {SchedulePmModalPageModule} from './schedule-pm-modal/schedule-pm-modal.module';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -37,6 +38,7 @@ import {FileOpener} from '@ionic-native/file-opener/ngx';
     PmModalPageModule,
     AmcModalPageModule,
     AllAmcModalPageModule,
+    SchedulePmModalPageModule,
     Ng2SearchPipeModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),

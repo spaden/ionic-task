@@ -1,3 +1,138 @@
 <ion-content>
-
+    <div style="padding-top: 10px;padding-bottom: 10px;">
+        <ion-searchbar type="text" id="search" placeholder="Search PO Number" [(ngModel)]="filter"></ion-searchbar>
+    </div>
+    <ion-item class="ion-no-margin">
+        <ion-row>
+            <ion-col>
+                <ion-item lines="none" (click)="showAMCOnly()">
+                    <ion-icon name="square" class="amc_icon_color" color="blue"></ion-icon>
+                    <ion-label>&nbsp;AMC</ion-label>
+                </ion-item>
+            </ion-col>
+            <ion-col></ion-col>
+            <ion-col></ion-col>
+            <ion-col>
+                <ion-item lines="none" (click)="showWarrantyOnly()">
+                    <ion-icon name="square" class="warranty_icon_color" color="violet"></ion-icon>
+                    <ion-label>&nbsp;Warranty</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    <div class="card_layout">
+        <div *ngIf="showAMC">
+            <ng-container *ngFor="let rec of allAmc | filter: filter">
+                <ion-card>
+                    <ion-card-header class="amc_color" (click)="presentModal(rec.PoKey,rec.ProcDate,rec.ExpDate,rec.amc)">
+                        <div class="ion-text-center">
+                            <ion-label color="white">{{rec.po}}</ion-label>
+                        </div>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-grid (click)="presentModal(rec.PoKey,rec.ProcDate,rec.ExpDate,rec.amc)">
+                            <ion-row>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>Start</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>End</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>Cost</ion-label>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.ProcDate| date:'dd/MM/yyyy'}}</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.ExpDate| date:'dd/MM/yyyy'}}</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.cost}}</ion-label>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col class="ion-float-left">Actions:&nbsp;
+                                    <ion-button class="amc_color" tooltip="Download" placement="top" show-delay="50" (click)="download(rec.po,rec.url)"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>
+                <br>
+            </ng-container>
+        </div>&nbsp;
+        <div *ngIf="showWarranty">
+            <ng-container *ngFor="let rec of allWarranty | filter: filter">
+                <ion-card>
+                    <ion-card-header class="warranty_color" (click)="presentModal(rec.PoKey,rec.ProcDate,rec.ExpDate,rec.amc)">
+                        <div class="ion-text-center">
+                            <ion-label color="white">{{rec.po}}</ion-label>
+                        </div>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-grid (click)="presentModal(rec.PoKey,rec.ProcDate,rec.ExpDate,rec.amc)">
+                            <ion-row>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>Start</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>End</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>Cost</ion-label>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.ProcDate| date:'dd/MM/yyyy'}}</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.ExpDate| date:'dd/MM/yyyy'}}</ion-label>
+                                    </div>
+                                </ion-col>
+                                <ion-col>
+                                    <div class="ion-text-center">
+                                        <ion-label>{{rec.cost}}</ion-label>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col class="ion-float-left">Actions:&nbsp;
+                                    <ion-button class="warranty_color" tooltip="Download" placement="top" show-delay="50" (click)="download(rec.po,rec.url)"><ion-icon name="download"></ion-icon></ion-button>&nbsp;
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>&nbsp;
+            </ng-container>
+        </div>
+    </div>
 </ion-content>

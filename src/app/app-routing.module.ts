@@ -40,10 +40,6 @@ const routes: Routes = [
     loadChildren: () => import('./manage-amc/manage-amc.module').then( m => m.ManageAmcPageModule)
   },
   {
-    path: 'all-amc-modal',
-    loadChildren: () => import('./all-amc-modal/all-amc-modal.module').then( m => m.AllAmcModalPageModule)
-  },
-  {
     path: 'amc-pm',
     loadChildren: () => import('./amc-pm/amc-pm.module').then( m => m.AmcPmPageModule)
   },
@@ -51,7 +47,6 @@ const routes: Routes = [
     path: 'po',
     loadChildren: () => import('./po/po.module').then( m => m.PoPageModule)
   },
-
 ];
 
 @NgModule({

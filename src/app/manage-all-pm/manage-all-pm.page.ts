@@ -65,7 +65,7 @@ export class ManageAllPmPage implements OnInit, OnDestroy {
         console.log(body);
         console.log(url.substr(url.lastIndexOf('\\') + 1));
         this.fileName = url.substr(url.lastIndexOf('\\') + 1);
-        this.service.getFile(body).subscribe(data => {
+        this.service.getAmcFile(body).subscribe(data => {
             this.downloadFromBlob(data.body);
         });
     }

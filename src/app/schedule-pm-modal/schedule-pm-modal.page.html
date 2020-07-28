@@ -1,0 +1,94 @@
+<ion-content>
+  <div>
+    <ion-list>
+      <ion-radio-group (ionChange)="setPreference($event)">
+        <ion-list-header>
+          <ion-label><h3>Schedule PM</h3></ion-label>
+        </ion-list-header>
+        <ion-item lines="none">
+          <ion-label>Date Based</ion-label>
+          <ion-radio slot="start" value="date"></ion-radio>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label>Frequency Based</ion-label>
+          <ion-radio slot="start" value="frequency"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+      <ng-container *ngIf="basis === 'date'; else not">
+        <ion-item class="ion-margin">
+          <ion-label position="stacked">Number of Services</ion-label>
+          <ion-input type="number" [(ngModel)]="services" (ionChange)="formArray()"></ion-input>
+        </ion-item>
+        <ng-container *ngIf="services">
+          <ng-container *ngFor="let a of arr; let i = index">
+            <ion-item class="ion-margin">
+              <ion-label position="stacked">Date</ion-label>
+              <ion-input [(ngModel)]="serviceDate[i]" value="{{serviceDate[i]|date:'dd-MM-yyyy'}}" (click)="calendar('service',i)"></ion-input>
+            </ion-item>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-template #not>
+        <ng-container *ngIf="basis === 'frequency'">
+          <ion-radio-group (ionChange)="setFrequency($event)">
+            <ion-list-header>
+              <ion-label>Frequency Basis</ion-label>
+            </ion-list-header>
+            <ion-item lines="none" *ngIf="duration>=30">
+              <ion-label>Monthly</ion-label>
+              <ion-radio slot="start" value="monthly"></ion-radio>
+            </ion-item>
+
+              <ion-item lines="none" *ngIf="duration>=60">
+                  <ion-label>ByMonthly</ion-label>
+                  <ion-radio slot="start" value="byMonthly"></ion-radio>
+              </ion-item>
+
+            <ion-item lines="none" *ngIf="duration>=91">
+              <ion-label>Quarterly</ion-label>
+              <ion-radio slot="start" value="quarterly"></ion-radio>
+            </ion-item>
+
+            <ion-item lines="none" *ngIf="duration>=182">
+              <ion-label>Half Yearly</ion-label>
+              <ion-radio slot="start" value="half"></ion-radio>
+            </ion-item>
+
+            <ion-item lines="none" *ngIf="duration>=365">
+              <ion-label>Annually</ion-label>
+              <ion-radio slot="start" value="annually"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+          <ng-container *ngIf="frequency">
+            <ion-item class="ion-margin">
+              <ion-label position="stacked">Number of Services</ion-label>
+              <ion-input type="number" [(ngModel)]="services" (ionChange)="formArray()"></ion-input>
+            </ion-item>
+            <ng-container *ngIf="services">
+              <ng-container *ngFor="let a of arr; let i = index">
+                <ion-item class="ion-margin">
+                  <ion-label position="stacked">Start Date</ion-label>
+                  <ion-input [(ngModel)]="startDate[i]" value="{{startDate[i]}}" (click)="calendar('start',i)"></ion-input>
+                </ion-item>
+                  <ion-item class="ion-margin">
+                      <ion-label position="stacked">End Date</ion-label>
+                      <ion-input [(ngModel)]="endDate[i]" value="{{endDate[i]}}" (click)="calendarEnd(i)"></ion-input>
+                  </ion-item>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-template>
+    </ion-list>
+    <br>
+    <div class="row">
+      <div class="col ion-text-left">
+        <ion-button (click)="submit()" [disabled]="!this.services">OK</ion-button>
+      </div>&nbsp;
+      <div class="col ion-text-right">
+        <ion-button (click)="dismiss()">Cancel</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

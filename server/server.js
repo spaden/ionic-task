@@ -1090,6 +1090,40 @@ app.post("/fetchAll/Amc-Warranty", function (req, res) {
     });
 });
 
+//schedule all pm
+app.post("/fetchAll/schedulePm", function (req, res) {
+    console.log(req.body);
+    let loc = req.body.location;
+    loc += '%';
+    console.log(loc);
+    let query = `select amcPOPK as po, amcBaseContractCost as cost, amcURLAMCPO as url, linkProcurementDate as ProcDate,
+                 linkExpiryDate as ExpDate, linkItemAMCPK as PoKey, 1 as amc from dataamc
+                 inner join linkitemamc on(dataamc.amcPOPK = linkitemamc.linkAMCPOFK)
+                 inner join linkitemlayer on(linkitemlayer.linkItemKeyPK=linkitemamc.linkItemKeyFK)
+                 where linkItemBuildingFK like ? and linkItemAMCPK not in
+                 (select pmItemAMCFK from datapmscheduledetails where pmItemAMCFK is not null)
+                 group by amcpopk
+                 union
+                 select poolAssetID as po, poolCost as cost, poolURLItemPO as url, poolProcurementDate as ProcDate,
+                 warExpiryDate as ExpDate, warWarrantyPK as PoKey, 0 as amc from datawarranty
+                 inner join linkitemlayer on(linkitemlayer.linkItemKeyPK=datawarranty.warItemKeyFK)
+                 inner join dataitempool on(dataitempool.poolItemKeyPK=linkitemlayer.linkItemKeyPK)
+                 where linkItemBuildingFK like ? and warWarrantyPK not in
+                 (select pmWarrantyFK from datapmscheduledetails where pmWarrantyFK is not null);`;
+    con.query(query,[loc,loc], function (err, resultData) {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        } else {
+            res.status(200).send({
+                data: resultData
+            });
+        }
+    });
+});
+
 //fetch pm for amc
 app.post("/fetchPm/Amc", function (req, res) {
     console.log(req.body);
@@ -1129,6 +1163,74 @@ app.post("/fetchPm/Warranty", function (req, res) {
         }
     });
 });
+
+//insert pm for amc
+app.post("/insertPm/Amc", function (req, res) {
+    console.log(req.body);
+    let query = 'select MAX(pmPMScheduleDetailsPK) as id from datapmscheduledetails;';
+    con.query(query, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        } else {
+            for (let i = 0; i < req.body.length; i++) {
+                const item = result[0].id + i + 1;
+                let start = moment(req.body.start[i]).format('YYYY-MM-DD');
+                let end = moment(req.body.end[i]).format('YYYY-MM-DD');
+                console.log(start+" "+end);
+                query = `insert into datapmscheduledetails (pmPMScheduleDetailsPK,pmPMScheduleFK,pmItemAMCFK,pmStartDate,pmEndDate,
+                         pmIsServiceDone) values (?,?,?,?,?,?);`;
+                con.query(query, [item, null, req.body.sno, start, end, req.body.status], function (err, resultData) {
+                    if (err) {
+                        console.log(err);
+                        res.status(401).json({
+                            failed: 'Unauthorized Access'
+                        });
+                    } else {
+                        if (i === req.body.length - 1) {
+                            res.status(200).send(resultData);
+                        }
+                    }
+                });
+            }
+        }
+    });
+});
+
+//insert pm for warranty
+app.post("/insertPm/Warranty", function (req, res) {
+    console.log(req.body);
+    let query = 'select MAX(pmPMScheduleDetailsPK) as id from datapmscheduledetails;';
+    con.query(query, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.status(401).json({
+                failed: 'Unauthorized Access'
+            });
+        } else {
+            for (let i = 0; i < req.body.length; i++) {
+                const item = result[0].id + i + 1;
+                let start = moment(req.body.start[i]).format('YYYY-MM-DD');
+                let end = moment(req.body.end[i]).format('YYYY-MM-DD');
+                query = `insert into datapmscheduledetails (pmPMScheduleDetailsPK,pmPMScheduleFK,pmWarrantyFK,pmStartDate,pmEndDate,
+                         pmIsServiceDone) values (?,?,?,?,?,?);`;
+                con.query(query,[item,null,req.body.sno,start,end,req.body.status], function (err, resultData) {
+                    if (err) {
+                        console.log(err);
+                        res.status(401).json({
+                            failed: 'Unauthorized Access'
+                        });
+                    } else {
+                        res.status(200).send(resultData);
+                    }
+                });
+            }
+        }
+    });
+});
+
 
 app.listen(config.port, function() {
     console.log("server running @ " + config.port);

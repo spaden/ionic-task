@@ -1,0 +1,51 @@
+#search{
+  width: 90%;
+  margin: auto;
+}
+.amc_icon_color{
+  --ion-color-base: #00B2FF;
+}
+.warranty_icon_color{
+  --ion-color-base: #6088FF;
+}
+.amc_color{
+  --background: #00B2FF;
+}
+.warranty_color{
+  --background: #6088FF;
+}
+.list_layout {
+  margin: 15px;
+  ion-card {
+    position: relative;
+    text-align: center;
+    box-shadow: 5px 5px 2px lightgrey;
+    border-left: 5px solid #5680e9;
+  }
+}
+.card_layout{
+  margin: 10px;
+  ion-card{
+    position: relative;
+    text-align: center;
+    box-shadow: 5px 5px 2px lightgrey;
+  }
+  ion-card-header{
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    ion-label{
+      --ion-color-base: #ffffff;
+    }
+  }
+}
+
+.modal-class .modal-wrapper {
+  height: 20px;
+  width: 20px;
+  top: 20%;
+  padding: 10%;
+  position: absolute;
+  display: block;
+  border-radius: 2%;
+}

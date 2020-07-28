@@ -23,14 +23,14 @@
     <div class="card_layout">
         <div *ngIf="showAMC">
             <ng-container *ngFor="let rec of allAmc | filter: filter">
-                <ion-card (click)="fetch(rec.PoKey,rec.po,rec.amc)">
-                    <ion-card-header class="amc_color">
+                <ion-card>
+                    <ion-card-header class="amc_color" (click)="fetch(rec.PoKey,rec.po,rec.amc)">
                         <div class="ion-text-center">
                             <ion-label color="white">{{rec.po}}</ion-label>
                         </div>
                     </ion-card-header>
                     <ion-card-content>
-                        <ion-grid>
+                        <ion-grid (click)="fetch(rec.PoKey,rec.po,rec.amc)">
                             <ion-row>
                                 <ion-col>
                                     <div class="ion-text-center">
@@ -80,14 +80,14 @@
         </div>&nbsp;
         <div *ngIf="showWarranty">
             <ng-container *ngFor="let rec of allWarranty | filter: filter">
-                <ion-card (click)="fetch(rec.PoKey,rec.po,rec.amc)">
-                    <ion-card-header class="warranty_color">
+                <ion-card>
+                    <ion-card-header class="warranty_color" (click)="fetch(rec.PoKey,rec.po,rec.amc)">
                         <div class="ion-text-center">
                             <ion-label color="white">{{rec.po}}</ion-label>
                         </div>
                     </ion-card-header>
                     <ion-card-content>
-                        <ion-grid>
+                        <ion-grid (click)="fetch(rec.PoKey,rec.po,rec.amc)">
                             <ion-row>
                                 <ion-col>
                                     <div class="ion-text-center">

@@ -45,6 +45,34 @@ export class ManagePmService {
         catchError(this.errorHandler)
     );
   }
+  postAmcPmData(data): Observable<any> {
+    console.log(data);
+    const headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
+    headers.append('Accept', 'application/json');
+    headers.append('content-type', 'application/json');
+    const url = environment.url + '/insertPm/Amc';
+    return this.httpService.post<any>(url, data, {headers}).pipe(
+        catchError(this.errorHandler)
+    );
+  }
+  postWarrantyPmData(data): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT');
+    headers.append('Accept', 'application/json');
+    headers.append('content-type', 'application/json');
+    const url = environment.url + '/insertPm/Warranty';
+    return this.httpService.post<any>(url, data, {headers}).pipe(
+        catchError(this.errorHandler)
+    );
+  }
+  getAmcFile(data): any {
+    const url = environment.url + '/getAmcFile';
+    return this.httpService.post(url, data, {observe: 'response',
+      responseType: 'blob'});
+  }
   getFile(data): any {
     const url = environment.url + '/getPmFile';
     return this.httpService.post(url, data, {observe: 'response',

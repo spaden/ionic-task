@@ -42,3 +42,21 @@ ion-card {
     width: 100% !important;
     margin: 0 !important;
 }
+
+.modal-class {
+    ion-backdrop {
+        visibility: visible !important;
+    }
+    ion-content {
+        margin: 10px;
+    }
+    .modal-wrapper{
+        height: 60%;
+        width: 80%;
+        top: 20%;
+        padding: 10%;
+        position: absolute;
+        display: block;
+        border-radius: 10px;
+    }
+}

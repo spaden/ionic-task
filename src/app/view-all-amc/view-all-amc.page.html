@@ -5,14 +5,14 @@
     <div class="card_layout">
         <div>
             <ng-container *ngFor="let rec of amc | filter: filter;let i = index">
-                <ion-card (click)="fetch(rec.po,i)">
-                    <ion-card-header class="amc_color">
+                <ion-card>
+                    <ion-card-header class="amc_color" (click)="fetch(rec.po,i)">
                         <div class="ion-text-center">
                             <ion-label color="white">{{rec.po}}</ion-label>
                         </div>
                     </ion-card-header>
                     <ion-card-content>
-                        <ion-grid>
+                        <ion-grid (click)="fetch(rec.po,i)">
                             <ion-row>
                                 <ion-col>
                                     <div class="ion-text-center">

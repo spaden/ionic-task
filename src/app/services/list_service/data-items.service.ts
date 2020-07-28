@@ -16,6 +16,8 @@ export class DataItemsService {
   viewAmcItemsChange: Subject<any[]> = new Subject<any[]>();
   managePmItems: any = [];
   managePmItemsChange: Subject<any[]> = new Subject<any[]>();
+  schedulePmItems: any = [];
+  schedulePmItemsChange: Subject<any[]> = new Subject<any[]>();
   constructor(private http: HttpClient, public localStorage: LocalStorageService) { }
 
   userData: any;
@@ -70,6 +72,14 @@ export class DataItemsService {
                 this.managePmItemsChange.next(this.managePmItems);
               }
             });
+            this.http.post(environment.url + '/fetchAll/schedulePm', this.sendData).subscribe({
+              next: result => {
+                console.log(result);
+                // @ts-ignore
+                this.schedulePmItems = result.data;
+                this.schedulePmItemsChange.next(this.schedulePmItems);
+              }
+            });
           } else {
             this.http.post(environment.url + '/lists', this.sendData).subscribe({
               next: response => {
@@ -97,6 +107,14 @@ export class DataItemsService {
                 // @ts-ignore
                 this.managePmItems = result.data;
                 this.managePmItemsChange.next(this.managePmItems);
+              }
+            });
+            this.http.post(environment.url + '/fetchAll/schedulePm', this.sendData).subscribe({
+              next: result => {
+                console.log(result);
+                // @ts-ignore
+                this.schedulePmItems = result.data;
+                this.schedulePmItemsChange.next(this.schedulePmItems);
               }
             });
           }
@@ -145,29 +163,29 @@ export class DataItemsService {
     }
     console.log(this.userLoc);
   }
-  fetchManagePmData() {
+  fetchSchedulePmData() {
     if (this.userLoc === '00') {
       this.sendData = {
         location: '0'
       };
-      this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+      this.http.post(environment.url + '/fetchAll/schedulePm', this.sendData).subscribe({
         next: result => {
           console.log(result);
           // @ts-ignore
-          this.managePmItems = result.data;
-          this.managePmItemsChange.next(this.managePmItems);
+          this.schedulePmItems = result.data;
+          this.schedulePmItemsChange.next(this.schedulePmItems);
         }
       });
     } else {
       this.sendData = {
         location: this.userLoc
       };
-      this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+      this.http.post(environment.url + '/fetchAll/schedulePm', this.sendData).subscribe({
         next: result => {
           console.log(result);
           // @ts-ignore
-          this.managePmItems = result.data;
-          this.managePmItemsChange.next(this.managePmItems);
+          this.schedulePmItems = result.data;
+          this.schedulePmItemsChange.next(this.schedulePmItems);
         }
       });
     }
@@ -211,6 +229,14 @@ export class DataItemsService {
             this.managePmItemsChange.next(this.managePmItems);
           }
         });
+        this.http.post(environment.url + '/fetchAll/schedulePm', this.sendData).subscribe({
+          next: result => {
+            console.log(result);
+            // @ts-ignore
+            this.schedulePmItems = result.data;
+            this.schedulePmItemsChange.next(this.schedulePmItems);
+          }
+        });
       } else {
         this.http.post(environment.url + '/lists', this.sendData).subscribe({
           next: response => {
@@ -238,6 +264,14 @@ export class DataItemsService {
             // @ts-ignore
             this.managePmItems = result.data;
             this.managePmItemsChange.next(this.managePmItems);
+          }
+        });
+        this.http.post(environment.url + '/fetchAll/schedulePm', this.sendData).subscribe({
+          next: result => {
+            console.log(result);
+            // @ts-ignore
+            this.schedulePmItems = result.data;
+            this.schedulePmItemsChange.next(this.schedulePmItems);
           }
         });
       }
