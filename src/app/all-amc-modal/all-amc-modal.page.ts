@@ -158,7 +158,7 @@ export class AllAmcModalPage implements OnInit {
         if (result) {
           this.service.insertLocation(this.data).subscribe(resultData => {
             if (resultData) {
-              this.displayToast('Data sent');
+              this.displayToast('AMCs Created Successfully!');
               this.viewCtrl.dismiss(true);
             }
           });

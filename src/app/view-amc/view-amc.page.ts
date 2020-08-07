@@ -12,6 +12,8 @@ import {FileTransferObject} from '@ionic-native/file-transfer/ngx';
 import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 import {File} from '@ionic-native/file/ngx';
 import {FileOpener} from "@ionic-native/file-opener/ngx";
+import { DataItemsService } from '../services/list_service/data-items.service';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-view-amc',
@@ -29,6 +31,7 @@ export class ViewAmcPage implements OnInit {
   disableAmc = true;
   data: Observable<Asset[]>;
   fileName = 'file.pdf';
+  open = false;
   constructor(private route: ActivatedRoute,
               public assetService: AssetService,
               private service: AmcServiceService,
@@ -36,8 +39,10 @@ export class ViewAmcPage implements OnInit {
               private toastCtrl: ToastController,
               private downloader: Downloader,
               private transfer: FileTransfer,
+              private listService: DataItemsService,
               private file: File,
-              private opener: FileOpener) {
+              private opener: FileOpener,
+              private localNotifications: LocalNotifications) {
     this.assetKey = this.route.snapshot.queryParams.key;
     console.log(this.assetKey);
   }
@@ -109,8 +114,20 @@ export class ViewAmcPage implements OnInit {
     console.log(url.substr(url.lastIndexOf('\\') + 1));
     this.fileName = url.substr(url.lastIndexOf('\\') + 1);
     this.service.getFile(body).subscribe(data => {
+        /*this.file.checkFile(this.file.externalRootDirectory, this.fileName).then((files) => {
+            this.openFile(files);
+            this.open = true;
+        }).catch((err) => {
+            this.downloadFromBlob(data.body);
+            this.open = false;
+        });*/
         this.downloadFromBlob(data.body);
     });
+  }
+  openFile(image) {
+    this.opener.open(this.file.externalRootDirectory + this.fileName, image.type)
+    .then(() => this.displayToast('Opening File - ' + this.fileName))
+    .catch(e => console.log('Error ' + e));
   }
   downloadFromBlob(image) {
     console.log(image.type);
@@ -120,7 +137,11 @@ export class ViewAmcPage implements OnInit {
       console.log(reader.result);
       fileTransfer.download(reader.result.toString(), this.file.externalRootDirectory + this.fileName).then((entry) => {
           this.opener.open(entry.toURL(), image.type)
-              .then(() => this.displayToast('download complete: ' + entry.toURL()))
+              .then(() => this.localNotifications.schedule({
+                title: 'File Downloaded',
+                text: entry.toURL(),
+                foreground: true
+              }))
               .catch(e => console.log('Error ' + e));
       }, err => {
           console.log('download error: ' + err);
@@ -146,6 +167,8 @@ export class ViewAmcPage implements OnInit {
     modal.onDidDismiss().then((data) => {
       if (data) {
         this.loadDisplay();
+        this.listService.fetchAmcData();
+        this.listService.fetchSchedulePmData();
       }
     });
     return await modal.present();

@@ -13,6 +13,7 @@ import {Downloader, DownloadRequest, NotificationVisibility} from '@ionic-native
 import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer/ngx";
 import {FileOpener} from "@ionic-native/file-opener/ngx";
 import {FilePath} from "@ionic-native/file-path/ngx";
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-manage-pm',
@@ -58,7 +59,8 @@ export class ManagePmPage implements OnInit {
               private downloader: Downloader,
               private path: FilePath,
               private transfer: FileTransfer,
-              private opener: FileOpener) {
+              private opener: FileOpener,
+              private localNotifications: LocalNotifications) {
     this.assetKey = this.route.snapshot.queryParams.key;
     console.log(this.assetKey);
   }
@@ -84,7 +86,7 @@ export class ManagePmPage implements OnInit {
       // server code
     this.managePmService.postPmData(this.formData).subscribe( result => {
           if (result) {
-              this.displayToast('Data Sent');
+              this.displayToast('PM Completed Successfully!');
               this.formData = new FormData();
               this.fileData = null;
               this.fileBlob = null;
@@ -114,7 +116,11 @@ export class ManagePmPage implements OnInit {
       console.log(reader.result);
       fileTransfer.download(reader.result.toString(), this.file.externalRootDirectory + this.fileName).then((entry) => {
         this.opener.open(entry.toURL(), image.type)
-            .then(() => this.displayToast('download complete: ' + entry.toURL()))
+            .then(() => this.localNotifications.schedule({
+              title: 'File Downloaded',
+              text: entry.toURL(),
+              foreground: true
+            }))
             .catch(e => console.log('Error ' + e));
       }, err => {
         console.log('download error: ' + err);

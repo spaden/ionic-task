@@ -37,11 +37,6 @@ export class MainComponent implements OnInit {
       icon: 'list'
     },
     {
-      title: 'Edit Profile',
-      url: '/edit-profile',
-      icon: 'list'
-    },
-    {
       title: 'Scanner',
       url: '/scan',
       icon: 'qr-scanner'

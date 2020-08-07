@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
 import {ManagePm} from '../classes/pm_class/manage-pm';
 import {Asset} from '../classes/asset_class/asset';
-import {ModalController, ToastController} from '@ionic/angular';
+import {ModalController, NavController, ToastController, Platform} from '@ionic/angular';
 import {ManagePmService} from '../services/manage_pm/manage-pm.service';
 import {FileChooser} from '@ionic-native/file-chooser/ngx';
 import {File, FileEntry} from '@ionic-native/file/ngx';
@@ -12,6 +12,7 @@ import {FilePath} from '@ionic-native/file-path/ngx';
 import {FileTransfer, FileTransferObject} from '@ionic-native/file-transfer/ngx';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 import {PmModalPage} from '../pm-modal/pm-modal.page';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-amc-pm',
@@ -50,10 +51,18 @@ export class AmcPmPage implements OnInit {
               private downloader: Downloader,
               private path: FilePath,
               private transfer: FileTransfer,
-              private opener: FileOpener) {
+              private opener: FileOpener,
+              public platform: Platform,
+              private nav: NavController,
+              private localNotifications: LocalNotifications) {
     this.key = this.route.snapshot.queryParams.key;
     this.po = this.route.snapshot.queryParams.PO;
     this.amc = this.route.snapshot.queryParams.amc;
+    this.platform.backButton.subscribeWithPriority(0, () => {
+
+      this.nav.pop();
+
+    });
   }
   getData(event): any {
     console.log(event.target);
@@ -77,7 +86,7 @@ export class AmcPmPage implements OnInit {
     // server code
     this.managePmService.postPmData(this.formData).subscribe( result => {
       if (result) {
-        this.displayToast('Data Sent');
+        this.displayToast('PM Completed Successfully!');
         this.formData = new FormData();
         this.fileData = null;
         this.fileBlob = null;
@@ -107,7 +116,11 @@ export class AmcPmPage implements OnInit {
       console.log(reader.result);
       fileTransfer.download(reader.result.toString(), this.file.externalRootDirectory + this.fileName).then((entry) => {
         this.opener.open(entry.toURL(), image.type)
-            .then(() => this.displayToast('download complete: ' + entry.toURL()))
+            .then(() => this.localNotifications.schedule({
+              title: 'File Downloaded',
+              text: entry.toURL(),
+              foreground: true
+            }))
             .catch(e => console.log('Error ' + e));
       }, err => {
         console.log('download error: ' + err);

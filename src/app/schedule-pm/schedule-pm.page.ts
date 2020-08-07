@@ -9,6 +9,7 @@ import {FileTransfer, FileTransferObject} from '@ionic-native/file-transfer/ngx'
 import {File} from '@ionic-native/file/ngx';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 import {SchedulePmModalPage} from '../schedule-pm-modal/schedule-pm-modal.page';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-schedule-pm',
@@ -34,7 +35,8 @@ export class SchedulePmPage implements OnInit, OnDestroy {
               private modalController: ModalController,
               private transfer: FileTransfer,
               private file: File,
-              private opener: FileOpener) {
+              private opener: FileOpener,
+              private localNotifications: LocalNotifications) {
     this.data = this.listService.schedulePmItems;
     this.allAmc = this.data.filter(value => value.amc === 1);
     this.allWarranty = this.data.filter(value => value.amc === 0);
@@ -71,6 +73,7 @@ export class SchedulePmPage implements OnInit, OnDestroy {
     modal.onDidDismiss().then((data) => {
       if (data != null ) {
         this.listService.fetchSchedulePmData();
+        this.listService.fetchManagePmData();
       }
     });
     return await modal.present();
@@ -94,7 +97,11 @@ export class SchedulePmPage implements OnInit, OnDestroy {
       console.log(reader.result);
       fileTransfer.download(reader.result.toString(), this.file.externalRootDirectory + this.fileName).then((entry) => {
         this.opener.open(entry.toURL(), image.type)
-            .then(() => this.displayToast('download complete: ' + entry.toURL()))
+            .then(() => this.localNotifications.schedule({
+              title: 'File Downloaded',
+              text: entry.toURL(),
+              foreground: true
+            }))
             .catch(e => console.log('Error ' + e));
       }, err => {
         console.log('download error: ' + err);

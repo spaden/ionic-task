@@ -150,7 +150,7 @@ export class AmcModalPage implements OnInit {
         console.log(this.data);
         this.service.updateAmc(this.data).subscribe(result => {
             if (result) {
-                this.displayToast('Data sent');
+                this.displayToast('AMC Created Successfully!');
                 this.viewCtrl.dismiss(true);
             }
         });
@@ -170,7 +170,7 @@ export class AmcModalPage implements OnInit {
       this.formData.append('data', JSON.stringify(this.data));
       this.service.createAmc(this.formData).subscribe(result => {
         if (result) {
-          this.displayToast('Data sent');
+          this.displayToast('AMC Created Successfully!');
           this.viewCtrl.dismiss(true);
         }
       });

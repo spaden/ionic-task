@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {ManageAmcService} from '../services/manage-amc/manage-amc.service';
-import {ModalController, NavController, ToastController} from '@ionic/angular';
+import {ModalController, NavController, ToastController, Platform} from '@ionic/angular';
 import {Downloader} from '@ionic-native/downloader/ngx';
 import {DataItemsService} from '../services/list_service/data-items.service';
 import {FileTransfer, FileTransferObject} from '@ionic-native/file-transfer/ngx';
@@ -10,6 +10,7 @@ import {FileOpener} from '@ionic-native/file-opener/ngx';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Asset} from '../classes/asset_class/asset';
 import {ManagePmService} from '../services/manage_pm/manage-pm.service';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
 @Component({
@@ -34,7 +35,10 @@ export class ManageAllPmPage implements OnInit, OnDestroy {
                 private downloader: Downloader,
                 private transfer: FileTransfer,
                 private file: File,
-                private opener: FileOpener) {
+                private opener: FileOpener,
+                public platform: Platform,
+                private nav: NavController,
+                private localNotifications: LocalNotifications) {
         this.data = this.listService.managePmItems;
         this.allAmc = this.data.filter(value => value.amc === 1);
         this.allWarranty = this.data.filter(value => value.amc === 0);
@@ -45,6 +49,13 @@ export class ManageAllPmPage implements OnInit, OnDestroy {
             this.data = value;
             this.allAmc = this.data.filter(result => result.amc === 1);
             this.allWarranty = this.data.filter(result => result.amc === 0);
+        });
+
+        
+        this.platform.backButton.subscribeWithPriority(0, () => {
+
+            this.nav.pop();
+  
         });
     }
     showAMCOnly() {
@@ -77,7 +88,11 @@ export class ManageAllPmPage implements OnInit, OnDestroy {
             console.log(reader.result);
             fileTransfer.download(reader.result.toString(), this.file.externalRootDirectory + this.fileName).then((entry) => {
                 this.opener.open(entry.toURL(), image.type)
-                    .then(() => this.displayToast('download complete: ' + entry.toURL()))
+                    .then(() => this.localNotifications.schedule({
+                        title: 'File Downloaded',
+                        text: entry.toURL(),
+                        foreground: true
+                      }))
                     .catch(e => console.log('Error ' + e));
             }, err => {
                 console.log('download error: ' + err);

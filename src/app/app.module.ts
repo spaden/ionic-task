@@ -26,6 +26,7 @@ import {FilePath} from '@ionic-native/file-path/ngx';
 import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 import {SchedulePmModalPageModule} from './schedule-pm-modal/schedule-pm-modal.module';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -56,7 +57,9 @@ import {SchedulePmModalPageModule} from './schedule-pm-modal/schedule-pm-modal.m
     FileTransfer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DataItemsService, LocalStorageService,
-    DatePicker
+    DatePicker,
+    LocalNotifications,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })

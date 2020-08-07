@@ -191,6 +191,34 @@ export class DataItemsService {
     }
     console.log(this.userLoc);
   }
+  fetchManagePmData() {
+    if (this.userLoc === '00') {
+      this.sendData = {
+        location: '0'
+      };
+      this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+        next: result => {
+          console.log(result);
+          // @ts-ignore
+          this.managePmItems = result.data;
+          this.managePmItemsChange.next(this.managePmItems);
+        }
+      });
+    } else {
+      this.sendData = {
+        location: this.userLoc
+      };
+      this.http.post(environment.url + '/fetchAll/Amc-Warranty', this.sendData).subscribe({
+        next: result => {
+          console.log(result);
+          // @ts-ignore
+          this.managePmItems = result.data;
+          this.managePmItemsChange.next(this.managePmItems);
+        }
+      });
+    }
+    console.log(this.userLoc);
+  }
   switchData(data: any) {
     if (data != null) {
       this.sendData = {

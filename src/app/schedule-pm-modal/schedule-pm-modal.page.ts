@@ -170,12 +170,12 @@ export class SchedulePmModalPage implements OnInit {
             console.log(data);
             if (this.amc === 1) {
                 this.service.postAmcPmData(data).subscribe(result => {
-                    this.displayToast('Data sent');
+                    this.displayToast('PM Scheduled Successfully!');
                     this.viewCtrl.dismiss(true);
                 });
             } else {
                 this.service.postWarrantyPmData(data).subscribe(result => {
-                    this.displayToast('Data sent');
+                    this.displayToast('PM Schedules Successfully!');
                     this.viewCtrl.dismiss(true);
                 });
             }

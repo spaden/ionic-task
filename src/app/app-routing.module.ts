@@ -32,10 +32,6 @@ const routes: Routes = [
     loadChildren: () => import('./manage-po/manage-po.module').then( m => m.ManagePoPageModule)
   },
   {
-    path: 'edit-profile',
-    loadChildren: () => import('./edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
-  },
-  {
     path: 'manage-amc',
     loadChildren: () => import('./manage-amc/manage-amc.module').then( m => m.ManageAmcPageModule)
   },

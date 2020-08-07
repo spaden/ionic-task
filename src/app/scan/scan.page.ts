@@ -20,7 +20,7 @@ export class ScanPage implements OnInit {
       this.scanSub.unsubscribe();
       document.getElementsByTagName('body')[0].style.opacity = '1';
 
-      this.route.navigateByUrl('home');
+      this.route.navigateByUrl('/home');
 
     });
 

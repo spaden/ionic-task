@@ -38,21 +38,6 @@ export class AppComponent {
         if (this.router.isActive('/login', true) && this.router.url === '/login') {
             navigator['app'].exitApp();
         }
-        if (this.router.isActive('/assets', true) && this.router.url === '/assets') {
-            this.nav.pop();
-        }
-        if (this.router.isActive('/manage-po', true) && this.router.url === '/manage-po') {
-            this.nav.pop();
-        }
-        if (this.router.isActive('/manage-amc', true) && this.router.url === '/manage-amc') {
-            this.nav.pop();
-        }
-        if (this.router.isActive('/amc-pm', true) && this.router.url === '/manage-amc') {
-            this.nav.pop();
-        }
-        if (this.router.isActive('/manage-all-pm', true) && this.router.url === '/manage-amc') {
-            this.nav.pop();
-        }
     });
   }
 }
