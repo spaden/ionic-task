@@ -42,7 +42,7 @@
     "@ionic/storage": "^2.2.0",
     "angular-ng-autocomplete": "^2.0.1",
     "angularx-qrcode": "^2.1.0",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "canvasjs": "^1.8.3",
