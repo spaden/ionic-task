@@ -71,7 +71,7 @@
     "ionic-angular": "^3.9.10",
     "ionic-tooltips": "^3.1.0",
     "ionic2-super-tabs": "^4.1.4",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^2.2.0",
     "method-override": "^3.0.0",
     "moment": "^2.27.0",
